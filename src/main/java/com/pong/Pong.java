@@ -1,5 +1,7 @@
 package com.pong;
 
+import com.pong.view.GameView;
+
 import javax.swing.*;
 
 /**
@@ -16,8 +18,10 @@ public class Pong extends JFrame {
         setVisible(true);
         setResizable(false);
         setTitle(TITLE);
-
+        getContentPane().add(new GameView());
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        pack();
 
         setLocationRelativeTo(null);
     }
