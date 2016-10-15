@@ -39,6 +39,13 @@ public class Paddle implements Entity {
     /**
      * {@inheritDoc}
      */
+    public void update() {
+
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public int getX() {
         return x;
     }

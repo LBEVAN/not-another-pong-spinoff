@@ -44,4 +44,9 @@ public interface Entity {
      * @param graphics
      */
     void render(Graphics graphics);
+
+    /**
+     * Update the entity (e.g. move).
+     */
+    void update();
 }
