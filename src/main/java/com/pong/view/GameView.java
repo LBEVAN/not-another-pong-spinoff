@@ -1,14 +1,25 @@
 package com.pong.view;
 
+import com.pong.arena.Arena;
+
 import java.awt.*;
 
 /**
- * Created by LBEVAN on 04/10/2016.
+ * The GameView class displays the game.
+ *
+ * @author LBEVAN
  */
 public class GameView extends View {
 
-    public GameView() {
+    private Arena arena;
 
+    /**
+     * Default constructor.
+     */
+    public GameView() {
+        arena = new Arena();
+
+        add(arena);
     }
 
     /**
@@ -17,6 +28,7 @@ public class GameView extends View {
     @Override
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
+        arena.paint(graphics);
     }
 
     /**
@@ -27,5 +39,6 @@ public class GameView extends View {
         if(getParent() != null) {
             getParent().repaint();
         }
+
     }
 }

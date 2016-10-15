@@ -5,7 +5,10 @@ import com.pong.view.GameView;
 import javax.swing.*;
 
 /**
- * Created by LBEVAN on 04/10/2016.
+ * The Pong class is the swing window for the application.
+ * It acts as the application entry point and initialises the first view.
+ *
+ * @author LBEVAN
  */
 public class Pong extends JFrame {
 
