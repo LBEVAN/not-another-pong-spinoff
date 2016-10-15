@@ -18,7 +18,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.pong.Main</mainClass>
+                            <mainClass>com.pong.Pong</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
