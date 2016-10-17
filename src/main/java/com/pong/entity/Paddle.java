@@ -1,18 +1,18 @@
 package com.pong.entity;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
 /**
  * Paddle class represents a paddle entity in the game.
  *
  * @author LBEVAN
  */
-public class Paddle implements Entity {
+public class Paddle extends Entity {
 
-    private int x;
-    private int y;
-    private int width;
-    private int height;
+    private int speed = 6;
 
     /**
      * Paddle constructor.
@@ -23,10 +23,25 @@ public class Paddle implements Entity {
      * @param height
      */
     public Paddle(int x, int y, int width, int height) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+        super(x, y, width, height);
+
+        InputMap inputMap = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = getActionMap();
+
+        // player
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, false), "DOWN");
+        actionMap.put("DOWN", new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                setY(getY() + speed);
+            }
+        });
+
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, false), "UP");
+        actionMap.put("UP", new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                setY(getY() - speed);
+            }
+        });
     }
 
     /**
@@ -41,33 +56,5 @@ public class Paddle implements Entity {
      */
     public void update() {
 
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public int getX() {
-        return x;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public int getY() {
-        return y;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public int getWidth() {
-        return width;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public int getHeight() {
-        return height;
     }
 }
