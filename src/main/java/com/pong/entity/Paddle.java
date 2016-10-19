@@ -1,5 +1,7 @@
 package com.pong.entity;
 
+import com.pong.Pong;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -32,14 +34,18 @@ public class Paddle extends Entity {
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, false), "DOWN");
         actionMap.put("DOWN", new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
-                setY(getY() + speed);
+                if(getY() <= Pong.SCREEN_HEIGHT - getHeight()) {
+                    setY(getY() + speed);
+                }
             }
         });
 
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, false), "UP");
         actionMap.put("UP", new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
-                setY(getY() - speed);
+                if(getY() >= 0) {
+                    setY(getY() - speed);
+                }
             }
         });
     }
