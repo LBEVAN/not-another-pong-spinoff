@@ -33,12 +33,12 @@ public class Arena extends JPanel {
         add(player);
 
         // create the ball
-        ball = new Ball(Pong.SCREEN_WIDTH/2, Pong.SCREEN_HEIGHT/2, 25, 25);
+        ball = new Ball(Pong.SCREEN_WIDTH/2, Pong.SCREEN_HEIGHT/2, 25, 25, this);
         add(ball);
 
         // schedule the timer - simple game loop for now, limited to 60 frames per second  (FPS)
         gameTimer = new Timer();
-        gameTimer.schedule(new GameLoop(), 0, 1000 / 60);
+        gameTimer.schedule(new GameLoop(), 0, 1000 / 16);
     }
 
     /**
@@ -89,5 +89,14 @@ public class Arena extends JPanel {
             render();
             update();
         }
+    }
+
+    /**
+     * Retrieve the Player entity.
+     *
+     * @return player
+     */
+    public final Entity getPlayer() {
+        return player;
     }
 }
