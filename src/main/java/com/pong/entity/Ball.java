@@ -1,5 +1,6 @@
 package com.pong.entity;
 
+import com.pong.Pong;
 import com.pong.arena.Arena;
 
 import java.awt.*;
@@ -27,6 +28,7 @@ public class Ball extends Entity {
         move();
 
         checkCollisionWithPaddle();
+        checkCollisionWithArena();
     }
 
     /**
@@ -44,6 +46,26 @@ public class Ball extends Entity {
     private void checkCollisionWithPaddle() {
         if(doesIntersect(arena.getPlayer())) {
             deltaX = -deltaX;
+        }
+    }
+
+    /**
+     * Check if the Ball collides with the arena bounds.
+     * If so inverse the x or y delta (direction).
+     */
+    private void checkCollisionWithArena() {
+        // check if hit either side (x-axis)
+        if(x < 0) {
+            deltaX = Math.abs(deltaX);
+        } else if(x > Pong.SCREEN_WIDTH -width) {
+            deltaX = -deltaX;
+        }
+
+        // check if hit bottom or top (y-axis)
+        if(y < 0) {
+            deltaY = Math.abs(deltaY);
+        } else if(y > Pong.SCREEN_HEIGHT -height) {
+            deltaY = -deltaY;
         }
     }
 
