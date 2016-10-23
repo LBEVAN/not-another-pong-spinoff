@@ -1,9 +1,7 @@
 package com.pong.arena;
 
 import com.pong.Pong;
-import com.pong.entity.Ball;
-import com.pong.entity.Entity;
-import com.pong.entity.Paddle;
+import com.pong.entity.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,6 +17,7 @@ public class Arena extends JPanel {
 
     private Entity player;
     private Entity ball;
+    private Entity computer;
     private Timer gameTimer;
 
     /**
@@ -29,12 +28,16 @@ public class Arena extends JPanel {
         requestFocus();
 
         // create the player
-        player = new Paddle(20, Pong.SCREEN_HEIGHT / 2, 20, 60);
+        player = new Player(20, Pong.SCREEN_HEIGHT / 2, 20, 60);
         add(player);
 
         // create the ball
         ball = new Ball(Pong.SCREEN_WIDTH/2, Pong.SCREEN_HEIGHT/2, 25, 25, this);
         add(ball);
+
+        // create the computer
+        computer = new Computer(Pong.SCREEN_WIDTH - 40, Pong.SCREEN_HEIGHT / 2, 20, 60, this);
+        add(computer);
 
         // schedule the timer - simple game loop for now, limited to 60 frames per second  (FPS)
         gameTimer = new Timer();
@@ -47,6 +50,7 @@ public class Arena extends JPanel {
     public void paint(Graphics graphics) {
         player.render(graphics);
         ball.render(graphics);
+        computer.render(graphics);
     }
 
     /**
@@ -58,6 +62,7 @@ public class Arena extends JPanel {
             // render entities
             player.render(graphics);
             ball.render(graphics);
+            computer.render(graphics);
         }
 
         // repaint the arena
@@ -75,6 +80,7 @@ public class Arena extends JPanel {
     private void update() {
         player.update();
         ball.update();
+        computer.update();
     }
 
     /**
@@ -98,5 +104,14 @@ public class Arena extends JPanel {
      */
     public final Entity getPlayer() {
         return player;
+    }
+
+    /**
+     * Retrieve the Ball entity.
+     *
+     * @return ball
+     */
+    public final Entity getBall() {
+        return ball;
     }
 }
