@@ -12,8 +12,8 @@ public class Ball extends Entity {
 
     private final Arena arena;
 
-    private int deltaX = 8;
-    private int deltaY = 8;
+    private int deltaX = 4;
+    private int deltaY = 4;
 
     public Ball(int x, int y, int width, int height, final Arena arena) {
         super(x, y, width, height);
@@ -21,7 +21,7 @@ public class Ball extends Entity {
     }
 
     public void render(Graphics graphics) {
-        graphics.drawOval(x, y, width, height);
+        graphics.fillOval(x, y, width, height);
     }
 
     public void update() {

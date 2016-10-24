@@ -13,7 +13,7 @@ import java.awt.*;
 public class Computer extends Entity {
 
     private final Arena arena;
-    private int speed = 6;
+    private int speed = 3;
 
     /**
      * Player constructor.
@@ -32,7 +32,7 @@ public class Computer extends Entity {
      * {@inheritDoc}
      */
     public void render(Graphics graphics) {
-        graphics.drawRect(x, y, width, height);
+        graphics.fillRect(x, y, width, height);
     }
 
     /**

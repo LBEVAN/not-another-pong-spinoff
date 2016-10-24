@@ -15,7 +15,7 @@ import java.awt.event.KeyEvent;
  */
 public class Player extends Entity {
 
-    private int speed = 6;
+    private int speed = 8;
 
     /**
      * Player constructor.
@@ -55,7 +55,7 @@ public class Player extends Entity {
      * {@inheritDoc}
      */
     public void render(Graphics graphics) {
-        graphics.drawRect(x, y, width, height);
+        graphics.fillRect(x, y, width, height);
     }
 
     /**
