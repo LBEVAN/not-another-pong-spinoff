@@ -1,12 +1,15 @@
 package com.pong.arena;
 
 import com.pong.Pong;
-import com.pong.entity.*;
+import com.pong.entity.Ball;
+import com.pong.entity.Computer;
+import com.pong.entity.Entity;
+import com.pong.entity.Player;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Arena class represents the game bounds, encapsulating game logic.
@@ -40,14 +43,20 @@ public class Arena extends JPanel {
         add(computer);
 
         // schedule the timer - simple game loop for now, limited to 60 frames per second  (FPS)
-        gameTimer = new Timer();
-        gameTimer.schedule(new GameLoop(), 0, 1000 / 16);
+        gameTimer = new Timer(1000/60, new GameLoop());
+        gameTimer.start();
     }
 
     /**
      * {@inheritDoc}
      */
     public void paint(Graphics graphics) {
+        graphics.setColor(Color.BLACK);
+        graphics.fillRect(0, 0, Pong.SCREEN_WIDTH, Pong.SCREEN_HEIGHT);
+
+        graphics.setColor(Color.WHITE);
+        graphics.drawLine(Pong.SCREEN_WIDTH / 2, 0, Pong.SCREEN_WIDTH / 2, Pong.SCREEN_HEIGHT);
+
         player.render(graphics);
         ball.render(graphics);
         computer.render(graphics);
@@ -68,6 +77,7 @@ public class Arena extends JPanel {
         // repaint the arena
         repaint();
 
+        // TODO: is there a need for a parent panel? Should this just be the GameView? Look into this!
         // repaint the parent panel
         if(getParent() != null) {
             getParent().repaint();
@@ -84,16 +94,16 @@ public class Arena extends JPanel {
     }
 
     /**
-     * TimerTask for the game loop.
+     * The game loop executor. This will be called from the timer every tick.
      */
-    private class GameLoop extends TimerTask {
+    private final class GameLoop implements ActionListener {
 
         /**
          * {@inheritDoc}
          */
-        public void run() {
-            render();
+        public void actionPerformed(ActionEvent e) {
             update();
+            render();
         }
     }
 
