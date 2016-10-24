@@ -6,6 +6,9 @@ import com.pong.arena.Arena;
 import java.awt.*;
 
 /**
+ * The Ball class represents a Ball entity in the game.
+ * Each game tick it moves in the Arena and checks collisions with other entities.
+ *
  * @author LBEVAN
  */
 public class Ball extends Entity {
@@ -27,7 +30,8 @@ public class Ball extends Entity {
     public void update() {
         move();
 
-        checkCollisionWithPaddle();
+        checkCollisionWithPlayer();
+        checkCollisionWithComputer();
         checkCollisionWithArena();
     }
 
@@ -40,11 +44,21 @@ public class Ball extends Entity {
     }
 
     /**
-     * Check if the Ball collides with the paddle.
+     * Check if the Ball collides with the Player.
      * If so inverse the x delta (direction).
      */
-    private void checkCollisionWithPaddle() {
+    private void checkCollisionWithPlayer() {
         if(doesIntersect(arena.getPlayer())) {
+            deltaX = -deltaX;
+        }
+        }
+
+        /**
+         * Check if the Ball collides with the Computer.
+         * If so inverse the x delta (direction).
+         */
+    private void checkCollisionWithComputer() {
+        if(doesIntersect(arena.getComputer())) {
             deltaX = -deltaX;
         }
     }

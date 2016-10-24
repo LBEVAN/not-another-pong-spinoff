@@ -124,4 +124,13 @@ public class Arena extends JPanel {
     public final Entity getBall() {
         return ball;
     }
+
+    /**
+     * Retrieve the Computer entity.
+     *
+     * @return computer
+     */
+    public final Entity getComputer() {
+        return computer;
+    }
 }
