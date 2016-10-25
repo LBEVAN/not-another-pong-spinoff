@@ -62,6 +62,6 @@ public class Player extends Entity {
      * {@inheritDoc}
      */
     public void update() {
-
+        
     }
 }
