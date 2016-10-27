@@ -1,9 +1,7 @@
-package com.pong.entity;
+package com.pong.model.entity;
 
-import com.pong.Pong;
-import com.pong.arena.Arena;
-
-import java.awt.*;
+import com.pong.gui.frame.PongFrame;
+import com.pong.model.PongModel;
 
 /**
  * The Computer class represents the computer entity in the game.
@@ -12,7 +10,8 @@ import java.awt.*;
  */
 public class Computer extends Entity {
 
-    private final Arena arena;
+    private final PongModel pongModel;
+
     private int speed = 3;
 
     /**
@@ -22,24 +21,18 @@ public class Computer extends Entity {
      * @param y
      * @param width
      * @param height
+     * @param pongModel
      */
-    public Computer(int x, int y, int width, int height, Arena arena) {
+    public Computer(int x, int y, int width, int height, final PongModel pongModel) {
         super(x, y, width, height);
-        this.arena = arena;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void render(Graphics graphics) {
-        graphics.fillRect(x, y, width, height);
+        this.pongModel = pongModel;
     }
 
     /**
      * {@inheritDoc}
      */
     public void update() {
-        int ballY = arena.getBall().getY();
+        int ballY = pongModel.getBall().getY();
 
         // check if within top bounds
         // and the ball y is less than the paddle y
@@ -50,7 +43,7 @@ public class Computer extends Entity {
 
         // check if within bottom bounds
         // and the ball y is more than the paddle y
-        if(getY() <= Pong.SCREEN_HEIGHT - 60 && ballY > getY()) {
+        if(getY() <= PongFrame.SCREEN_HEIGHT - 60 && ballY > getY()) {
             // move down
             setY(getY() + speed);
         }

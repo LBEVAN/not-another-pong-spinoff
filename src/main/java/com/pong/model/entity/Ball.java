@@ -1,35 +1,39 @@
-package com.pong.entity;
+package com.pong.model.entity;
 
-import com.pong.Pong;
-import com.pong.arena.Arena;
+import com.pong.gui.frame.PongFrame;
 import com.pong.listener.BallListener;
+import com.pong.model.PongModel;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * The Ball class represents a Ball entity in the game.
- * Each game tick it moves in the Arena and checks collisions with other entities.
+ * Each game tick it moves and checks collisions with other entities.
  *
  * @author LBEVAN
  */
 public class Ball extends Entity {
 
-    private final Arena arena;
+    private final PongModel pongModel;
 
     private int deltaX = 4;
     private int deltaY = 4;
 
     private List<BallListener> listeners = new ArrayList<BallListener>();
 
-    public Ball(int x, int y, int width, int height, final Arena arena) {
+    /**
+     * Constructor.
+     *
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @param pongModel
+     */
+    public Ball(int x, int y, int width, int height, final PongModel pongModel) {
         super(x, y, width, height);
-        this.arena = arena;
-    }
-
-    public void render(Graphics graphics) {
-        graphics.fillOval(x, y, width, height);
+        this.pongModel = pongModel;
     }
 
     /**
@@ -57,7 +61,7 @@ public class Ball extends Entity {
      * If so inverse the x delta (direction).
      */
     private void checkCollisionWithPlayer() {
-        if(doesIntersect(arena.getPlayer())) {
+        if(doesIntersect(pongModel.getPlayer())) {
             deltaX = -deltaX;
         }
     }
@@ -67,7 +71,7 @@ public class Ball extends Entity {
      * If so inverse the x delta (direction).
      */
     private void checkCollisionWithComputer() {
-        if(doesIntersect(arena.getComputer())) {
+        if(doesIntersect(pongModel.getComputer())) {
             deltaX = -deltaX;
         }
     }
@@ -80,7 +84,7 @@ public class Ball extends Entity {
         // check if hit bottom or top (y-axis)
         if(y < 0) {
             deltaY = Math.abs(deltaY);
-        } else if(y > Pong.SCREEN_HEIGHT -height) {
+        } else if(y > PongFrame.SCREEN_HEIGHT -height) {
             deltaY = -deltaY;
         }
     }
@@ -90,7 +94,7 @@ public class Ball extends Entity {
      * If so, notify listeners of the score event.
      */
     private void checkScoreZone() {
-        if(x <= 0 - width / 2) {
+        if(x <= 0 - width) {
             // player score zone, notify listeners that the computer has scored
             for (BallListener listener : listeners) {
                 listener.computerScored();
@@ -98,7 +102,7 @@ public class Ball extends Entity {
             resetPosition();
         }
 
-        if(x >= Pong.SCREEN_WIDTH + width / 2) {
+        if(x >= PongFrame.SCREEN_WIDTH + width) {
             // computer score zone, notify listeners that the player has scored
             for (BallListener listener : listeners) {
                 listener.playerScored();
@@ -127,8 +131,8 @@ public class Ball extends Entity {
      * Reset the ball position back to the middle of the arena.
      */
     private void resetPosition() {
-        x = Pong.SCREEN_WIDTH / 2 - width / 2;
-        y = Pong.SCREEN_HEIGHT / 2 - height / 2;
+        x = PongFrame.SCREEN_WIDTH / 2 - width / 2;
+        y = PongFrame.SCREEN_HEIGHT / 2 - height / 2;
     }
 
     /**
