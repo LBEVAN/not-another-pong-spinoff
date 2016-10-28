@@ -1,5 +1,6 @@
 package com.pong.model.entity;
 
+import com.pong.controller.input.Direction;
 import com.pong.gui.frame.PongFrame;
 
 /**
@@ -10,7 +11,8 @@ import com.pong.gui.frame.PongFrame;
  */
 public class Player extends Entity {
 
-    private int speed = 10;
+    public int deltaY = 0;
+    public Direction direction;
 
     /**
      * Player constructor.
@@ -25,27 +27,25 @@ public class Player extends Entity {
     }
 
     /**
-     * Move the Player up.
-     */
-    public void moveUp() {
-        if(y >= 0) {
-            y -= speed;
-        }
-    }
-
-    /**
-     * Move the Player down.
-     */
-    public void moveDown() {
-        if(y <= PongFrame.SCREEN_HEIGHT - height) {
-            y += speed;
-        }
-    }
-
-    /**
      * {@inheritDoc}
      */
     public void update() {
-        
+        // if within bounds move player
+        if(direction == Direction.DOWN && y <= PongFrame.SCREEN_HEIGHT - height) {
+            y += deltaY;
+        } else if(direction == Direction.UP && y >= 0) {
+            y += deltaY;
+        }
+    }
+
+    /**
+     * Action to move the player entity in a direction at the specified speed.
+     *
+     * @param deltaY
+     * @param direction
+     */
+    public void move(int deltaY, Direction direction) {
+        this.deltaY = deltaY;
+        this.direction = direction;
     }
 }

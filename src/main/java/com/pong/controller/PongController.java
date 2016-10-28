@@ -1,8 +1,10 @@
 package com.pong.controller;
 
+import com.pong.controller.input.Direction;
 import com.pong.gui.frame.PongFrame;
-import com.pong.model.PongModel;
 import com.pong.gui.view.PongView;
+import com.pong.model.PongModel;
+import com.pong.model.entity.Player;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -23,6 +25,13 @@ public class PongController {
 
     private Timer gameTimer;
 
+    /**
+     * Constructor.
+     *
+     * @param pongModel
+     * @param pongFrame
+     * @param pongView
+     */
     public PongController(PongModel pongModel, PongFrame pongFrame, PongView pongView) {
         this.pongModel = pongModel;
         this.pongFrame = pongFrame;
@@ -33,24 +42,56 @@ public class PongController {
         initUserInput();
     }
 
+    /**
+     * Setup the user input methods.
+     */
     private void initUserInput() {
         InputMap inputMap = pongView.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         ActionMap actionMap = pongView.getActionMap();
 
         // player
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, false), "DOWN");
-        actionMap.put("DOWN", new AbstractAction() {
-            public void actionPerformed(ActionEvent e) {
-                pongModel.getPlayer().moveDown();
-            }
-        });
+        actionMap.put("DOWN", new MoveAction(pongModel.getPlayer(), 3, Direction.DOWN));
+
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, true), "RELEASED_DOWN");
+        actionMap.put("RELEASED_DOWN", new MoveAction(pongModel.getPlayer(), 0, Direction.DOWN));
 
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, false), "UP");
-        actionMap.put("UP", new AbstractAction() {
-            public void actionPerformed(ActionEvent e) {
-                pongModel.getPlayer().moveUp();
-            }
-        });
+        actionMap.put("UP", new MoveAction(pongModel.getPlayer(), -3, Direction.UP));
+
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, true), "RELEASED_UP");
+        actionMap.put("RELEASED_UP", new MoveAction(pongModel.getPlayer(),0, Direction.UP));
+    }
+
+    /**
+     * MoveAction defines a action on the Player entity
+     * in order to move it in a direction at a specified speed.
+     */
+    private class MoveAction extends AbstractAction {
+
+        private Player player;
+        private int deltaY;
+        private Direction direction;
+
+        /**
+         * Constructor.
+         *
+         * @param player
+         * @param deltaY
+         * @param direction
+         */
+        public MoveAction(Player player, int deltaY, Direction direction) {
+            this.player = player;
+            this.deltaY = deltaY;
+            this.direction = direction;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        public void actionPerformed(ActionEvent e) {
+            player.move(deltaY, direction);
+        }
     }
 
     /**

@@ -12,7 +12,7 @@ public class Computer extends Entity {
 
     private final PongModel pongModel;
 
-    private int speed = 3;
+    private int speed = 2;
 
     /**
      * Player constructor.

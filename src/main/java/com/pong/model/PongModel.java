@@ -25,14 +25,14 @@ public class PongModel implements BallListener {
 
     public PongModel() {
         // create the player
-        this.player = new Player(20, PongFrame.SCREEN_HEIGHT / 2, 20, 60);
+        this.player = new Player(10, PongFrame.SCREEN_HEIGHT / 2, 15, 60);
 
         // create the ball
         this.ball = new Ball(PongFrame.SCREEN_WIDTH / 2, PongFrame.SCREEN_HEIGHT / 2, 25, 25, this);
         ball.addListener(this);
 
         // create the computer
-        this.computer = new Computer(PongFrame.SCREEN_WIDTH - 40, PongFrame.SCREEN_HEIGHT / 2, 20, 60, this);
+        this.computer = new Computer(PongFrame.SCREEN_WIDTH - 30, PongFrame.SCREEN_HEIGHT / 2, 15, 60, this);
     }
 
     /**
