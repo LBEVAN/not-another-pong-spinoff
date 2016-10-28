@@ -11,8 +11,8 @@ import com.pong.gui.frame.PongFrame;
  */
 public class Player extends Entity {
 
-    public int deltaY = 0;
-    public Direction direction;
+    private int deltaY = 0;
+    private Direction direction;
 
     /**
      * Player constructor.

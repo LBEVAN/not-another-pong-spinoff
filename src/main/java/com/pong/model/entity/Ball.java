@@ -17,8 +17,9 @@ public class Ball extends Entity {
 
     private final PongModel pongModel;
 
-    private int deltaX = 4;
-    private int deltaY = 4;
+    private int deltaX = 2;
+    private int deltaY = 2;
+    private int speed = 2;
 
     private List<BallListener> listeners = new ArrayList<BallListener>();
 
@@ -52,8 +53,8 @@ public class Ball extends Entity {
      * Move the ball, called every tick, by the delta (speed).
      */
     private void move() {
-        x += deltaX;
-        y += deltaY;
+        x += deltaX * speed;
+        y += deltaY * speed;
     }
 
     /**
@@ -61,8 +62,13 @@ public class Ball extends Entity {
      * If so inverse the x delta (direction).
      */
     private void checkCollisionWithPlayer() {
-        if(doesIntersect(pongModel.getPlayer())) {
-            deltaX = -deltaX;
+        if(getBounds().intersects(pongModel.getPlayer().getBounds())) {
+            // only reverse the delta is we are going towards the paddle.
+            // this is here to fix a bug whereby the collision is detected multiple times
+            // and the entity gets trapped in the paddle.
+            if(deltaX < 0) {
+                deltaX *= -1;
+            }
         }
     }
 
@@ -71,8 +77,13 @@ public class Ball extends Entity {
      * If so inverse the x delta (direction).
      */
     private void checkCollisionWithComputer() {
-        if(doesIntersect(pongModel.getComputer())) {
-            deltaX = -deltaX;
+        if(getBounds().intersects(pongModel.getComputer().getBounds())) {
+            // only reverse the delta is we are going towards the paddle.
+            // this is here to fix a bug whereby the collision is detected multiple times
+            // and the entity gets trapped in the paddle.
+            if(deltaX > 0) {
+                deltaX *= -1;
+            }
         }
     }
 
@@ -82,10 +93,8 @@ public class Ball extends Entity {
      */
     private void checkCollisionWithArena() {
         // check if hit bottom or top (y-axis)
-        if(y < 0) {
-            deltaY = Math.abs(deltaY);
-        } else if(y > PongFrame.SCREEN_HEIGHT -height) {
-            deltaY = -deltaY;
+        if(y < 0 || y > PongFrame.SCREEN_HEIGHT -height) {
+            deltaY *= -1;
         }
     }
 
@@ -109,22 +118,6 @@ public class Ball extends Entity {
             }
             resetPosition();
         }
-    }
-
-    /**
-     * Check if this entity intersects another entity.
-     *
-     * @param entity
-     * @return boolean
-     */
-    private boolean doesIntersect(final Entity entity) {
-        if (entity.getWidth() <= 0 || entity.getHeight() <= 0) {
-            return false;
-        }
-        return (entity.getX() + entity.getWidth() > this.getX() &&
-                entity.getY() + entity.getHeight() > this.getY() &&
-                entity.getX() < this.getX() + getWidth() &&
-                entity.getY() < this.getY() + getHeight());
     }
 
     /**

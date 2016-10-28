@@ -1,6 +1,7 @@
 package com.pong.model.entity;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Base entity class that defines default properties, behaviour
@@ -73,6 +74,15 @@ public abstract class Entity extends JComponent {
      */
     public int getHeight() {
         return height;
+    }
+
+    /**
+     * Get the bounds of the entity in the form of a {@link Rectangle}
+     *
+     * @return bounds
+     */
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, width, height);
     }
 
     /**
