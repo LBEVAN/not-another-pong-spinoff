@@ -6,6 +6,7 @@ import com.pong.model.PongModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * The Ball class represents a Ball entity in the game.
@@ -17,8 +18,8 @@ public class Ball extends Entity {
 
     private final PongModel pongModel;
 
-    private int deltaX = 2;
-    private int deltaY = 2;
+    private int deltaX = -2;
+    private int deltaY = -2;
     private int speed = 2;
 
     private List<BallListener> listeners = new ArrayList<BallListener>();
@@ -126,6 +127,7 @@ public class Ball extends Entity {
     private void resetPosition() {
         x = PongFrame.SCREEN_WIDTH / 2 - width / 2;
         y = PongFrame.SCREEN_HEIGHT / 2 - height / 2;
+        deltaY = new Random().nextBoolean() ? -2 : 2;
     }
 
     /**

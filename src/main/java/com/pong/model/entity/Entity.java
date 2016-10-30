@@ -24,7 +24,7 @@ public abstract class Entity extends JComponent {
      * @param width
      * @param height
      */
-    public Entity(int x, int y, int width, int height) {
+    protected Entity(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;

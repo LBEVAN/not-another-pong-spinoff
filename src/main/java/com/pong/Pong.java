@@ -11,7 +11,7 @@ import javax.swing.*;
  *
  * @author LBEVAN
  */
-public class Pong extends JFrame {
+public class Pong {
 
     /**
      * Main method - application entry point.
