@@ -1,20 +1,19 @@
 package com.pong.gui.view;
 
+import com.pong.gui.components.MenuButton;
+import com.pong.gui.components.MenuLabel;
 import com.pong.gui.frame.PongFrame;
-import com.pong.gui.components.MainMenuButton;
-import com.pong.gui.components.MainMenuLabel;
 import com.pong.model.MainMenuModel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 
 /**
  * The MainMenuView is the view component of the main menu.
  *
  * @author LBEVAN
  */
-public class MainMenuView extends View {
+public class MainMenuView extends View<MainMenuModel> {
 
     private MainMenuModel mainMenuModel;
 
@@ -29,25 +28,22 @@ public class MainMenuView extends View {
     /**
      * Constructor.
      *
-     * @param mainMenuModel
      * @param width
      * @param height
      */
-    public MainMenuView(MainMenuModel mainMenuModel, int width, int height) {
+    public MainMenuView(int width, int height) {
         super(width, height);
-
-        this.mainMenuModel = mainMenuModel;
 
         setBackground(Color.BLACK);
 
         layoutManager = new BoxLayout(this, BoxLayout.Y_AXIS);
         setLayout(layoutManager);
 
-        gameTitle = new MainMenuLabel(PongFrame.TITLE, Font.BOLD, 32);
-        gameVersion = new MainMenuLabel("Version: " + PongFrame.VERSION, Font.PLAIN, 12);
+        gameTitle = new MenuLabel(PongFrame.TITLE, Font.BOLD, 32);
+        gameVersion = new MenuLabel("Version: " + PongFrame.VERSION, Font.PLAIN, 12);
 
-        exitButton = new MainMenuButton("Exit");
-        playButton = new MainMenuButton("Play");
+        exitButton = new MenuButton("Exit");
+        playButton = new MenuButton("Play");
 
         // title and version
         add(Box.createRigidArea(new Dimension(0, 10)));
@@ -65,15 +61,33 @@ public class MainMenuView extends View {
     /**
      * {@inheritDoc}
      */
+    @Override
+    public String getViewName() {
+        return "MainMenuView";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void init(MainMenuModel model) {
+        this.mainMenuModel = model;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
 
-        List<MainMenuModel.AnimatedBall> animatedBalls = mainMenuModel.getAnimatedBalls();
+        if(mainMenuModel != null) {
+            java.util.List<MainMenuModel.AnimatedBall> animatedBalls = mainMenuModel.getAnimatedBalls();
 
-        // draw each ball
-        for(MainMenuModel.AnimatedBall ball : animatedBalls) {
-            graphics.setColor(ball.getColor());
-            graphics.fillOval(ball.getX(), ball.getY(), ball.getWidth(), ball.getHeight());
+            // draw each ball
+            for (MainMenuModel.AnimatedBall ball : animatedBalls) {
+                graphics.setColor(ball.getColor());
+                graphics.fillOval(ball.getX(), ball.getY(), ball.getWidth(), ball.getHeight());
+            }
         }
     }
 

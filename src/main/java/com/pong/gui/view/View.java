@@ -1,5 +1,7 @@
 package com.pong.gui.view;
 
+import com.pong.model.Model;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -8,7 +10,7 @@ import java.awt.*;
  *
  * @author LBEVAN
  */
-public abstract class View extends JPanel {
+public abstract class View<M extends Model> extends JPanel {
 
     protected int width;
     protected int height;
@@ -25,4 +27,18 @@ public abstract class View extends JPanel {
 
         setPreferredSize(new Dimension(width, height));
     }
+
+    /**
+     * Retrieve the view name.
+     *
+     * @return viewName
+     */
+    public abstract String getViewName();
+
+    /**
+     * Initialise the view.
+     *
+     * @param model
+     */
+    public abstract void init(M model);
 }

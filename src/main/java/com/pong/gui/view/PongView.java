@@ -13,7 +13,7 @@ import java.awt.*;
  *
  * @author LBEVAN
  */
-public class PongView extends View {
+public class PongView extends View<PongModel> {
 
     private PongModel pongModel;
 
@@ -22,12 +22,9 @@ public class PongView extends View {
      *
      * @param width
      * @param height
-     * @param pongModel
      */
-    public PongView(int width, int height, PongModel pongModel) {
+    public PongView(int width, int height) {
         super(width, height);
-
-        this.pongModel = pongModel;
 
         setOpaque(true);
         enableEvents(AWTEvent.KEY_EVENT_MASK);
@@ -89,4 +86,19 @@ public class PongView extends View {
         graphics.fillRect(computer.getX(), computer.getY(), computer.getWidth(), computer.getHeight());
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getViewName() {
+        return "PongView";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void init(PongModel model) {
+        this.pongModel = model;
+    }
 }

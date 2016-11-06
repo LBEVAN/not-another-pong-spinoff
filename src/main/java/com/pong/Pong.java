@@ -1,7 +1,6 @@
 package com.pong;
 
 import com.pong.gui.frame.PongFrame;
-import com.pong.gui.view.Views;
 
 import javax.swing.*;
 
@@ -19,7 +18,10 @@ public class Pong {
      * @param args
      */
     public static void main(String[] args) {
-        PongFrame pongFrame = new PongFrame();
-        pongFrame.switchView(Views.MAIN_MENU);
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                PongFrame pongFrame = new PongFrame();
+            }
+        });
     }
 }

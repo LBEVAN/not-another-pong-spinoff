@@ -1,7 +1,6 @@
 package com.pong.controller;
 
 import com.pong.controller.input.Direction;
-import com.pong.gui.frame.PongFrame;
 import com.pong.gui.view.PongView;
 import com.pong.model.PongModel;
 import com.pong.model.entity.Player;
@@ -17,29 +16,18 @@ import java.awt.event.KeyEvent;
  *
  * @author LBEVAN
  */
-public class PongController {
+public class PongController implements Controller<PongModel, PongView> {
 
     private PongModel pongModel;
-    private PongFrame pongFrame;
     private PongView pongView;
 
     private Timer gameTimer;
 
     /**
      * Constructor.
-     *
-     * @param pongModel
-     * @param pongFrame
-     * @param pongView
      */
-    public PongController(PongModel pongModel, PongFrame pongFrame, PongView pongView) {
-        this.pongModel = pongModel;
-        this.pongFrame = pongFrame;
-        this.pongView = pongView;
-
+    public PongController() {
         this.gameTimer = new Timer(1000/60, new GameLoop());
-
-        initUserInput();
     }
 
     /**
@@ -61,6 +49,18 @@ public class PongController {
 
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, true), "RELEASED_UP");
         actionMap.put("RELEASED_UP", new MoveAction(pongModel.getPlayer(),0, Direction.UP));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void init(PongModel model, PongView view) {
+        this.pongModel = model;
+        this.pongView = view;
+
+        initUserInput();
+
+        gameTimer.start();
     }
 
     /**
@@ -92,13 +92,6 @@ public class PongController {
         public void actionPerformed(ActionEvent e) {
             player.move(deltaY, direction);
         }
-    }
-
-    /**
-     * Start the game.
-     */
-    public void start() {
-        gameTimer.start();
     }
 
     /**

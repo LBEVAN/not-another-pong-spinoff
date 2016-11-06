@@ -1,6 +1,5 @@
 package com.pong.model.entity;
 
-import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -9,7 +8,7 @@ import java.awt.*;
  *
  * @author LBEVAN
  */
-public abstract class Entity extends JComponent {
+public abstract class Entity {
 
     protected int x;
     protected int y;

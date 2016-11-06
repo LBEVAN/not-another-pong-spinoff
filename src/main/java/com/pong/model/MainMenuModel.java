@@ -9,15 +9,15 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * PongModel represents the model of the main menu.
+ * MainMenuModel represents the model of the main menu.
  * It stores animation entities and performs any necessary
  * updates when prompted by the controller.
  *
  * @author LBEVAN
  */
-public class MainMenuModel {
+public class MainMenuModel implements Model {
 
-    private int maxAnimatedBalls = 20;
+    private int maxAnimatedBalls = 30;
     private List<AnimatedBall> animatedBalls = new ArrayList<AnimatedBall>(maxAnimatedBalls);
 
     /**

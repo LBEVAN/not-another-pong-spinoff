@@ -1,36 +1,30 @@
 package com.pong.controller;
 
-import com.pong.gui.frame.PongFrame;
-import com.pong.model.MainMenuModel;
+import com.pong.GameStateManager;
 import com.pong.gui.view.MainMenuView;
-import com.pong.gui.view.Views;
+import com.pong.model.MainMenuModel;
+import com.pong.state.GameState;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * The MainMenuController handles the input for the main menu.
+ * The MainMenuController controls input on the MainMenuView. It also controls
+ * the animation timer and delegates those tasks to the model and view.
  *
  * @author LBEVAN
  */
-public class MainMenuController {
+public class MainMenuController implements Controller<MainMenuModel, MainMenuView>{
 
     private MainMenuView mainMenuView;
-    private PongFrame pongFrame;
     private MainMenuModel mainMenuModel;
 
     private Timer animationTimer;
 
-    public MainMenuController(MainMenuView mainMenuView, PongFrame pongFrame, MainMenuModel mainMenuModel) {
-        this.mainMenuView = mainMenuView;
-        this.pongFrame = pongFrame;
-        this.mainMenuModel = mainMenuModel;
 
+    public MainMenuController() {
         this.animationTimer = new Timer(1000/60, new AnimatorLoop());
-        animationTimer.start();
-
-        initActionListeners();
     }
 
     /**
@@ -38,25 +32,8 @@ public class MainMenuController {
      */
     private void initActionListeners() {
         // exit button
-        mainMenuView.getExitButton().addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                exitButtonAction();
-            }
-        });
-
-        // play button
-        mainMenuView.getPlayButton().addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-               playButtonAction();
-            }
-        });
-    }
-
-    /**
-     * Perform the exit button action - exit the application.
-     */
-    private void exitButtonAction() {
-        System.exit(0);
+        mainMenuView.getExitButton().addActionListener((e) -> System.exit(0));
+        mainMenuView.getPlayButton().addActionListener((e) -> playButtonAction());
     }
 
     /**
@@ -64,7 +41,19 @@ public class MainMenuController {
      */
     private void playButtonAction() {
         animationTimer.stop();
-        pongFrame.switchView(Views.GAME);
+        GameStateManager.getInstance().changeState(GameState.GAME_OPTIONS);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void init(MainMenuModel model, MainMenuView view) {
+        this.mainMenuModel = model;
+        this.mainMenuView = view;
+
+        initActionListeners();
+
+        animationTimer.start();
     }
 
     /**
@@ -80,5 +69,4 @@ public class MainMenuController {
             mainMenuView.repaint();
         }
     }
-
 }

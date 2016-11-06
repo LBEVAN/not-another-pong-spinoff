@@ -1,5 +1,7 @@
 package com.pong.model;
 
+import com.pong.ai.difficulty.EasyDifficulty;
+import com.pong.ai.difficulty.HardDifficulty;
 import com.pong.gui.frame.PongFrame;
 import com.pong.listener.BallListener;
 import com.pong.model.entity.Ball;
@@ -12,7 +14,7 @@ import com.pong.model.entity.Player;
  *
  * @author LBEVAN
  */
-public class PongModel implements BallListener {
+public class PongModel implements Model, BallListener {
 
     private Player player;
     private Ball ball;
@@ -25,14 +27,14 @@ public class PongModel implements BallListener {
 
     public PongModel() {
         // create the player
-        this.player = new Player(10, PongFrame.SCREEN_HEIGHT / 2, 15, 60);
+        this.player = new Player(10, PongFrame.SCREEN_HEIGHT / 2, 15, 75);
 
         // create the ball
         this.ball = new Ball(PongFrame.SCREEN_WIDTH / 2, PongFrame.SCREEN_HEIGHT / 2, 25, 25, this);
         ball.addListener(this);
 
         // create the computer
-        this.computer = new Computer(PongFrame.SCREEN_WIDTH - 30, PongFrame.SCREEN_HEIGHT / 2, 15, 60, this);
+        this.computer = new Computer(PongFrame.SCREEN_WIDTH - 30, PongFrame.SCREEN_HEIGHT / 2, 15, 75, this, new EasyDifficulty());
     }
 
     /**

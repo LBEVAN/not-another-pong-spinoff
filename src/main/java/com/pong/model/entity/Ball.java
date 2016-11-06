@@ -20,7 +20,7 @@ public class Ball extends Entity {
 
     private int deltaX = -2;
     private int deltaY = -2;
-    private int speed = 2;
+    private int speed = 3;
 
     private List<BallListener> listeners = new ArrayList<BallListener>();
 
