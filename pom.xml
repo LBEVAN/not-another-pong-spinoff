@@ -6,7 +6,7 @@
 
     <groupId>groupId</groupId>
     <artifactId>not-another-pong-spinoff</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
 
     <packaging>jar</packaging>
 
@@ -21,6 +21,14 @@
                             <mainClass>com.pong.Pong</mainClass>
                         </manifest>
                     </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>
