@@ -15,7 +15,7 @@ public class GameStateManager {
     private static GameStateManager instance;
 
     private GameStateView gameStateView;
-    private Stack<GameState> gameStateStack = new Stack<GameState>();
+    private Stack<GameState> gameStateStack = new Stack<>();
 
     /**
      * Private constructor to stop external creation.
@@ -51,9 +51,7 @@ public class GameStateManager {
      */
     public void changeState(GameState gameState) {
         gameStateStack.add(gameState);
-        gameState.getView().init(gameState.getModel());
-        gameState.getController().init(gameState.getModel(), gameState.getView());
-
+        initMVC(gameState);
         gameStateView.changeView(gameState.getView());
     }
 
@@ -62,6 +60,27 @@ public class GameStateManager {
      */
     public void returnToPreviousState() {
         gameStateStack.pop();
-        changeState(gameStateStack.peek());
+        GameState gameState = gameStateStack.peek();
+        initMVC(gameState);
+        gameStateView.changeView(gameState.getView());
+    }
+
+    /**
+     * Retrieve the current game state stack.
+     *
+     * @return gameStateStack
+     */
+    public Stack<GameState> getGameStateStack() {
+        return gameStateStack;
+    }
+
+    /**
+     * Initialise all parts of the MVC framework.
+     *
+     * @param gameState
+     */
+    private void initMVC(GameState gameState) {
+        gameState.getView().init(gameState.getModel());
+        gameState.getController().init(gameState.getModel(), gameState.getView());
     }
 }

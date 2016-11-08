@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * The GameStateView is the top level JPanel in the application that has a CardLayout to
+ * The GameStateView is the top level JPanel in the application that has a BorderLayout to
  * contain all other possible views in the system.
  *
  * @author LBEVAN
@@ -37,5 +37,6 @@ public class GameStateView extends JPanel {
         removeAll();
         add(view, BorderLayout.CENTER);
         revalidate();
+        repaint();
     }
 }

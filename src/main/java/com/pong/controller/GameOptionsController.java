@@ -30,5 +30,6 @@ public class GameOptionsController implements Controller<GameOptionsModel, GameO
      */
     private void initActionListeners() {
         view.getStartButton().addActionListener((e) -> GameStateManager.getInstance().changeState(GameState.GAME));
+        view.getBackButton().addActionListener((e) -> GameStateManager.getInstance().returnToPreviousState());
     }
 }

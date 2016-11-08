@@ -1,7 +1,6 @@
 package com.pong.model;
 
 import com.pong.ai.difficulty.EasyDifficulty;
-import com.pong.ai.difficulty.HardDifficulty;
 import com.pong.gui.frame.PongFrame;
 import com.pong.listener.BallListener;
 import com.pong.model.entity.Ball;

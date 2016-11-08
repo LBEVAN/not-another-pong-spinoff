@@ -52,7 +52,8 @@ public class MenuButton extends JButton implements MouseListener {
      * {@inheritDoc}
      */
     public void mouseReleased(MouseEvent e) {
-        // no action required
+        this.setFont(defaultFont);
+        this.setCursor(defaultCursor);
     }
 
     /**

@@ -22,7 +22,9 @@ public class MainMenuController implements Controller<MainMenuModel, MainMenuVie
 
     private Timer animationTimer;
 
-
+    /**
+     * Constructor.
+     */
     public MainMenuController() {
         this.animationTimer = new Timer(1000/60, new AnimatorLoop());
     }
