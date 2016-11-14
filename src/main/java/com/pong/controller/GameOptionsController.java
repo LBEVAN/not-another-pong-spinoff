@@ -22,6 +22,7 @@ public class GameOptionsController implements Controller<GameOptionsModel, GameO
     /**
      * {@inheritDoc}
      */
+    @Override
     public void init(GameOptionsModel model, GameOptionsView view) {
         this.model = model;
         this.view = view;
@@ -46,7 +47,7 @@ public class GameOptionsController implements Controller<GameOptionsModel, GameO
      */
     private void startGameAction() {
         GameStateManager.getInstance().changeState(GameState.GAME);
-        ((PongModel)GameStateManager.getInstance().getGameStateStack().peek().getModel()).setGameOptions(model.createGameOptions());
+        ((PongModel)GameStateManager.getInstance().getCurrentMVC().getModel()).setGameOptions(model.createGameOptions());
     }
 
     /**

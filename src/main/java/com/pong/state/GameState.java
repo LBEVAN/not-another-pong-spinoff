@@ -1,18 +1,6 @@
 package com.pong.state;
 
-import com.pong.controller.Controller;
-import com.pong.controller.GameOptionsController;
-import com.pong.controller.MainMenuController;
-import com.pong.controller.PongController;
-import com.pong.gui.frame.PongFrame;
-import com.pong.gui.view.GameOptionsView;
-import com.pong.gui.view.MainMenuView;
-import com.pong.gui.view.PongView;
-import com.pong.gui.view.View;
-import com.pong.model.GameOptionsModel;
-import com.pong.model.MainMenuModel;
-import com.pong.model.Model;
-import com.pong.model.PongModel;
+import com.pong.factory.*;
 
 /**
  * A defined set of Game states - only one state is active at a given time.
@@ -22,56 +10,35 @@ import com.pong.model.PongModel;
 public enum GameState {
 
     MENU(
-            new MainMenuModel(), new MainMenuView(PongFrame.SCREEN_WIDTH, PongFrame.SCREEN_HEIGHT), new MainMenuController()
+            new MVCMainMenuFactory()
     ),
     GAME(
-            new PongModel(), new PongView(PongFrame.SCREEN_WIDTH, PongFrame.SCREEN_HEIGHT), new PongController()
+            new MVCPongFactory()
     ),
     GAME_OPTIONS(
-            new GameOptionsModel(), new GameOptionsView(PongFrame.SCREEN_WIDTH, PongFrame.SCREEN_HEIGHT), new GameOptionsController()
+            new MVCGameOptionsFactory()
+    ),
+    GAME_OVER(
+            new MVCGameOverFactory()
     );
+
+    private MVCFactory factory;
 
     /**
      * Enum constructor.
      *
-     * @param model
-     * @param view
-     * @param controller
+     * @param factory
      */
-    GameState(Model model, View view, Controller controller) {
-        this.model = model;
-        this.view = view;
-        this.controller = controller;
-    }
-
-    private Model model;
-    private View view;
-    private Controller controller;
-
-    /**
-     * Retrieve the model.
-     *
-     * @return model
-     */
-    public Model getModel() {
-        return model;
+    GameState(MVCFactory factory) {
+        this.factory = factory;
     }
 
     /**
-     * Retrieve the view.
+     * Retrieve the associated MVC factory.
      *
-     * @return view
+     * @return factory
      */
-    public View getView() {
-        return view;
-    }
-
-    /**
-     * Retrieve the controller.
-     *
-     * @return controller
-     */
-    public Controller getController() {
-        return controller;
+    public MVCFactory getFactory() {
+        return factory;
     }
 }

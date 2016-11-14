@@ -1,5 +1,6 @@
 package com.pong;
 
+import com.pong.factory.MVCWrapper;
 import com.pong.gui.view.GameStateView;
 import com.pong.state.GameState;
 
@@ -16,6 +17,7 @@ public class GameStateManager {
 
     private GameStateView gameStateView;
     private Stack<GameState> gameStateStack = new Stack<>();
+    private MVCWrapper mvc;
 
     /**
      * Private constructor to stop external creation.
@@ -50,9 +52,9 @@ public class GameStateManager {
      * @param gameState
      */
     public void changeState(GameState gameState) {
+        mvc = gameState.getFactory().create();
         gameStateStack.add(gameState);
-        initMVC(gameState);
-        gameStateView.changeView(gameState.getView());
+        gameStateView.changeView(mvc.getView());
     }
 
     /**
@@ -61,8 +63,8 @@ public class GameStateManager {
     public void returnToPreviousState() {
         gameStateStack.pop();
         GameState gameState = gameStateStack.peek();
-        initMVC(gameState);
-        gameStateView.changeView(gameState.getView());
+        mvc = gameState.getFactory().create();
+        gameStateView.changeView(mvc.getView());
     }
 
     /**
@@ -75,12 +77,11 @@ public class GameStateManager {
     }
 
     /**
-     * Initialise all parts of the MVC framework.
+     * Retrieve the current active MVC components.
      *
-     * @param gameState
+     * @return mvc
      */
-    private void initMVC(GameState gameState) {
-        gameState.getView().init(gameState.getModel());
-        gameState.getController().init(gameState.getModel(), gameState.getView());
+    public MVCWrapper getCurrentMVC() {
+        return mvc;
     }
 }

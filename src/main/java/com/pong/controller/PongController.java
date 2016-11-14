@@ -1,9 +1,11 @@
 package com.pong.controller;
 
+import com.pong.GameStateManager;
 import com.pong.controller.input.Direction;
 import com.pong.gui.view.PongView;
 import com.pong.model.PongModel;
 import com.pong.model.entity.Player;
+import com.pong.state.GameState;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -108,6 +110,7 @@ public class PongController implements Controller<PongModel, PongView> {
                 pongView.repaint();
             } else {
                 gameTimer.stop();
+                GameStateManager.getInstance().changeState(GameState.GAME_OVER);
             }
         }
     }
