@@ -3,6 +3,7 @@ package com.pong.gui.frame;
 import com.pong.GameStateManager;
 import com.pong.gui.view.GameStateView;
 import com.pong.state.GameState;
+import com.pong.system.ResourceManager;
 
 import javax.swing.*;
 
@@ -23,6 +24,9 @@ public class PongFrame extends JFrame {
      * Constructor.
      */
     public PongFrame() {
+        // Load the application resources
+        ResourceManager.getInstance().loadResources();
+
         setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
         setResizable(false);
         setTitle(TITLE);
