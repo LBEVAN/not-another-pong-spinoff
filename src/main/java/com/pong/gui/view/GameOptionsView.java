@@ -61,10 +61,10 @@ public class GameOptionsView extends View<GameOptionsModel> {
         buttonPanel.setBackground(Color.BLACK);
         buttonPanel.setLayout(new GridLayout(0, 2));
 
-        titleLabel = new MenuLabel(VIEW_TITLE, Font.BOLD, 24);
+        titleLabel = new MenuLabel(VIEW_TITLE, 60f);
         titleLabel.setBorder(new EmptyBorder(10, 0, 10, 0));
 
-        difficultyLabel = new MenuLabel("Game Difficulty", Font.PLAIN, 12);
+        difficultyLabel = new MenuLabel("Game Difficulty", 24f);
 
         difficultyComboBox = new MenuDropdown();
 
@@ -83,12 +83,12 @@ public class GameOptionsView extends View<GameOptionsModel> {
 
         constraints.gridx = 0;
         constraints.gridy = 0;
-        constraints.insets = new Insets(0, 0, 0, 125);
+        constraints.insets = new Insets(0, 0, 0, 200);
         optionsPanel.add(difficultyLabel, constraints);
 
         constraints.gridx = 1;
         constraints.gridy = 0;
-        constraints.insets = new Insets(0, 125, 0, 0);
+        constraints.insets = new Insets(0, 200, 0, 0);
         optionsPanel.add(difficultyComboBox, constraints);
         add(optionsPanel, BorderLayout.CENTER);
 

@@ -39,8 +39,8 @@ public class MainMenuView extends View<MainMenuModel> {
         layoutManager = new BoxLayout(this, BoxLayout.Y_AXIS);
         setLayout(layoutManager);
 
-        gameTitle = new MenuLabel(PongFrame.TITLE, Font.BOLD, 32);
-        gameVersion = new MenuLabel("Version: " + PongFrame.VERSION, Font.PLAIN, 12);
+        gameTitle = new MenuLabel(PongFrame.TITLE, 60f);
+        gameVersion = new MenuLabel("Version: " + PongFrame.VERSION, 20f);
 
         exitButton = new MenuButton("Exit");
         playButton = new MenuButton("Play");
