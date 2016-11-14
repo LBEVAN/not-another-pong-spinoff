@@ -1,5 +1,7 @@
 package com.pong.gui.components;
 
+import com.pong.system.ResourceManager;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -15,12 +17,11 @@ public class MenuLabel extends JLabel {
      * Constructor.
      *
      * @param text
-     * @param fontStyle
      * @param fontSize
      */
-    public MenuLabel(String text, int fontStyle, int fontSize) {
+    public MenuLabel(String text, float fontSize) {
         setText(text);
-        setFont(new Font("Arial", fontStyle, fontSize));
+        setFont(ResourceManager.getInstance().getCustomFont().deriveFont(fontSize));
         setForeground(Color.WHITE);
         setAlignmentX(Component.CENTER_ALIGNMENT);
     }

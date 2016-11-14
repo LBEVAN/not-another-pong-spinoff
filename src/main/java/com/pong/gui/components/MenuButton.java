@@ -1,5 +1,7 @@
 package com.pong.gui.components;
 
+import com.pong.system.ResourceManager;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -16,8 +18,8 @@ public class MenuButton extends JButton implements MouseListener {
     private final Cursor defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
     private final Cursor hoverCursor = new Cursor(Cursor.HAND_CURSOR);
 
-    private final Font defaultFont = new Font("Arial", Font.PLAIN, 20);
-    private final Font hoverFont = new Font("Arial", Font.BOLD, 30);
+    private final Font defaultFont = ResourceManager.getInstance().getCustomFont().deriveFont(50f);
+    private final Font hoverFont = ResourceManager.getInstance().getCustomFont().deriveFont(70f);
 
     /**
      * Constructor.

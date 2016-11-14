@@ -1,5 +1,7 @@
 package com.pong.gui.components;
 
+import com.pong.system.ResourceManager;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -19,6 +21,7 @@ public class MenuDropdown extends JComboBox {
         this.setBackground(Color.BLACK);
         this.setBorder(BorderFactory.createEmptyBorder());
         this.setOpaque(false);
+        this.setFont(ResourceManager.getInstance().getCustomFont().deriveFont(20f));
     }
 
     /**
