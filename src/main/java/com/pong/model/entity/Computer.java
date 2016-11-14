@@ -1,6 +1,5 @@
 package com.pong.model.entity;
 
-import com.pong.ai.difficulty.Difficulty;
 import com.pong.controller.input.Direction;
 import com.pong.gui.frame.PongFrame;
 import com.pong.model.PongModel;
@@ -18,7 +17,6 @@ import java.util.Random;
 public class Computer extends Entity {
 
     private final PongModel pongModel;
-    private final Difficulty difficulty;
 
     public final StateMachine<Computer, ComputerState> stateMachine = new AIStateMachine<Computer, ComputerState>(this);
 
@@ -35,11 +33,10 @@ public class Computer extends Entity {
      * @param height
      * @param pongModel
      */
-    public Computer(int x, int y, int width, int height, final PongModel pongModel, final Difficulty difficulty) {
+    public Computer(int x, int y, int width, int height, final PongModel pongModel) {
         super(x, y, width, height);
 
         this.pongModel = pongModel;
-        this.difficulty = difficulty;
 
         stateMachine.setInitialState(ComputerState.IDLE_MOVE);
     }
@@ -54,14 +51,14 @@ public class Computer extends Entity {
         // and the ball y is less than the paddle y
         if (y >= 20 && ballY < y) {
             // move up
-            y -= difficulty.getSpeed();
+            y -= pongModel.getGameOptions().getDifficulty().getSpeed();
         }
 
         // check if within bottom bounds
         // and the ball y is more than the paddle y
         if (y <= PongFrame.SCREEN_HEIGHT - 60 && ballY > y) {
             // move down
-            y += difficulty.getSpeed();
+            y += pongModel.getGameOptions().getDifficulty().getSpeed();
         }
     }
 
@@ -79,9 +76,9 @@ public class Computer extends Entity {
             idleMoveTime = 0;
         }
 
-        if(idleMoveDirection == Direction.UP) {
+        if(y >= 20 && idleMoveDirection == Direction.UP) {
             y -= idleMoveSpeed;
-        } else if(idleMoveDirection == Direction.DOWN) {
+        } else if(y <= PongFrame.SCREEN_HEIGHT - 60 && idleMoveDirection == Direction.DOWN) {
             y += idleMoveSpeed;
         }
     }
@@ -92,7 +89,7 @@ public class Computer extends Entity {
      * @return isBallInSightRange
      */
     public boolean isBallInSightRange() {
-        if(pongModel.getBall().getX() >= PongFrame.SCREEN_WIDTH - (PongFrame.SCREEN_WIDTH * difficulty.getSightRange())) {
+        if(pongModel.getBall().getX() >= PongFrame.SCREEN_WIDTH - (PongFrame.SCREEN_WIDTH * pongModel.getGameOptions().getDifficulty().getSightRange())) {
             return true;
         } else {
             return false;

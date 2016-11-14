@@ -1,9 +1,6 @@
 package com.pong.gui.view;
 
-import com.pong.ai.difficulty.Difficulty;
-import com.pong.ai.difficulty.EasyDifficulty;
-import com.pong.ai.difficulty.HardDifficulty;
-import com.pong.ai.difficulty.MediumDifficulty;
+import com.pong.ai.difficulty.DifficultyType;
 import com.pong.gui.components.MenuButton;
 import com.pong.gui.components.MenuDropdown;
 import com.pong.gui.components.MenuLabel;
@@ -33,7 +30,7 @@ public class GameOptionsView extends View<GameOptionsModel> {
 
     private JLabel titleLabel;
     private JLabel difficultyLabel;
-    private JComboBox<Difficulty> difficultyComboBox;
+    private JComboBox<DifficultyType> difficultyComboBox;
     private JButton startButton;
     private JButton backButton;
 
@@ -68,7 +65,8 @@ public class GameOptionsView extends View<GameOptionsModel> {
         titleLabel.setBorder(new EmptyBorder(10, 0, 10, 0));
 
         difficultyLabel = new MenuLabel("Game Difficulty", Font.PLAIN, 12);
-        difficultyComboBox = new MenuDropdown(new Difficulty[]{new EasyDifficulty(), new MediumDifficulty(), new HardDifficulty()});
+
+        difficultyComboBox = new MenuDropdown();
 
         startButton = new MenuButton("Start");
         startButton.setBorder(new EmptyBorder(20, 0, 20, 0));
@@ -113,6 +111,10 @@ public class GameOptionsView extends View<GameOptionsModel> {
     @Override
     public void init(GameOptionsModel model) {
         this.model = model;
+
+        // bind to model
+        difficultyComboBox.setModel(new DefaultComboBoxModel<>(model.getDifficulties()));
+        difficultyComboBox.setSelectedItem(model.getSelectedDifficulty());
     }
 
     /**
@@ -133,11 +135,20 @@ public class GameOptionsView extends View<GameOptionsModel> {
     }
 
     /**
-     * retrieve the back button component.
+     * Retrieve the back button component.
      *
      * @return backButton
      */
     public JButton getBackButton() {
         return backButton;
+    }
+
+    /**
+     * Retrieve the difficulty combo box.
+     *
+     * @return difficultyComboBox
+     */
+    public JComboBox<DifficultyType> getDifficultyComboBox() {
+        return difficultyComboBox;
     }
 }

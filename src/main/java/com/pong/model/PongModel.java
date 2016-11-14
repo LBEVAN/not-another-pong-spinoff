@@ -1,11 +1,11 @@
 package com.pong.model;
 
-import com.pong.ai.difficulty.EasyDifficulty;
 import com.pong.gui.frame.PongFrame;
 import com.pong.listener.BallListener;
 import com.pong.model.entity.Ball;
 import com.pong.model.entity.Computer;
 import com.pong.model.entity.Player;
+import com.pong.model.wrapper.GameOptions;
 
 /**
  * PongModel represents the model of the game.
@@ -14,6 +14,8 @@ import com.pong.model.entity.Player;
  * @author LBEVAN
  */
 public class PongModel implements Model, BallListener {
+
+    private GameOptions gameOptions;
 
     private Player player;
     private Ball ball;
@@ -33,7 +35,7 @@ public class PongModel implements Model, BallListener {
         ball.addListener(this);
 
         // create the computer
-        this.computer = new Computer(PongFrame.SCREEN_WIDTH - 30, PongFrame.SCREEN_HEIGHT / 2, 15, 75, this, new EasyDifficulty());
+        this.computer = new Computer(PongFrame.SCREEN_WIDTH - 30, PongFrame.SCREEN_HEIGHT / 2, 15, 75, this);
     }
 
     /**
@@ -98,7 +100,7 @@ public class PongModel implements Model, BallListener {
     /**
      * Retrieve the player score.
      *
-     * @return
+     * @return playerScore
      */
     public int getPlayerScore() {
         return playerScore;
@@ -107,9 +109,27 @@ public class PongModel implements Model, BallListener {
     /**
      * Retrieve the computer score.
      *
-     * @return
+     * @return computerScore
      */
     public int getComputerScore() {
         return computerScore;
+    }
+
+    /**
+     * Retrieve the gameOptions.
+     *
+     * @return gameOptions
+     */
+    public GameOptions getGameOptions() {
+        return gameOptions;
+    }
+
+    /**
+     * Set the game options.
+     *
+     * @param gameOptions
+     */
+    public void setGameOptions(GameOptions gameOptions) {
+        this.gameOptions = gameOptions;
     }
 }

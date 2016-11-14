@@ -13,12 +13,8 @@ public class MenuDropdown extends JComboBox {
 
     /**
      * Constructor.
-     *
-     * @param arr
      */
-    public MenuDropdown(Object[] arr) {
-        super(arr);
-
+    public MenuDropdown() {
         this.setForeground(Color.WHITE);
         this.setBackground(Color.BLACK);
         this.setBorder(BorderFactory.createEmptyBorder());
