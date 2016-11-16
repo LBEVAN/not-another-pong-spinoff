@@ -1,6 +1,7 @@
 package com.pong.gui.frame;
 
 import com.pong.GameStateManager;
+import com.pong.factory.MvcFactory;
 import com.pong.gui.view.GameStateView;
 import com.pong.state.GameState;
 import com.pong.system.ResourceManager;
@@ -32,10 +33,11 @@ public class PongFrame extends JFrame {
         setTitle(TITLE);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+        // bind the application view
         GameStateView gameStateView = new GameStateView(SCREEN_WIDTH, SCREEN_HEIGHT);
-
         GameStateManager.getInstance().setGameStateView(gameStateView);
-        GameStateManager.getInstance().changeState(GameState.MENU);
+
+        GameStateManager.getInstance().changeState(GameState.MENU, MvcFactory.createMainMenu());
         setContentPane(gameStateView);
 
         pack();

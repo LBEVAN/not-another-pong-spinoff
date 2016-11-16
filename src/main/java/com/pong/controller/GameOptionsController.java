@@ -2,7 +2,10 @@ package com.pong.controller;
 
 import com.pong.GameStateManager;
 import com.pong.ai.difficulty.DifficultyType;
+import com.pong.factory.MvcFactory;
+import com.pong.factory.MvcWrapper;
 import com.pong.gui.view.GameOptionsView;
+import com.pong.gui.view.PongView;
 import com.pong.model.GameOptionsModel;
 import com.pong.model.PongModel;
 import com.pong.state.GameState;
@@ -14,21 +17,35 @@ import java.awt.event.ItemEvent;
  *
  * @author LBEVAN
  */
-public class GameOptionsController implements Controller<GameOptionsModel, GameOptionsView> {
+public class GameOptionsController implements Controller {
 
-    private GameOptionsModel model;
-    private GameOptionsView view;
+    private final GameOptionsModel model;
+    private final GameOptionsView view;
+
+    /**
+     * Constructor.
+     *
+     * @param model
+     * @param view
+     */
+    public GameOptionsController(final GameOptionsModel model, final GameOptionsView view) {
+        this.model = model;
+        this.view = view;
+    }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void init(GameOptionsModel model, GameOptionsView view) {
-        this.model = model;
-        this.view = view;
-
+    public void bind() {
         initActionListeners();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void start() {}
 
     /**
      * Create and set the action listeners to the view.
@@ -36,7 +53,10 @@ public class GameOptionsController implements Controller<GameOptionsModel, GameO
     private void initActionListeners() {
         view.getStartButton().addActionListener(e -> startGameAction());
 
-        view.getBackButton().addActionListener(e -> GameStateManager.getInstance().returnToPreviousState());
+        view.getBackButton().addActionListener(e -> {
+            GameStateManager.getInstance().returnToPreviousState();
+            GameStateManager.getInstance().getCurrentMvc().getController().start();
+        });
 
         view.getDifficultyComboBox().addItemListener(e -> difficultySelectedAction(e));
     }
@@ -46,8 +66,9 @@ public class GameOptionsController implements Controller<GameOptionsModel, GameO
      * Change the state and set the game options.
      */
     private void startGameAction() {
-        GameStateManager.getInstance().changeState(GameState.GAME);
-        ((PongModel)GameStateManager.getInstance().getCurrentMVC().getModel()).setGameOptions(model.createGameOptions());
+        MvcWrapper<PongModel, PongView, PongController> mvc = MvcFactory.createPong(model.createGameOptions());
+
+        GameStateManager.getInstance().changeState(GameState.GAME, mvc);
     }
 
     /**

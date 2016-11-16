@@ -16,7 +16,7 @@ import java.awt.*;
  *
  * @author LBEVAN
  */
-public class GameOptionsView extends View<GameOptionsModel> {
+public class GameOptionsView extends View {
 
     private static final String VIEW_TITLE = "Game Options";
 
@@ -37,11 +37,14 @@ public class GameOptionsView extends View<GameOptionsModel> {
     /**
      * Constructor.
      *
+     * @param model
      * @param width
      * @param height
      */
-    public GameOptionsView(int width, int height) {
+    public GameOptionsView(final GameOptionsModel model, int width, int height) {
         super(width, height);
+
+        this.model = model;
 
         setBackground(Color.BLACK);
 
@@ -67,6 +70,8 @@ public class GameOptionsView extends View<GameOptionsModel> {
         difficultyLabel = new MenuLabel("Game Difficulty", 24f);
 
         difficultyComboBox = new MenuDropdown();
+        difficultyComboBox.setModel(new DefaultComboBoxModel<>(model.getDifficulties()));
+        difficultyComboBox.setSelectedItem(model.getSelectedDifficulty());
 
         startButton = new MenuButton("Start");
         startButton.setBorder(new EmptyBorder(20, 0, 20, 0));
@@ -103,18 +108,6 @@ public class GameOptionsView extends View<GameOptionsModel> {
     @Override
     public String getViewName() {
         return "GameOptionsView";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void init(GameOptionsModel model) {
-        this.model = model;
-
-        // bind to model
-        difficultyComboBox.setModel(new DefaultComboBoxModel<>(model.getDifficulties()));
-        difficultyComboBox.setSelectedItem(model.getSelectedDifficulty());
     }
 
     /**

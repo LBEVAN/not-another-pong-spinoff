@@ -13,9 +13,9 @@ import java.awt.*;
  *
  * @author LBEVAN
  */
-public class MainMenuView extends View<MainMenuModel> {
+public class MainMenuView extends View {
 
-    private MainMenuModel mainMenuModel;
+    private final MainMenuModel model;
 
     private LayoutManager layoutManager;
 
@@ -31,8 +31,10 @@ public class MainMenuView extends View<MainMenuModel> {
      * @param width
      * @param height
      */
-    public MainMenuView(int width, int height) {
+    public MainMenuView(final MainMenuModel model, int width, int height) {
         super(width, height);
+
+        this.model = model;
 
         setBackground(Color.BLACK);
 
@@ -70,18 +72,11 @@ public class MainMenuView extends View<MainMenuModel> {
      * {@inheritDoc}
      */
     @Override
-    public void init(MainMenuModel model) {
-        this.mainMenuModel = model;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
 
-        if(mainMenuModel != null) {
-            java.util.List<MainMenuModel.AnimatedBall> animatedBalls = mainMenuModel.getAnimatedBalls();
+        if(model != null) {
+            java.util.List<MainMenuModel.AnimatedBall> animatedBalls = model.getAnimatedBalls();
 
             // draw each ball
             for (MainMenuModel.AnimatedBall ball : animatedBalls) {

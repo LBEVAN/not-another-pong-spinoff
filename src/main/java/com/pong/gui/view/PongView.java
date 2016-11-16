@@ -13,23 +13,34 @@ import java.awt.*;
  *
  * @author LBEVAN
  */
-public class PongView extends View<PongModel> {
+public class PongView extends View {
 
-    private PongModel pongModel;
+    private PongModel model;
 
     /**
      * Constructor.
      *
+     * @param model
      * @param width
      * @param height
      */
-    public PongView(int width, int height) {
+    public PongView(final PongModel model, int width, int height) {
         super(width, height);
+
+        this.model = model;
 
         setOpaque(true);
         enableEvents(AWTEvent.KEY_EVENT_MASK);
         requestFocus();
         setFocusable(true);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getViewName() {
+        return "PongView";
     }
 
     /**
@@ -48,8 +59,8 @@ public class PongView extends View<PongModel> {
         graphics.drawLine(width / 2, 0, width / 2, height);
 
         // paint the scores
-        graphics.drawString("Player: " + pongModel.getPlayerScore(), width / 2 - 70, 10);
-        graphics.drawString("Computer: " + pongModel.getComputerScore(), width / 2 + 20, 10);
+        graphics.drawString("Player: " + model.getPlayerScore(), width / 2 - 70, 10);
+        graphics.drawString("Computer: " + model.getComputerScore(), width / 2 + 20, 10);
 
         paintBall(graphics);
         paintPlayer(graphics);
@@ -62,7 +73,7 @@ public class PongView extends View<PongModel> {
      * @param graphics
      */
     private void paintBall(Graphics graphics) {
-        final Ball ball = pongModel.getBall();
+        final Ball ball = model.getBall();
         graphics.fillOval(ball.getX(), ball.getY(), ball.getWidth(), ball.getHeight());
     }
 
@@ -72,7 +83,7 @@ public class PongView extends View<PongModel> {
      * @param graphics
      */
     private void paintPlayer(Graphics graphics) {
-        final Player player = pongModel.getPlayer();
+        final Player player = model.getPlayer();
         graphics.fillRect(player.getX(), player.getY(), player.getWidth(), player.getHeight());
     }
 
@@ -82,23 +93,7 @@ public class PongView extends View<PongModel> {
      * @param graphics
      */
     private void paintComputer(Graphics graphics) {
-        final Computer computer = pongModel.getComputer();
+        final Computer computer = model.getComputer();
         graphics.fillRect(computer.getX(), computer.getY(), computer.getWidth(), computer.getHeight());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getViewName() {
-        return "PongView";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void init(PongModel model) {
-        this.pongModel = model;
     }
 }

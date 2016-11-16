@@ -15,7 +15,7 @@ import com.pong.model.wrapper.GameOptions;
  */
 public class PongModel implements Model, BallListener {
 
-    private GameOptions gameOptions;
+    private final GameOptions gameOptions;
 
     private Player player;
     private Ball ball;
@@ -24,9 +24,11 @@ public class PongModel implements Model, BallListener {
     private int playerScore = 0;
     private int computerScore = 0;
 
-    private int maxScore = 10;
+    private int maxScore = 1;
 
-    public PongModel() {
+    public PongModel(final GameOptions gameOptions) {
+        this.gameOptions = gameOptions;
+
         // create the player
         this.player = new Player(10, PongFrame.SCREEN_HEIGHT / 2, 15, 75);
 
@@ -122,14 +124,5 @@ public class PongModel implements Model, BallListener {
      */
     public GameOptions getGameOptions() {
         return gameOptions;
-    }
-
-    /**
-     * Set the game options.
-     *
-     * @param gameOptions
-     */
-    public void setGameOptions(GameOptions gameOptions) {
-        this.gameOptions = gameOptions;
     }
 }

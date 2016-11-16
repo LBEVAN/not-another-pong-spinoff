@@ -1,20 +1,20 @@
 package com.pong.controller;
 
-import com.pong.gui.view.View;
-import com.pong.model.Model;
-
 /**
  * Controller interface defines behaviour all controllers must have.
  *
  * @author LBEVAN
  */
-public interface Controller<M extends Model, V extends View> {
+public interface Controller {
 
     /**
-     * Initialise the view.
-     *
-     * @param model
-     * @param view
+     * Bind the any dependent actions or content for the model, view or controller.
+     * This can include things such as view actionListeners or setting label text.
      */
-    void init(M model, V view);
+    void bind();
+
+    /**
+     * Start any controller functions.
+     */
+    void start();
 }

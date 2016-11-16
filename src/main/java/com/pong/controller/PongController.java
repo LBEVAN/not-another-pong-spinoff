@@ -2,7 +2,11 @@ package com.pong.controller;
 
 import com.pong.GameStateManager;
 import com.pong.controller.input.Direction;
+import com.pong.factory.MvcFactory;
+import com.pong.factory.MvcWrapper;
+import com.pong.gui.view.GameOverView;
 import com.pong.gui.view.PongView;
+import com.pong.model.GameOverModel;
 import com.pong.model.PongModel;
 import com.pong.model.entity.Player;
 import com.pong.state.GameState;
@@ -18,51 +22,61 @@ import java.awt.event.KeyEvent;
  *
  * @author LBEVAN
  */
-public class PongController implements Controller<PongModel, PongView> {
+public class PongController implements Controller {
 
-    private PongModel pongModel;
-    private PongView pongView;
+    private final PongModel model;
+    private final PongView view;
 
     private Timer gameTimer;
 
     /**
      * Constructor.
+     *
+     * @param model
+     * @param view
      */
-    public PongController() {
+    public PongController(final PongModel model, final PongView view) {
+        this.model = model;
+        this.view = view;
+
         this.gameTimer = new Timer(1000/60, new GameLoop());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void bind() {
+        initUserInput();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void start() {
+        gameTimer.start();
     }
 
     /**
      * Setup the user input methods.
      */
     private void initUserInput() {
-        InputMap inputMap = pongView.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        ActionMap actionMap = pongView.getActionMap();
+        InputMap inputMap = view.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = view.getActionMap();
 
         // player
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, false), "DOWN");
-        actionMap.put("DOWN", new MoveAction(pongModel.getPlayer(), 3, Direction.DOWN));
+        actionMap.put("DOWN", new MoveAction(model.getPlayer(), 3, Direction.DOWN));
 
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, true), "RELEASED_DOWN");
-        actionMap.put("RELEASED_DOWN", new MoveAction(pongModel.getPlayer(), 0, Direction.DOWN));
+        actionMap.put("RELEASED_DOWN", new MoveAction(model.getPlayer(), 0, Direction.DOWN));
 
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, false), "UP");
-        actionMap.put("UP", new MoveAction(pongModel.getPlayer(), -3, Direction.UP));
+        actionMap.put("UP", new MoveAction(model.getPlayer(), -3, Direction.UP));
 
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, true), "RELEASED_UP");
-        actionMap.put("RELEASED_UP", new MoveAction(pongModel.getPlayer(),0, Direction.UP));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void init(PongModel model, PongView view) {
-        this.pongModel = model;
-        this.pongView = view;
-
-        initUserInput();
-
-        gameTimer.start();
+        actionMap.put("RELEASED_UP", new MoveAction(model.getPlayer(),0, Direction.UP));
     }
 
     /**
@@ -105,12 +119,14 @@ public class PongController implements Controller<PongModel, PongView> {
          * {@inheritDoc}
          */
         public void actionPerformed(ActionEvent e) {
-            if(!pongModel.checkGameOverScenario()) {
-                pongModel.update();
-                pongView.repaint();
+            if(!model.checkGameOverScenario()) {
+                model.update();
+                view.repaint();
             } else {
                 gameTimer.stop();
-                GameStateManager.getInstance().changeState(GameState.GAME_OVER);
+
+                MvcWrapper<GameOverModel, GameOverView, GameOverController> mvc = MvcFactory.createGameOver(model.getPlayerScore(), model.getComputerScore());
+                GameStateManager.getInstance().changeState(GameState.GAME_OVER, mvc);
             }
         }
     }

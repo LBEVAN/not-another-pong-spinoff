@@ -9,7 +9,7 @@ import com.pong.model.Model;
  *
  * @author LBEVAN
  */
-public final class MVCWrapper<M extends Model, V extends View<M>, C extends Controller<M, V>> {
+public final class MvcWrapper<M extends Model, V extends View, C extends Controller> {
 
     private final M model;
     private final V view;
@@ -22,7 +22,7 @@ public final class MVCWrapper<M extends Model, V extends View<M>, C extends Cont
      * @param view
      * @param controller
      */
-    public MVCWrapper(final M model, final V view, final C controller) {
+    public MvcWrapper(final M model, final V view, final C controller) {
         this.model = model;
         this.view = view;
         this.controller = controller;

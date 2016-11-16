@@ -11,7 +11,7 @@ import java.awt.*;
 /**
  * @author LBEVAN
  */
-public class GameOverView extends View<GameOverModel> {
+public class GameOverView extends View {
 
     private static final String VIEW_TITLE = "Game Over";
 
@@ -24,18 +24,21 @@ public class GameOverView extends View<GameOverModel> {
     private JPanel buttonPanel;
 
     private JLabel titleLabel;
+    private JLabel winnerLabel;
     private JButton playAgainButton;
     private JButton exitButton;
-
 
     /**
      * Constructor.
      *
+     * @param model
      * @param width
      * @param height
      */
-    public GameOverView(int width, int height) {
+    public GameOverView(GameOverModel model, int width, int height) {
         super(width, height);
+
+        this.model = model;
 
         setBackground(Color.BLACK);
 
@@ -58,6 +61,8 @@ public class GameOverView extends View<GameOverModel> {
         titleLabel = new MenuLabel(VIEW_TITLE, 60f);
         titleLabel.setBorder(new EmptyBorder(10, 0, 10, 0));
 
+        winnerLabel = new MenuLabel(24f);
+
         playAgainButton = new MenuButton("Play Again");
         playAgainButton.setBorder(new EmptyBorder(20, 0, 20, 0));
 
@@ -75,6 +80,7 @@ public class GameOverView extends View<GameOverModel> {
         constraints.gridx = 0;
         constraints.gridy = 0;
         constraints.insets = new Insets(0, 0, 0, 125);
+        detailsPanel.add(winnerLabel);
 
         constraints.gridx = 1;
         constraints.gridy = 0;
@@ -86,14 +92,12 @@ public class GameOverView extends View<GameOverModel> {
         add(buttonPanel, BorderLayout.PAGE_END);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getViewName() {
         return "GameOverView";
-    }
-
-    @Override
-    public void init(GameOverModel model) {
-        this.model = model;
     }
 
     /**
@@ -112,5 +116,14 @@ public class GameOverView extends View<GameOverModel> {
      */
     public JButton getExitButton() {
         return exitButton;
+    }
+
+    /**
+     * Set the winner label text.
+     *
+     * @param text
+     */
+    public void setWinnerLabelText(String text) {
+        winnerLabel.setText(text);
     }
 }

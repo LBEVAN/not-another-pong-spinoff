@@ -1,7 +1,11 @@
 package com.pong.controller;
 
 import com.pong.GameStateManager;
+import com.pong.factory.MvcFactory;
+import com.pong.factory.MvcWrapper;
+import com.pong.gui.view.GameOptionsView;
 import com.pong.gui.view.MainMenuView;
+import com.pong.model.GameOptionsModel;
 import com.pong.model.MainMenuModel;
 import com.pong.state.GameState;
 
@@ -15,27 +19,48 @@ import java.awt.event.ActionListener;
  *
  * @author LBEVAN
  */
-public class MainMenuController implements Controller<MainMenuModel, MainMenuView>{
+public class MainMenuController implements Controller {
 
-    private MainMenuView mainMenuView;
-    private MainMenuModel mainMenuModel;
+    private final MainMenuModel model;
+    private final MainMenuView view;
 
     private Timer animationTimer;
 
     /**
      * Constructor.
+     *
+     * @param model
+     * @param view
      */
-    public MainMenuController() {
+    public MainMenuController(final MainMenuModel model, final MainMenuView view) {
+        this.model = model;
+        this.view = view;
+
         this.animationTimer = new Timer(1000/60, new AnimatorLoop());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void bind() {
+        initActionListeners();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void start() {
+        animationTimer.start();
     }
 
     /**
      * Create and set the action listeners to the view.
      */
     private void initActionListeners() {
-        // exit button
-        mainMenuView.getExitButton().addActionListener((e) -> System.exit(0));
-        mainMenuView.getPlayButton().addActionListener((e) -> playButtonAction());
+        view.getExitButton().addActionListener((e) -> System.exit(0));
+        view.getPlayButton().addActionListener((e) -> playButtonAction());
     }
 
     /**
@@ -43,19 +68,9 @@ public class MainMenuController implements Controller<MainMenuModel, MainMenuVie
      */
     private void playButtonAction() {
         animationTimer.stop();
-        GameStateManager.getInstance().changeState(GameState.GAME_OPTIONS);
-    }
 
-    /**
-     * {@inheritDoc}
-     */
-    public void init(MainMenuModel model, MainMenuView view) {
-        this.mainMenuModel = model;
-        this.mainMenuView = view;
-
-        initActionListeners();
-
-        animationTimer.start();
+        MvcWrapper<GameOptionsModel, GameOptionsView, GameOptionsController> mvc = MvcFactory.createGameOptions();
+        GameStateManager.getInstance().changeState(GameState.GAME_OPTIONS, mvc);
     }
 
     /**
@@ -67,8 +82,8 @@ public class MainMenuController implements Controller<MainMenuModel, MainMenuVie
          * {@inheritDoc}
          */
         public void actionPerformed(ActionEvent e) {
-            mainMenuModel.update();
-            mainMenuView.repaint();
+            model.update();
+            view.repaint();
         }
     }
 }
