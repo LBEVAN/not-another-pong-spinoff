@@ -91,7 +91,7 @@ public class GameStateManager {
      * @return gameState
      */
     public GameState getPreviousState() {
-        return gameStateStack.get(getGameStateStackSize() - 1).getGameState();
+        return gameStateStack.get(getGameStateStackSize() - 2).getGameState();
     }
 
     /**
