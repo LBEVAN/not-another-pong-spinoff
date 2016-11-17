@@ -9,6 +9,9 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 /**
+ * GameOverView is the view component for game over.
+ * It handles all of the UI components fo rthe UI.
+ *
  * @author LBEVAN
  */
 public class GameOverView extends View {
@@ -25,6 +28,8 @@ public class GameOverView extends View {
 
     private JLabel titleLabel;
     private JLabel winnerLabel;
+    private JLabel playerScoreLabel;
+    private JLabel computerScoreLabel;
     private JButton playAgainButton;
     private JButton exitButton;
 
@@ -52,7 +57,7 @@ public class GameOverView extends View {
 
         detailsPanel = new JPanel();
         detailsPanel.setBackground(Color.BLACK);
-        detailsPanel.setLayout(new GridBagLayout());
+        detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
 
         buttonPanel = new JPanel();
         buttonPanel.setBackground(Color.BLACK);
@@ -62,6 +67,11 @@ public class GameOverView extends View {
         titleLabel.setBorder(new EmptyBorder(10, 0, 10, 0));
 
         winnerLabel = new MenuLabel(24f);
+        winnerLabel.setBorder(new EmptyBorder(20, 0, 20, 0));
+
+        playerScoreLabel = new MenuLabel("Player Score: " + model.getPlayerScore(), 24f);
+
+        computerScoreLabel = new MenuLabel("Computer Score: " + model.getComputerScore(), 24f);
 
         playAgainButton = new MenuButton("Play Again");
         playAgainButton.setBorder(new EmptyBorder(20, 0, 20, 0));
@@ -74,17 +84,9 @@ public class GameOverView extends View {
         titlePanel.add(titleLabel);
         add(titlePanel, BorderLayout.PAGE_START);
 
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.gridwidth = 1;
-
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        constraints.insets = new Insets(0, 0, 0, 125);
         detailsPanel.add(winnerLabel);
-
-        constraints.gridx = 1;
-        constraints.gridy = 0;
-        constraints.insets = new Insets(0, 125, 0, 0);
+        detailsPanel.add(playerScoreLabel);
+        detailsPanel.add(computerScoreLabel);
         add(detailsPanel, BorderLayout.CENTER);
 
         buttonPanel.add(playAgainButton);

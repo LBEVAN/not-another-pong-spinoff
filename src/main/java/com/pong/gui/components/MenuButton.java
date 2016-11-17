@@ -34,6 +34,7 @@ public class MenuButton extends JButton implements MouseListener {
         this.setBorder(BorderFactory.createEmptyBorder());
         this.setContentAreaFilled(false);
         this.addMouseListener(this);
+        this.setFocusPainted(false);
     }
 
     /**
