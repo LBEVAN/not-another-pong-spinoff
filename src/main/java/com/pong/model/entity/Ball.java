@@ -1,7 +1,7 @@
 package com.pong.model.entity;
 
 import com.pong.gui.frame.PongFrame;
-import com.pong.listener.BallListener;
+import com.pong.model.listener.BallListener;
 import com.pong.model.PongModel;
 
 import java.util.ArrayList;

@@ -76,6 +76,15 @@ public abstract class Entity {
     }
 
     /**
+     * Set the height of the entity.
+     *
+     * @param height
+     */
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    /**
      * Get the bounds of the entity in the form of a {@link Rectangle}
      *
      * @return bounds

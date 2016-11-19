@@ -1,7 +1,12 @@
 package com.pong.system;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The ResourceManager loads and manages all of the resources in the application (e.g. Fonts, Graphics, Sounds).
@@ -13,6 +18,7 @@ public class ResourceManager {
     private static ResourceManager instance;
 
     private Font customFont;
+    private Map<String, BufferedImage> images = new HashMap<>();
 
     /**
      * Private constructor to stop external creation.
@@ -37,6 +43,7 @@ public class ResourceManager {
      */
     public final void loadResources() {
         loadCustomFont();
+        loadImages();
     }
 
     /**
@@ -55,11 +62,34 @@ public class ResourceManager {
     }
 
     /**
+     * Delegate method for loading all game images.
+     */
+    private void loadImages() {
+        InputStream is = instance.getClass().getResourceAsStream("/Modifier.png");
+
+        try {
+            images.put("MODIFIER", ImageIO.read(is));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Retrieve the custom application font.
      *
      * @return customFont
      */
     public Font getCustomFont() {
         return customFont;
+    }
+
+    /**
+     * Get a loaded image with the specified key.
+     *
+     * @param key
+     * @return bufferedImage
+     */
+    public BufferedImage getImage(String key) {
+        return images.get(key);
     }
 }

@@ -1,4 +1,4 @@
-package com.pong.listener;
+package com.pong.model.listener;
 
 /**
  * The BallListener interfaces defines events that need to be handled for the Ball entity.

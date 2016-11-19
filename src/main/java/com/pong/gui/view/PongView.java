@@ -4,6 +4,7 @@ import com.pong.model.PongModel;
 import com.pong.model.entity.Ball;
 import com.pong.model.entity.Computer;
 import com.pong.model.entity.Player;
+import com.pong.model.modifier.Modifier;
 
 import java.awt.*;
 
@@ -65,6 +66,7 @@ public class PongView extends View {
         paintBall(graphics);
         paintPlayer(graphics);
         paintComputer(graphics);
+        paintModifiers(graphics);
     }
 
     /**
@@ -95,5 +97,18 @@ public class PongView extends View {
     private void paintComputer(Graphics graphics) {
         final Computer computer = model.getComputer();
         graphics.fillRect(computer.getX(), computer.getY(), computer.getWidth(), computer.getHeight());
+    }
+
+    /**
+     * Paint the modifiers in the game.
+     *
+     * @param graphics
+     */
+    private void paintModifiers(Graphics graphics) {
+        graphics.setColor(Color.YELLOW);
+        final java.util.List<Modifier> activeModifiers = model.getActiveModifiers();
+        for(Modifier modifier : activeModifiers) {
+            graphics.drawImage(modifier.getImage(), modifier.getX(), modifier.getY(), 10, 10, null);
+        }
     }
 }
