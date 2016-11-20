@@ -101,5 +101,6 @@ public class Computer extends Entity {
      */
     public void update() {
         stateMachine.update();
+        modifierSystem.update(this);
     }
 }

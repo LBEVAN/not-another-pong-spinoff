@@ -2,8 +2,6 @@ package com.pong.model.entity;
 
 import com.pong.controller.input.Direction;
 import com.pong.gui.frame.PongFrame;
-import com.pong.model.modifier.HeightModifier;
-import com.pong.model.modifier.ModifierSystem;
 
 /**
  * The Player class represents the player entity in the game.
@@ -15,7 +13,6 @@ public class Player extends Entity {
 
     private int deltaY = 0;
     private Direction direction;
-    private ModifierSystem modifierSystem;
 
     /**
      * Player constructor.
@@ -27,8 +24,6 @@ public class Player extends Entity {
      */
     public Player(int x, int y, int width, int height) {
         super(x, y, width, height);
-
-        modifierSystem = new ModifierSystem();
     }
 
     /**

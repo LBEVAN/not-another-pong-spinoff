@@ -105,10 +105,8 @@ public class PongView extends View {
      * @param graphics
      */
     private void paintModifiers(Graphics graphics) {
-        graphics.setColor(Color.YELLOW);
-        final java.util.List<Modifier> activeModifiers = model.getActiveModifiers();
-        for(Modifier modifier : activeModifiers) {
-            graphics.drawImage(modifier.getImage(), modifier.getX(), modifier.getY(), 10, 10, null);
+        for(Modifier modifier : model.getActiveModifiers()) {
+            graphics.drawImage(modifier.getImage(), modifier.getX(), modifier.getY(), modifier.getWidth(), modifier.getHeight(), null);
         }
     }
 }

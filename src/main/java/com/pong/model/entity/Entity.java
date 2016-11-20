@@ -1,5 +1,8 @@
 package com.pong.model.entity;
 
+import com.pong.model.modifier.Modifier;
+import com.pong.model.modifier.ModifierSystem;
+
 import java.awt.*;
 
 /**
@@ -15,6 +18,8 @@ public abstract class Entity {
     protected int width;
     protected int height;
 
+    protected ModifierSystem modifierSystem;
+
     /**
      * Entity constructor.
      *
@@ -28,6 +33,7 @@ public abstract class Entity {
         this.y = y;
         this.width = width;
         this.height = height;
+        this.modifierSystem = new ModifierSystem();
     }
 
     /**
@@ -91,6 +97,15 @@ public abstract class Entity {
      */
     public Rectangle getBounds() {
         return new Rectangle(x, y, width, height);
+    }
+
+    /**
+     * Add a modifier to the entity.
+     *
+     * @param modifier
+     */
+    public void addModifier(final Modifier modifier) {
+        modifierSystem.addModifier(modifier);
     }
 
     /**

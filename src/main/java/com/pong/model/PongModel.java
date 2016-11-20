@@ -1,15 +1,16 @@
 package com.pong.model;
 
 import com.pong.gui.frame.PongFrame;
-import com.pong.model.listener.BallListener;
 import com.pong.model.entity.Ball;
 import com.pong.model.entity.Computer;
 import com.pong.model.entity.Player;
+import com.pong.model.listener.BallListener;
 import com.pong.model.modifier.Modifier;
 import com.pong.model.modifier.ModifierSpawner;
 import com.pong.model.wrapper.GameOptions;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -46,12 +47,12 @@ public class PongModel implements Model, BallListener {
         // create the player
         this.player = new Player(10, PongFrame.SCREEN_HEIGHT / 2, 15, 75);
 
+        // create the computer
+        this.computer = new Computer(PongFrame.SCREEN_WIDTH - 30, PongFrame.SCREEN_HEIGHT / 2, 15, 75, this);
+
         // create the ball
         this.ball = new Ball(PongFrame.SCREEN_WIDTH / 2, PongFrame.SCREEN_HEIGHT / 2, 25, 25, this);
         ball.addListener(this);
-
-        // create the computer
-        this.computer = new Computer(PongFrame.SCREEN_WIDTH - 30, PongFrame.SCREEN_HEIGHT / 2, 15, 75, this);
     }
 
     /**
@@ -65,6 +66,8 @@ public class PongModel implements Model, BallListener {
         computer.update();
 
         modifierSpawner.spawn(this);
+
+        cleanup();
     }
 
     /**
@@ -144,11 +147,34 @@ public class PongModel implements Model, BallListener {
         return gameOptions;
     }
 
+    /**
+     * Add a modifier to the game world.
+     *
+     * @param modifier
+     */
     public void addActiveModifier(Modifier modifier) {
         activeModifiers.add(modifier);
     }
 
+    /**
+     * Retrieve the list of active modifiers in the game world.
+     *
+     * @return activeModifiers
+     */
     public List<Modifier> getActiveModifiers() {
         return activeModifiers;
+    }
+
+    /**
+     * Delegate method to perform cleanup actions every tick (e.g. removing inactive modifiers);
+     */
+    private void cleanup() {
+        Iterator<Modifier> iter = activeModifiers.iterator();
+        while(iter.hasNext()) {
+            Modifier modifier = iter.next();
+            if(!modifier.isActive()) {
+                iter.remove();
+            }
+        }
     }
 }

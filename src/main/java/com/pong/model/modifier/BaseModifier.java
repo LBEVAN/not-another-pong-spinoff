@@ -13,8 +13,12 @@ public abstract class BaseModifier implements Modifier<Entity> {
     private int x;
     private int y;
 
+    private int width = 10;
+    private int height = 10;
+
     protected boolean hasApplied = false;
     protected long startTime;
+    protected boolean isActive = true;
 
     /**
      * Constructor.
@@ -68,6 +72,38 @@ public abstract class BaseModifier implements Modifier<Entity> {
     @Override
     public int getY() {
         return y;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onHit() {
+        isActive = false;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isActive() {
+        return isActive;
     }
 
     /**

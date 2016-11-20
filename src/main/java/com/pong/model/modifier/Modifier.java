@@ -2,6 +2,7 @@ package com.pong.model.modifier;
 
 import com.pong.model.entity.Entity;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
@@ -21,7 +22,7 @@ public interface Modifier<E extends Entity> {
     void apply(final E entity);
 
     /**
-     * Check whether the modification has been applied.
+     * Check whether the modification has been applied to an entity.
      *
      * @return hasApplied
      */
@@ -68,4 +69,39 @@ public interface Modifier<E extends Entity> {
      * @return y
      */
     int getY();
+
+    /**
+     * Retrieve the width of the modifier.
+     *
+     * @return width
+     */
+    int getWidth();
+
+    /**
+     * Retrieve the height of the modifier.
+     *
+     * @return height
+     */
+    int getHeight();
+
+    /**
+     * Perform actions on the modifier when it is collided with.
+     */
+    void onHit();
+
+    /**
+     * Retrieve whether the modifier is active in the game world.
+     *
+     * @return isActive
+     */
+    boolean isActive();
+
+    /**
+     * Retrieve the bounds for the modifier in the form of a Rectangle.
+     *
+     * @return bounds
+     */
+    default Rectangle getBounds() {
+        return new Rectangle(getX(), getY(), getWidth(), getHeight());
+    }
 }
