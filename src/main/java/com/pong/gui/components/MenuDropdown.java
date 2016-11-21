@@ -21,7 +21,7 @@ public class MenuDropdown extends JComboBox {
         this.setBackground(Color.BLACK);
         this.setBorder(BorderFactory.createEmptyBorder());
         this.setOpaque(false);
-        this.setFont(ResourceManager.getInstance().getCustomFont().deriveFont(20f));
+        this.setFont(ResourceManager.getInstance().getFont().deriveFont(20f));
     }
 
     /**

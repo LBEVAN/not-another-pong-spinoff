@@ -9,6 +9,7 @@ import com.pong.gui.view.GameStateView;
 import com.pong.model.GameOptionsModel;
 import com.pong.model.wrapper.GameOptions;
 import com.pong.state.GameState;
+import com.pong.system.ResourceLoader;
 import com.pong.system.ResourceManager;
 import org.junit.After;
 import org.junit.Before;
@@ -33,7 +34,7 @@ public class TestGameStateManager {
         GameStateManager.getInstance().setGameStateView(gameStateView);
 
         // there is a dependency on the resource manager - load it here
-        ResourceManager.getInstance().loadResources();
+        new ResourceLoader().loadResources();
     }
 
     @After

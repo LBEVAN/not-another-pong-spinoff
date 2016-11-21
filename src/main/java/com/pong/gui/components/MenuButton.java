@@ -18,8 +18,8 @@ public class MenuButton extends JButton implements MouseListener {
     private final Cursor defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
     private final Cursor hoverCursor = new Cursor(Cursor.HAND_CURSOR);
 
-    private final Font defaultFont = ResourceManager.getInstance().getCustomFont().deriveFont(50f);
-    private final Font hoverFont = ResourceManager.getInstance().getCustomFont().deriveFont(70f);
+    private final Font defaultFont = ResourceManager.getInstance().getFont().deriveFont(50f);
+    private final Font hoverFont = ResourceManager.getInstance().getFont().deriveFont(70f);
 
     /**
      * Constructor.

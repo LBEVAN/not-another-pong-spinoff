@@ -21,7 +21,7 @@ public class MenuLabel extends JLabel {
      */
     public MenuLabel(String text, float fontSize) {
         setText(text);
-        setFont(ResourceManager.getInstance().getCustomFont().deriveFont(fontSize));
+        setFont(ResourceManager.getInstance().getFont().deriveFont(fontSize));
         setForeground(Color.WHITE);
         setAlignmentX(Component.CENTER_ALIGNMENT);
     }
@@ -33,7 +33,7 @@ public class MenuLabel extends JLabel {
      * @param fontSize
      */
     public MenuLabel(float fontSize) {
-        setFont(ResourceManager.getInstance().getCustomFont().deriveFont(fontSize));
+        setFont(ResourceManager.getInstance().getFont().deriveFont(fontSize));
         setForeground(Color.WHITE);
         setAlignmentX(Component.CENTER_ALIGNMENT);
     }

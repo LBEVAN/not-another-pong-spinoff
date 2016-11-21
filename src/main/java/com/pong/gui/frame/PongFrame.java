@@ -4,6 +4,7 @@ import com.pong.GameStateManager;
 import com.pong.factory.MvcFactory;
 import com.pong.gui.view.GameStateView;
 import com.pong.state.GameState;
+import com.pong.system.ResourceLoader;
 import com.pong.system.ResourceManager;
 
 import javax.swing.*;
@@ -26,7 +27,7 @@ public class PongFrame extends JFrame {
      */
     public PongFrame() {
         // Load the application resources
-        ResourceManager.getInstance().loadResources();
+        new ResourceLoader().loadResources();
 
         setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
         setResizable(false);

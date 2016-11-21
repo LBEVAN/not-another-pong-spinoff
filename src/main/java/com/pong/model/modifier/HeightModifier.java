@@ -47,7 +47,7 @@ public class HeightModifier extends BaseModifier {
      */
     @Override
     public BufferedImage getImage() {
-        return ResourceManager.getInstance().getImage("MODIFIER");
+        return ResourceManager.getInstance().getGraphic("Modifier");
     }
 
     /**

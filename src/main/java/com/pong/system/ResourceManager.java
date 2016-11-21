@@ -1,15 +1,12 @@
 package com.pong.system;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * The ResourceManager loads and manages all of the resources in the application (e.g. Fonts, Graphics, Sounds).
+ * The ResourceManager manages all of the resources in the application (e.g. Fonts, Graphics, Sounds).
  *
  * @author LBEVAN
  */
@@ -18,7 +15,7 @@ public class ResourceManager {
     private static ResourceManager instance;
 
     private Font customFont;
-    private Map<String, BufferedImage> images = new HashMap<>();
+    private Map<String, BufferedImage> graphics = new HashMap<>();
 
     /**
      * Private constructor to stop external creation.
@@ -38,40 +35,23 @@ public class ResourceManager {
     }
 
     /**
-     * Load all resources into memory.
-     * This should be called once, preferably during application startup.
+     * Add a loaded graphics, in the form of a BufferedImage, to the graphics map.
+     *
+     * @param key
+     * @param bufferedImage
      */
-    public final void loadResources() {
-        loadCustomFont();
-        loadImages();
+    public void addLoadedGraphic(final String key, final BufferedImage bufferedImage) {
+        graphics.put(key, bufferedImage);
     }
 
     /**
-     * Delegate method for loading the custom font.
+     * Register the custom font.
+     *
+     * @param font
      */
-    private void loadCustomFont() {
-        InputStream is = instance.getClass().getResourceAsStream("/TECHNOID.ttf");
-        try {
-            customFont = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(14f);
-            GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(customFont);
-        } catch (Exception e) {
-            // a catch all situation
-            // if any exception is thrown, set the custom font to an already existing one in the system
-            customFont = new Font("Arial", Font.PLAIN, 14);
-        }
-    }
-
-    /**
-     * Delegate method for loading all game images.
-     */
-    private void loadImages() {
-        InputStream is = instance.getClass().getResourceAsStream("/Modifier.png");
-
-        try {
-            images.put("MODIFIER", ImageIO.read(is));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void registerCustomFont(Font font) {
+        GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(font);
+        customFont = font;
     }
 
     /**
@@ -79,17 +59,17 @@ public class ResourceManager {
      *
      * @return customFont
      */
-    public Font getCustomFont() {
+    public Font getFont() {
         return customFont;
     }
 
     /**
-     * Get a loaded image with the specified key.
+     * Get a loaded graphic with the specified key.
      *
      * @param key
      * @return bufferedImage
      */
-    public BufferedImage getImage(String key) {
-        return images.get(key);
+    public BufferedImage getGraphic(String key) {
+        return graphics.get(key);
     }
 }
