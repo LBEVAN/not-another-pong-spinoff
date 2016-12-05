@@ -58,4 +58,13 @@ public final class ModifierSystem {
     public void addModifier(Modifier modifier) {
         modifiers.add(modifier);
     }
+
+    /**
+     * Get the modifiers currently active.
+     *
+     * @return modifiers
+     */
+    public List<Modifier> getModifiers() {
+        return modifiers;
+    }
 }

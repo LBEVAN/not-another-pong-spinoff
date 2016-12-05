@@ -4,6 +4,8 @@ import com.pong.model.modifier.Modifier;
 import com.pong.model.modifier.ModifierSystem;
 
 import java.awt.*;
+import java.util.List;
+
 
 /**
  * Base entity class that defines default properties, behaviour
@@ -106,6 +108,13 @@ public abstract class Entity {
      */
     public void addModifier(final Modifier modifier) {
         modifierSystem.addModifier(modifier);
+    }
+
+    /**
+     * Get the modifiers on this entity.
+     */
+    public List<Modifier> getModifiers() {
+        return modifierSystem.getModifiers();
     }
 
     /**

@@ -4,6 +4,8 @@ import com.pong.model.entity.Entity;
 import com.pong.system.ResourceManager;
 
 import java.awt.image.BufferedImage;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * HeightModifier is a Modifier implementation that modifies the height of the specified entity.
@@ -11,6 +13,8 @@ import java.awt.image.BufferedImage;
  * @author LBEVAN
  */
 public class HeightModifier extends BaseModifier {
+
+    private static final String NAME = "Height";
 
     private int heightModifier = 50;
     private double duration = 5.0;
@@ -56,5 +60,22 @@ public class HeightModifier extends BaseModifier {
     @Override
     public int getValue() {
         return heightModifier;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getName() {
+        return NAME;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double getTimeRemaining() {
+        long elapsedTime = System.nanoTime() - startTime;
+        return new BigDecimal(duration - (elapsedTime / 1000000000.0)).setScale(1, RoundingMode.HALF_UP).doubleValue();
     }
 }

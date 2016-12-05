@@ -97,6 +97,20 @@ public interface Modifier<E extends Entity> {
     boolean isActive();
 
     /**
+     * Retrieve the name of the modifier.
+     *
+     * @return name
+     */
+    String getName();
+
+    /**
+     * Get the time remaining for this modifier.
+     *
+     * @return timeRemaining
+     */
+    double getTimeRemaining();
+
+    /**
      * Retrieve the bounds for the modifier in the form of a Rectangle.
      *
      * @return bounds
