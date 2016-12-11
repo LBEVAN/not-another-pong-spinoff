@@ -12,7 +12,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public final class ModifierSpawner {
 
-    private final int maxModifiers = 5;
+    private final int maxModifiers = 10;
 
     /**
      * Spawn the modifier into the game world.

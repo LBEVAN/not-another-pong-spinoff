@@ -2,6 +2,7 @@ package com.pong.model.modifier;
 
 import com.pong.model.modifier.factory.HeightModifierFactory;
 import com.pong.model.modifier.factory.ModifierFactory;
+import com.pong.model.modifier.factory.SpeedModifierFactory;
 
 /**
  * ModifiersType enum is a defined set of modifiers available in the game (e.g. HeightModifier).
@@ -10,7 +11,8 @@ import com.pong.model.modifier.factory.ModifierFactory;
  */
 public enum ModifierType {
 
-    PADDLE_HEIGHT(new HeightModifierFactory());
+    PADDLE_HEIGHT(new HeightModifierFactory()),
+    PADDLE_SPEED(new SpeedModifierFactory());
 
     private ModifierFactory factory;
 

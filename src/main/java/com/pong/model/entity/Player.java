@@ -50,4 +50,20 @@ public class Player extends Entity {
         this.deltaY = deltaY;
         this.direction = direction;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public int getSpeed() {
+        if(baseSpeed == 0) {
+            // base speed is zero, meaning there is no user input; return 0 to ensure no movement
+            return 0;
+        } else if(baseSpeed < 0) {
+            // base speed is negative, so minus from base speed
+            return baseSpeed - modifiedSpeed;
+        } else {
+            // base speed is positive, so add to base speed
+            return baseSpeed + modifiedSpeed;
+        }
+    }
 }

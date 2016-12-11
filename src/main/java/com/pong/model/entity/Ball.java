@@ -23,7 +23,7 @@ public class Ball extends Entity {
 
     private int deltaX = -2;
     private int deltaY = -2;
-    private int speed = 3;
+    private int normalMoveSpeed = 3;
 
     private List<BallListener> listeners = new ArrayList<BallListener>();
 
@@ -63,8 +63,8 @@ public class Ball extends Entity {
      * Move the ball, called every tick, by the delta (speed).
      */
     private void move() {
-        x += deltaX * speed;
-        y += deltaY * speed;
+        x += deltaX * getSpeed();
+        y += deltaY * getSpeed();
     }
 
     /**
@@ -159,5 +159,12 @@ public class Ball extends Entity {
      */
     public void addListener(BallListener listener) {
         listeners.add(listener);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public int getSpeed() {
+        return normalMoveSpeed;
     }
 }

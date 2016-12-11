@@ -20,7 +20,9 @@ public class Computer extends Entity {
 
     public final StateMachine<Computer, ComputerState> stateMachine = new AIStateMachine<Computer, ComputerState>(this);
 
+    private final int normalMoveSpeed;
     private final int idleMoveSpeed = 1;
+    private final double sightRange;
     private Direction idleMoveDirection;
     private long idleMoveTime = 0;
 
@@ -39,26 +41,30 @@ public class Computer extends Entity {
         this.pongModel = pongModel;
 
         stateMachine.setInitialState(ComputerState.IDLE_MOVE);
+
+        normalMoveSpeed = (int) pongModel.getGameOptions().getDifficulty().getSpeed();
+        sightRange = pongModel.getGameOptions().getDifficulty().getSightRange();
     }
 
     /**
      * Move and track the ball.
      */
     public void moveAndTrackBall() {
+        setBaseSpeed(normalMoveSpeed);
         int ballY = pongModel.getBall().getY();
 
         // check if within top bounds
         // and the ball y is less than the paddle y
         if (y >= 20 && ballY < y) {
             // move up
-            y -= pongModel.getGameOptions().getDifficulty().getSpeed();
+            y -= getSpeed();
         }
 
         // check if within bottom bounds
         // and the ball y is more than the paddle y
         if (y <= PongFrame.SCREEN_HEIGHT - 60 && ballY > y) {
             // move down
-            y += pongModel.getGameOptions().getDifficulty().getSpeed();
+            y += getSpeed();
         }
     }
 
@@ -66,6 +72,7 @@ public class Computer extends Entity {
      * Idle move action - randomly move
      */
     public void idleMove() {
+        setBaseSpeed(idleMoveSpeed);
         if(idleMoveTime == 0) {
             idleMoveTime = System.currentTimeMillis();
             idleMoveDirection = Direction.values()[new Random().nextInt(Direction.values().length)];
@@ -77,19 +84,19 @@ public class Computer extends Entity {
         }
 
         if(y >= 20 && idleMoveDirection == Direction.UP) {
-            y -= idleMoveSpeed;
+            y -= getSpeed();
         } else if(y <= PongFrame.SCREEN_HEIGHT - 60 && idleMoveDirection == Direction.DOWN) {
-            y += idleMoveSpeed;
+            y += getSpeed();
         }
     }
 
     /**
-     * Check if the ball is in sight range.
-     *
-     * @return isBallInSightRange
-     */
+    * Check if the ball is in sight range.
+            *
+            * @return isBallInSightRange
+    */
     public boolean isBallInSightRange() {
-        if(pongModel.getBall().getX() >= PongFrame.SCREEN_WIDTH - (PongFrame.SCREEN_WIDTH * pongModel.getGameOptions().getDifficulty().getSightRange())) {
+        if(pongModel.getBall().getX() >= PongFrame.SCREEN_WIDTH - (PongFrame.SCREEN_WIDTH * sightRange)) {
             return true;
         } else {
             return false;
@@ -102,5 +109,12 @@ public class Computer extends Entity {
     public void update() {
         stateMachine.update();
         modifierSystem.update(this);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public int getSpeed() {
+        return baseSpeed + modifiedSpeed;
     }
 }

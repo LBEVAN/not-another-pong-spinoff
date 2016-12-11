@@ -19,6 +19,8 @@ public abstract class Entity {
     protected int y;
     protected int width;
     protected int height;
+    protected int baseSpeed = 0;
+    protected int modifiedSpeed = 0;
 
     protected ModifierSystem modifierSystem;
 
@@ -93,6 +95,42 @@ public abstract class Entity {
     }
 
     /**
+     * Retrieve the baseSpeed of the entity.
+     *
+     * @return baseSpeed
+     */
+    public int getBaseSpeed() {
+        return baseSpeed;
+    }
+
+    /**
+     * Set the baseSpeed of the entity.
+     *
+     * @param baseSpeed
+     */
+    public void setBaseSpeed(int baseSpeed) {
+        this.baseSpeed = baseSpeed;
+    }
+
+    /**
+     * Retrieve the modified speed of the entity.
+     *
+     * return modifiedSpeed
+     */
+    public int getModifiedSpeed() {
+        return modifiedSpeed;
+    }
+
+    /**
+     * Set the modifiedSpeed of the entity.
+     *
+     * @param modifiedSpeed
+     */
+    public void setModifiedSpeed(int modifiedSpeed) {
+        this.modifiedSpeed = modifiedSpeed;
+    }
+
+    /**
      * Get the bounds of the entity in the form of a {@link Rectangle}
      *
      * @return bounds
@@ -121,4 +159,11 @@ public abstract class Entity {
      * Update the entity (e.g. move).
      */
     public abstract void update();
+
+    /**
+     * Retrieve the speed of the entity.
+     *
+     * @return speed
+     */
+    public abstract int getSpeed();
 }

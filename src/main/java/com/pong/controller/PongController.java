@@ -76,7 +76,7 @@ public class PongController implements Controller {
         actionMap.put("UP", new MoveAction(model.getPlayer(), -3, Direction.UP));
 
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, true), "RELEASED_UP");
-        actionMap.put("RELEASED_UP", new MoveAction(model.getPlayer(),0, Direction.UP));
+        actionMap.put("RELEASED_UP", new MoveAction(model.getPlayer(), 0, Direction.UP));
     }
 
     /**
@@ -106,7 +106,11 @@ public class PongController implements Controller {
          * {@inheritDoc}
          */
         public void actionPerformed(ActionEvent e) {
-            player.move(deltaY, direction);
+            // set the base speed to the deltaY (i.e. moving or not moving)
+            player.setBaseSpeed(deltaY);
+
+            // get the move speed from the player itself as it needs to calculate base and modified speed
+            player.move(player.getSpeed(), direction);
         }
     }
 
