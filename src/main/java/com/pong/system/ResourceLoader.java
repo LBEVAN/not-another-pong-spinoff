@@ -1,7 +1,5 @@
 package com.pong.system;
 
-import com.google.common.io.Files;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -51,6 +49,7 @@ public class ResourceLoader {
 
         try(
             InputStream in = getResourceAsStream(path);
+
             BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
             String resource;
 
@@ -69,10 +68,7 @@ public class ResourceLoader {
      * @throws IOException
      */
     private void loadGraphics() throws IOException {
-        List<String> graphics = getAvailableResources(GRAPHICS_PATH);
-        for(String resource : graphics) {
-            ResourceManager.getInstance().addLoadedGraphic(getFilenameWithoutExtension(resource), loadGraphic(GRAPHICS_PATH + resource));
-        }
+        ResourceManager.getInstance().addLoadedGraphic(getFilenameWithoutExtension("Modifier.png"), loadGraphic(GRAPHICS_PATH + "Modifier.png"));
     }
 
     /**
@@ -99,13 +95,19 @@ public class ResourceLoader {
     }
 
     /**
-     * Retrieve the filename without the extension (e.g. test.txt would return test)
+     * Retrieve the filename without the extension (e.g. test.txt would return test).
+     * Return null if fileName is null and fileName does not contain '.'
      *
-     * @param resource
+     * @param fileName
      * @return filenameWithoutExtension
      */
-    private String getFilenameWithoutExtension(String resource) {
-        return Files.getNameWithoutExtension(resource);
+    private String getFilenameWithoutExtension(String fileName) {
+        if(fileName != null && fileName.contains(".")) {
+            final String fileNameWithoutExtension = fileName.substring(0, fileName.lastIndexOf('.'));
+            return fileNameWithoutExtension;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -116,7 +118,14 @@ public class ResourceLoader {
      * @throws IOException
      */
     public BufferedImage loadGraphic(final String resource) throws IOException {
-        return ImageIO.read(getResourceAsStream(resource));
+        InputStream inputStream = getResourceAsStream(resource);
+        try {
+            return ImageIO.read(inputStream);
+        } catch (IOException ioe) {
+            throw ioe;
+        } finally {
+            inputStream.close();
+        }
     }
 
     /**
