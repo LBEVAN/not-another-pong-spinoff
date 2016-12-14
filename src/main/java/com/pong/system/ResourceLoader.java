@@ -68,7 +68,9 @@ public class ResourceLoader {
      * @throws IOException
      */
     private void loadGraphics() throws IOException {
-        ResourceManager.getInstance().addLoadedGraphic(getFilenameWithoutExtension("Modifier.png"), loadGraphic(GRAPHICS_PATH + "Modifier.png"));
+        ResourceManager.getInstance().addLoadedGraphic(getFilenameWithoutExtension("HeightModifier.png"), loadGraphic(GRAPHICS_PATH + "HeightModifier.png"));
+        ResourceManager.getInstance().addLoadedGraphic(getFilenameWithoutExtension("SpeedModifier.png"), loadGraphic(GRAPHICS_PATH + "SpeedModifier.png"));
+        ResourceManager.getInstance().addLoadedGraphic(getFilenameWithoutExtension("Paddle.png"), loadGraphic(GRAPHICS_PATH + "Paddle.png"));
     }
 
     /**

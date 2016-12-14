@@ -34,8 +34,8 @@ public final class ModifierSpawner {
      */
     private void spawnImpl(final PongModel pongModel) {
         // get random co-ordinates in the game world (bound to sane x and y values)
-        int x = ThreadLocalRandom.current().nextInt(30, PongFrame.SCREEN_WIDTH - 30 + 1);
-        int y = ThreadLocalRandom.current().nextInt(20, PongFrame.SCREEN_HEIGHT - 20 + 1);
+        int x = ThreadLocalRandom.current().nextInt(30, PongFrame.SCREEN_WIDTH - 40 + 1);
+        int y = ThreadLocalRandom.current().nextInt(20, PongFrame.SCREEN_HEIGHT - 40 + 1);
 
         // get a random ModifierType
         ModifierType[] modifierTypes = ModifierType.values();

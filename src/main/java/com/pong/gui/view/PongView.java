@@ -9,6 +9,7 @@ import com.pong.model.modifier.Modifier;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Collection;
 
 /**
  * The PongView is the view component of the game.
@@ -155,7 +156,7 @@ public class PongView extends View {
      */
     private void paintPlayer(Graphics graphics) {
         final Player player = model.getPlayer();
-        graphics.fillRect(player.getX(), player.getY(), player.getWidth(), player.getHeight());
+        graphics.drawImage(player.getImage(), player.getX(), player.getY(), player.getWidth(), player.getHeight(), null);
     }
 
     /**
@@ -165,7 +166,7 @@ public class PongView extends View {
      */
     private void paintComputer(Graphics graphics) {
         final Computer computer = model.getComputer();
-        graphics.fillRect(computer.getX(), computer.getY(), computer.getWidth(), computer.getHeight());
+        graphics.drawImage(computer.getImage(), computer.getX(), computer.getY(), computer.getWidth(), computer.getHeight(), null);
     }
 
     /**
@@ -201,14 +202,14 @@ public class PongView extends View {
      * @param modifiers
      * @return modifiersString
      */
-    private String createModifierString(java.util.List<Modifier> modifiers) {
+    private String createModifierString(Collection<Modifier> modifiers) {
         StringBuilder stringBuilder = new StringBuilder();
 
         modifiers.forEach(modifier -> {
             stringBuilder.append(modifier.getName());
             stringBuilder.append(" ");
             stringBuilder.append(modifier.getTimeRemaining());
-            stringBuilder.append("\t");
+            stringBuilder.append(" | ");
         });
 
         return stringBuilder.toString();

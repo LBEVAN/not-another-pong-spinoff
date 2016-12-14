@@ -33,7 +33,7 @@ public class PongModel implements Model, BallListener {
     private int playerScore = 0;
     private int computerScore = 0;
 
-    private int maxScore = 5;
+    private int maxScore = 10;
 
     /**
      * Constructor.

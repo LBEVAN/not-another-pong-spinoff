@@ -111,6 +111,27 @@ public interface Modifier<E extends Entity> {
     double getTimeRemaining();
 
     /**
+     * Get the type of this modifier.
+     *
+     * @return type
+     */
+    ModifierType getType();
+
+    /**
+     * Retrieve teh duration of the modifier.
+     *
+     * @return duration
+     */
+    double getDuration();
+
+    /**
+     * Increase the duration of the modifier.
+     *
+     * @param duration
+     */
+    void increaseDuration(double duration);
+
+    /**
      * Retrieve the bounds for the modifier in the form of a Rectangle.
      *
      * @return bounds

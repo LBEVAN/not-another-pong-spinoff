@@ -2,9 +2,7 @@ package com.pong.model.modifier;
 
 import com.pong.model.entity.Entity;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * The ModifierSystem handles the modifiers for a particular entity;
@@ -14,13 +12,13 @@ import java.util.List;
  */
 public final class ModifierSystem {
 
-    private List<Modifier> modifiers;
+    private Map<ModifierType, Modifier> modifierMap;
 
     /**
      * Constructor.
      */
     public ModifierSystem() {
-        modifiers = new ArrayList<>();
+        modifierMap = new HashMap<>();
     }
 
     /**
@@ -31,7 +29,7 @@ public final class ModifierSystem {
      * @param entity
      */
     public void update(final Entity entity) {
-        Iterator<Modifier> iter = modifiers.iterator();
+        Iterator<Modifier> iter = modifierMap.values().iterator();
         while(iter.hasNext()) {
             Modifier modifier = iter.next();
 
@@ -39,7 +37,6 @@ public final class ModifierSystem {
             if(modifier.hasApplied()) {
 
                 if(modifier.hasExpired()) {
-
                     // if expired then remove
                     modifier.remove(entity);
                     iter.remove();
@@ -52,11 +49,30 @@ public final class ModifierSystem {
 
     /**
      * Add a modifier into the list of modifiers on the entity.
+     * If the modifier already exists then it will increase the duration.
      *
      * @param modifier
      */
     public void addModifier(Modifier modifier) {
-        modifiers.add(modifier);
+        if(modifierMap.containsKey(modifier.getType())) {
+            // type exists so increase duration
+            Modifier mod = modifierMap.get(modifier.getType());
+            mod.increaseDuration(modifier.getDuration());
+            modifierMap.put(mod.getType(), mod);
+        } else {
+            // does not exist so add to map
+            modifierMap.put(modifier.getType(), modifier);
+        }
+    }
+
+    /**
+     * Retrieve the modifier with the specified key.
+     *
+     * @param key
+     * @return modifier
+     */
+    public Modifier getModifier(final ModifierType key) {
+        return modifierMap.get(key);
     }
 
     /**
@@ -64,7 +80,7 @@ public final class ModifierSystem {
      *
      * @return modifiers
      */
-    public List<Modifier> getModifiers() {
-        return modifiers;
+    public Collection<Modifier> getModifiers() {
+        return modifierMap.values();
     }
 }

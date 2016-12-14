@@ -6,7 +6,9 @@ import com.pong.model.PongModel;
 import com.pong.state.AIStateMachine;
 import com.pong.state.ComputerState;
 import com.pong.state.StateMachine;
+import com.pong.system.ResourceManager;
 
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
 /**
@@ -116,5 +118,13 @@ public class Computer extends Entity {
      */
     public int getSpeed() {
         return baseSpeed + modifiedSpeed;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public BufferedImage getImage() {
+        return ResourceManager.getInstance().getGraphic("Paddle");
     }
 }

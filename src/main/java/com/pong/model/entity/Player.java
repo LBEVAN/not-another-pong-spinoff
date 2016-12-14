@@ -2,6 +2,9 @@ package com.pong.model.entity;
 
 import com.pong.controller.input.Direction;
 import com.pong.gui.frame.PongFrame;
+import com.pong.system.ResourceManager;
+
+import java.awt.image.BufferedImage;
 
 /**
  * The Player class represents the player entity in the game.
@@ -38,6 +41,14 @@ public class Player extends Entity {
         }
 
         modifierSystem.update(this);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public BufferedImage getImage() {
+        return ResourceManager.getInstance().getGraphic("Paddle");
     }
 
     /**

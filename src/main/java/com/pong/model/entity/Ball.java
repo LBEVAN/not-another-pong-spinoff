@@ -4,7 +4,9 @@ import com.pong.gui.frame.PongFrame;
 import com.pong.model.PongModel;
 import com.pong.model.listener.BallListener;
 import com.pong.model.modifier.Modifier;
+import com.pong.system.ResourceManager;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -166,5 +168,11 @@ public class Ball extends Entity {
      */
     public int getSpeed() {
         return normalMoveSpeed;
+    }
+
+    @Override
+    public BufferedImage getImage() {
+        // todo: change
+        return ResourceManager.getInstance().getGraphic("Ball");
     }
 }

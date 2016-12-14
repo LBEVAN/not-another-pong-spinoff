@@ -4,8 +4,6 @@ import com.pong.model.entity.Entity;
 import com.pong.system.ResourceManager;
 
 import java.awt.image.BufferedImage;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 /**
  * HeightModifier is a Modifier implementation that modifies the speed of the specified entity.
@@ -17,7 +15,6 @@ public class SpeedModifier extends BaseModifier {
     private static final String NAME = "Speed";
 
     private int speedModifier = 4;
-    private double duration = 5.0;
 
     /**
      * Constructor.
@@ -26,7 +23,7 @@ public class SpeedModifier extends BaseModifier {
      * @param y
      */
     public SpeedModifier(int x, int y) {
-        super(x, y);
+        super(x, y, 5.0);
     }
 
     /**
@@ -41,17 +38,8 @@ public class SpeedModifier extends BaseModifier {
      * {@inheritDoc}
      */
     @Override
-    public boolean hasExpired() {
-        long elapsedTime = System.nanoTime() - startTime;
-        return elapsedTime / 1000000000.0 > duration;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public BufferedImage getImage() {
-        return ResourceManager.getInstance().getGraphic("Modifier");
+        return ResourceManager.getInstance().getGraphic("SpeedModifier");
     }
 
     /**
@@ -74,8 +62,7 @@ public class SpeedModifier extends BaseModifier {
      * {@inheritDoc}
      */
     @Override
-    public double getTimeRemaining() {
-        long elapsedTime = System.nanoTime() - startTime;
-        return new BigDecimal(duration - (elapsedTime / 1000000000.0)).setScale(1, RoundingMode.HALF_UP).doubleValue();
+    public ModifierType getType() {
+        return ModifierType.PADDLE_SPEED;
     }
 }

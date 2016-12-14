@@ -2,6 +2,9 @@ package com.pong.model.modifier;
 
 import com.pong.model.entity.Entity;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 /**
  * BaseModifier serves as a base class for all modifiers.
  * This will never be instantiated but should be extended to allow for specialised modifiers.
@@ -13,8 +16,10 @@ public abstract class BaseModifier implements Modifier<Entity> {
     private int x;
     private int y;
 
-    private int width = 10;
-    private int height = 10;
+    private int width = 20;
+    private int height = 20;
+
+    protected double duration;
 
     protected boolean hasApplied = false;
     protected long startTime;
@@ -26,10 +31,12 @@ public abstract class BaseModifier implements Modifier<Entity> {
      *
      * @param x
      * @param y
+     * @param duration
      */
-    protected BaseModifier(int x, int y) {
+    protected BaseModifier(int x, int y, double duration) {
         this.x = x;
         this.y = y;
+        this.duration = duration;
     }
 
     /**
@@ -48,6 +55,15 @@ public abstract class BaseModifier implements Modifier<Entity> {
     @Override
     public boolean hasApplied() {
         return hasApplied;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean hasExpired() {
+        long elapsedTime = System.nanoTime() - startTime;
+        return elapsedTime / 1000000000.0 > duration;
     }
 
     /**
@@ -104,6 +120,31 @@ public abstract class BaseModifier implements Modifier<Entity> {
     @Override
     public boolean isActive() {
         return isActive;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double getTimeRemaining() {
+        long elapsedTime = System.nanoTime() - startTime;
+        return new BigDecimal(duration - (elapsedTime / 1000000000.0)).setScale(1, RoundingMode.HALF_UP).doubleValue();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double getDuration() {
+        return duration;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void increaseDuration(double duration) {
+        this.duration += duration;
     }
 
     /**

@@ -2,9 +2,11 @@ package com.pong.model.entity;
 
 import com.pong.model.modifier.Modifier;
 import com.pong.model.modifier.ModifierSystem;
+import com.pong.model.modifier.ModifierType;
 
 import java.awt.*;
-import java.util.List;
+import java.awt.image.BufferedImage;
+import java.util.Collection;
 
 
 /**
@@ -23,7 +25,6 @@ public abstract class Entity {
     protected int modifiedSpeed = 0;
 
     protected ModifierSystem modifierSystem;
-
     /**
      * Entity constructor.
      *
@@ -37,6 +38,7 @@ public abstract class Entity {
         this.y = y;
         this.width = width;
         this.height = height;
+
         this.modifierSystem = new ModifierSystem();
     }
 
@@ -151,7 +153,7 @@ public abstract class Entity {
     /**
      * Get the modifiers on this entity.
      */
-    public List<Modifier> getModifiers() {
+    public Collection<Modifier> getModifiers() {
         return modifierSystem.getModifiers();
     }
 
@@ -166,4 +168,11 @@ public abstract class Entity {
      * @return speed
      */
     public abstract int getSpeed();
+
+    /**
+     * Retrieve the image associated to the entity.
+     *
+     * @return bufferedImage
+     */
+    public abstract BufferedImage getImage();
 }
