@@ -5,6 +5,7 @@ import com.pong.model.modifier.ModifierSystem;
 import com.pong.model.modifier.ModifierType;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Collection;
 
@@ -17,12 +18,12 @@ import java.util.Collection;
  */
 public abstract class Entity {
 
-    protected int x;
-    protected int y;
+    protected double x;
+    protected double y;
     protected int width;
     protected int height;
-    protected int baseSpeed = 0;
-    protected int modifiedSpeed = 0;
+    protected double baseSpeed = 0;
+    protected double modifiedSpeed = 0;
 
     protected ModifierSystem modifierSystem;
     /**
@@ -33,7 +34,7 @@ public abstract class Entity {
      * @param width
      * @param height
      */
-    protected Entity(int x, int y, int width, int height) {
+    protected Entity(double x, double y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -47,7 +48,7 @@ public abstract class Entity {
      *
      * @return x
      */
-    public int getX() {
+    public double getX() {
         return x;
     }
 
@@ -56,7 +57,7 @@ public abstract class Entity {
      *
      * @return y
      */
-    public int getY() {
+    public double getY() {
         return y;
     }
 
@@ -65,7 +66,7 @@ public abstract class Entity {
      *
      * @param y
      */
-    public void setY(int y) {
+    public void setY(double y) {
         this.y = y;
     }
 
@@ -101,7 +102,7 @@ public abstract class Entity {
      *
      * @return baseSpeed
      */
-    public int getBaseSpeed() {
+    public double getBaseSpeed() {
         return baseSpeed;
     }
 
@@ -110,7 +111,7 @@ public abstract class Entity {
      *
      * @param baseSpeed
      */
-    public void setBaseSpeed(int baseSpeed) {
+    public void setBaseSpeed(double baseSpeed) {
         this.baseSpeed = baseSpeed;
     }
 
@@ -119,7 +120,7 @@ public abstract class Entity {
      *
      * return modifiedSpeed
      */
-    public int getModifiedSpeed() {
+    public double getModifiedSpeed() {
         return modifiedSpeed;
     }
 
@@ -128,17 +129,17 @@ public abstract class Entity {
      *
      * @param modifiedSpeed
      */
-    public void setModifiedSpeed(int modifiedSpeed) {
+    public void setModifiedSpeed(double modifiedSpeed) {
         this.modifiedSpeed = modifiedSpeed;
     }
 
     /**
-     * Get the bounds of the entity in the form of a {@link Rectangle}
+     * Get the bounds of the entity in the form of a {@link Rectangle2D}
      *
      * @return bounds
      */
-    public Rectangle getBounds() {
-        return new Rectangle(x, y, width, height);
+    public Rectangle2D getBounds() {
+        return new Rectangle2D.Double(x, y, width, height).getBounds2D();
     }
 
     /**
@@ -167,7 +168,7 @@ public abstract class Entity {
      *
      * @return speed
      */
-    public abstract int getSpeed();
+    public abstract double getSpeed();
 
     /**
      * Retrieve the image associated to the entity.

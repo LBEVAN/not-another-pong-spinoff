@@ -9,6 +9,8 @@ import com.pong.model.modifier.Modifier;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
 import java.util.Collection;
 
 /**
@@ -114,10 +116,12 @@ public class PongView extends View {
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
 
+        Graphics2D graphics2D = ((Graphics2D) graphics);
+
         paintArena(graphics);
-        paintBall(graphics);
-        paintPlayer(graphics);
-        paintComputer(graphics);
+        paintBall(graphics2D);
+        paintPlayer(graphics2D);
+        paintComputer(graphics2D);
         paintModifiers(graphics);
 
         updateScores();
@@ -144,9 +148,9 @@ public class PongView extends View {
      *
      * @param graphics
      */
-    private void paintBall(Graphics graphics) {
+    private void paintBall(Graphics2D graphics) {
         final Ball ball = model.getBall();
-        graphics.fillOval(ball.getX(), ball.getY(), ball.getWidth(), ball.getHeight());
+        graphics.fill(new Ellipse2D.Double(ball.getX(), ball.getY(), ball.getWidth(), ball.getHeight()));
     }
 
     /**
@@ -154,9 +158,11 @@ public class PongView extends View {
      *
      * @param graphics
      */
-    private void paintPlayer(Graphics graphics) {
+    private void paintPlayer(Graphics2D graphics) {
         final Player player = model.getPlayer();
-        graphics.drawImage(player.getImage(), player.getX(), player.getY(), player.getWidth(), player.getHeight(), null);
+        AffineTransform transform = new AffineTransform();
+        transform.translate(player.getX(), player.getY());
+        graphics.drawImage(player.getImage(), transform, null);
     }
 
     /**
@@ -164,9 +170,11 @@ public class PongView extends View {
      *
      * @param graphics
      */
-    private void paintComputer(Graphics graphics) {
+    private void paintComputer(Graphics2D graphics) {
         final Computer computer = model.getComputer();
-        graphics.drawImage(computer.getImage(), computer.getX(), computer.getY(), computer.getWidth(), computer.getHeight(), null);
+        AffineTransform transform = new AffineTransform();
+        transform.translate(computer.getX(), computer.getY());
+        graphics.drawImage(computer.getImage(), transform, null);
     }
 
     /**

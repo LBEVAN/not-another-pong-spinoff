@@ -23,9 +23,9 @@ public class Ball extends Entity {
 
     private Entity owner;
 
-    private int deltaX = -2;
-    private int deltaY = -2;
-    private int normalMoveSpeed = 3;
+    private double deltaX = -2;
+    private double deltaY = -2;
+    private double normalMoveSpeed = 3;
 
     private List<BallListener> listeners = new ArrayList<BallListener>();
 
@@ -76,6 +76,16 @@ public class Ball extends Entity {
     private void checkCollisionWithPlayer() {
         if(getBounds().intersects(pongModel.getPlayer().getBounds())) {
             owner = pongModel.getPlayer();
+
+            // WIP
+            final double yTop = pongModel.getPlayer().getY();
+            final double yMiddle = yTop + (pongModel.getPlayer().getHeight() / 2);
+            final double yBottom = yTop + pongModel.getPlayer().getHeight();
+
+            double intersectPoint = yMiddle - y;
+            System.out.println("Intersect Point: " + intersectPoint);
+            // WIP
+
             // only reverse the delta is we are going towards the paddle.
             // this is here to fix a bug whereby the collision is detected multiple times
             // and the entity gets trapped in the paddle.
@@ -166,7 +176,7 @@ public class Ball extends Entity {
     /**
      * {@inheritDoc}
      */
-    public int getSpeed() {
+    public double getSpeed() {
         return normalMoveSpeed;
     }
 

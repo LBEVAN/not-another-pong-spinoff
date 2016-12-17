@@ -14,7 +14,7 @@ import java.awt.image.BufferedImage;
  */
 public class Player extends Entity {
 
-    private int deltaY = 0;
+    private double deltaY = 0;
     private Direction direction;
 
     /**
@@ -57,7 +57,7 @@ public class Player extends Entity {
      * @param deltaY
      * @param direction
      */
-    public void move(int deltaY, Direction direction) {
+    public void move(double deltaY, Direction direction) {
         this.deltaY = deltaY;
         this.direction = direction;
     }
@@ -65,7 +65,7 @@ public class Player extends Entity {
     /**
      * {@inheritDoc}
      */
-    public int getSpeed() {
+    public double getSpeed() {
         if(baseSpeed == 0) {
             // base speed is zero, meaning there is no user input; return 0 to ensure no movement
             return 0;

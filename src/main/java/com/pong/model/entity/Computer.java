@@ -22,8 +22,8 @@ public class Computer extends Entity {
 
     public final StateMachine<Computer, ComputerState> stateMachine = new AIStateMachine<Computer, ComputerState>(this);
 
-    private final int normalMoveSpeed;
-    private final int idleMoveSpeed = 1;
+    private final double normalMoveSpeed;
+    private final double idleMoveSpeed = 1;
     private final double sightRange;
     private Direction idleMoveDirection;
     private long idleMoveTime = 0;
@@ -53,7 +53,7 @@ public class Computer extends Entity {
      */
     public void moveAndTrackBall() {
         setBaseSpeed(normalMoveSpeed);
-        int ballY = pongModel.getBall().getY();
+        double ballY = pongModel.getBall().getY();
 
         // check if within top bounds
         // and the ball y is less than the paddle y
@@ -116,7 +116,7 @@ public class Computer extends Entity {
     /**
      * {@inheritDoc}
      */
-    public int getSpeed() {
+    public double getSpeed() {
         return baseSpeed + modifiedSpeed;
     }
 
