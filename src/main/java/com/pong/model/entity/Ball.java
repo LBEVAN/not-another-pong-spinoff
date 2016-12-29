@@ -2,13 +2,12 @@ package com.pong.model.entity;
 
 import com.pong.gui.frame.PongFrame;
 import com.pong.model.PongModel;
-import com.pong.model.listener.BallListener;
+import com.pong.model.environment.EnvironmentBall;
+import com.pong.model.eventhandler.BallEventHandler;
 import com.pong.model.modifier.Modifier;
 import com.pong.system.ResourceManager;
 
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -27,7 +26,7 @@ public class Ball extends Entity {
     private double deltaY = -2;
     private double normalMoveSpeed = 3;
 
-    private List<BallListener> listeners = new ArrayList<BallListener>();
+    private BallEventHandler ballEventHandler;
 
     /**
      * Constructor.
@@ -56,6 +55,7 @@ public class Ball extends Entity {
         checkCollisionWithComputer();
         checkCollisionWithArena();
         checkCollisionWithModifier();
+        checkCollisionWithEnvironmentalBall();
         checkScoreZone();
 
         modifierSystem.update(this);
@@ -128,18 +128,14 @@ public class Ball extends Entity {
      */
     private void checkScoreZone() {
         if(x <= 0 - width) {
-            // player score zone, notify listeners that the computer has scored
-            for (BallListener listener : listeners) {
-                listener.computerScored();
-            }
+            // player score zone, notify handler that the computer has scored
+            ballEventHandler.onComputerScored();
             resetPosition();
         }
 
         if(x >= PongFrame.SCREEN_WIDTH + width) {
-            // computer score zone, notify listeners that the player has scored
-            for (BallListener listener : listeners) {
-                listener.playerScored();
-            }
+            // computer score zone, notify handler that the player has scored
+            ballEventHandler.onPlayerScored();
             resetPosition();
         }
     }
@@ -158,6 +154,17 @@ public class Ball extends Entity {
     }
 
     /**
+     * Check if the ball has intersected the environment ball.
+     * If so callback to the model to handle the event.
+     */
+    private void checkCollisionWithEnvironmentalBall() {
+        final EnvironmentBall environmentBall = pongModel.getEnvironmentBall();
+        if(environmentBall!= null && getBounds().intersects(environmentBall.getBounds())) {
+            ballEventHandler.onEnvironmentalBallCollision();
+        }
+    }
+
+    /**
      * Reset the ball position back to the middle of the arena.
      */
     private void resetPosition() {
@@ -166,18 +173,22 @@ public class Ball extends Entity {
         deltaY = new Random().nextBoolean() ? -2 : 2;
     }
 
+
     /**
-     * Add a BallListener to the list of listeners, that are notified when events take place.
+     * Set the ball event handler.
+     *
+     * @param ballEventHandler
      */
-    public void addListener(BallListener listener) {
-        listeners.add(listener);
+    public void setBallEventHandler(BallEventHandler ballEventHandler) {
+        this.ballEventHandler = ballEventHandler;
     }
 
     /**
      * {@inheritDoc}
      */
     public double getSpeed() {
-        return normalMoveSpeed;
+        // the ball speed if affected by the environment (e.g. ice = quicker, desert = slower)
+        return normalMoveSpeed * pongModel.getEnvironment().getSpeedModifier();
     }
 
     @Override

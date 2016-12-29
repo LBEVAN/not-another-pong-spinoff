@@ -71,6 +71,9 @@ public class ResourceLoader {
         ResourceManager.getInstance().addLoadedGraphic(getFilenameWithoutExtension("HeightModifier.png"), loadGraphic(GRAPHICS_PATH + "HeightModifier.png"));
         ResourceManager.getInstance().addLoadedGraphic(getFilenameWithoutExtension("SpeedModifier.png"), loadGraphic(GRAPHICS_PATH + "SpeedModifier.png"));
         ResourceManager.getInstance().addLoadedGraphic(getFilenameWithoutExtension("Paddle.png"), loadGraphic(GRAPHICS_PATH + "Paddle.png"));
+        ResourceManager.getInstance().addLoadedGraphic(getFilenameWithoutExtension("Ice.png"), loadGraphic(GRAPHICS_PATH + "Ice.png"));
+        ResourceManager.getInstance().addLoadedGraphic(getFilenameWithoutExtension("Space.png"), loadGraphic(GRAPHICS_PATH + "Space.png"));
+        ResourceManager.getInstance().addLoadedGraphic(getFilenameWithoutExtension("Desert.png"), loadGraphic(GRAPHICS_PATH + "Desert.png"));
     }
 
     /**

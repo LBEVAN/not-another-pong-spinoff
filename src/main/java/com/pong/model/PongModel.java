@@ -4,7 +4,10 @@ import com.pong.gui.frame.PongFrame;
 import com.pong.model.entity.Ball;
 import com.pong.model.entity.Computer;
 import com.pong.model.entity.Player;
-import com.pong.model.listener.BallListener;
+import com.pong.model.environment.Environment;
+import com.pong.model.environment.EnvironmentBall;
+import com.pong.model.environment.EnvironmentManager;
+import com.pong.model.eventhandler.BallEventHandler;
 import com.pong.model.modifier.Modifier;
 import com.pong.model.modifier.ModifierSpawner;
 import com.pong.model.wrapper.GameOptions;
@@ -19,7 +22,7 @@ import java.util.List;
  *
  * @author LBEVAN
  */
-public class PongModel implements Model, BallListener {
+public class PongModel implements Model, BallEventHandler {
 
     private final GameOptions gameOptions;
 
@@ -34,6 +37,8 @@ public class PongModel implements Model, BallListener {
     private int computerScore = 0;
 
     private int maxScore = 10;
+
+    private EnvironmentManager environmentManager;
 
     /**
      * Constructor.
@@ -52,7 +57,9 @@ public class PongModel implements Model, BallListener {
 
         // create the ball
         this.ball = new Ball(PongFrame.SCREEN_WIDTH / 2, PongFrame.SCREEN_HEIGHT / 2, 25, 25, this);
-        ball.addListener(this);
+        ball.setBallEventHandler(this);
+
+        this.environmentManager = new EnvironmentManager(Environment.SPACE);
     }
 
     /**
@@ -66,6 +73,7 @@ public class PongModel implements Model, BallListener {
         computer.update();
 
         modifierSpawner.spawn(this);
+        environmentManager.update();
 
         cleanup();
     }
@@ -75,22 +83,6 @@ public class PongModel implements Model, BallListener {
      */
     public boolean checkGameOverScenario() {
         return playerScore >= maxScore || computerScore >= maxScore;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void playerScored() {
-        playerScore++;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void computerScored() {
-        computerScore++;
     }
 
     /**
@@ -166,6 +158,24 @@ public class PongModel implements Model, BallListener {
     }
 
     /**
+     * Retrieve the current active environment.
+     *
+     * @return environment
+     */
+    public Environment getEnvironment() {
+        return environmentManager.getEnvironment();
+    }
+
+    /**
+     * Retrieve the environmentBall. Delegate to environment manager.
+     *
+     * @return environmentBall
+     */
+    public EnvironmentBall getEnvironmentBall() {
+        return environmentManager.getEnvironmentBall();
+    }
+
+    /**
      * Delegate method to perform cleanup actions every tick (e.g. removing inactive modifiers);
      */
     private void cleanup() {
@@ -176,5 +186,29 @@ public class PongModel implements Model, BallListener {
                 iter.remove();
             }
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onPlayerScored() {
+        playerScore++;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onComputerScored() {
+        computerScore++;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onEnvironmentalBallCollision() {
+        environmentManager.onEnvironmentalBallCollision();
     }
 }

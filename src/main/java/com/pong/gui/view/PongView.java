@@ -5,7 +5,9 @@ import com.pong.model.PongModel;
 import com.pong.model.entity.Ball;
 import com.pong.model.entity.Computer;
 import com.pong.model.entity.Player;
+import com.pong.model.environment.EnvironmentBall;
 import com.pong.model.modifier.Modifier;
+import com.pong.system.ResourceManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -123,6 +125,7 @@ public class PongView extends View {
         paintPlayer(graphics2D);
         paintComputer(graphics2D);
         paintModifiers(graphics);
+        paintEnvironmentBall(graphics2D);
 
         updateScores();
         updateModifiers();
@@ -135,8 +138,7 @@ public class PongView extends View {
      */
     private void paintArena(Graphics graphics) {
         // draw the background
-        graphics.setColor(Color.BLACK);
-        graphics.fillRect(0, 0, width, height);
+        graphics.drawImage(model.getEnvironment().getImage(), 0, 0, null);
 
         // paint the center line
         graphics.setColor(Color.WHITE);
@@ -185,6 +187,19 @@ public class PongView extends View {
     private void paintModifiers(Graphics graphics) {
         for(Modifier modifier : model.getActiveModifiers()) {
             graphics.drawImage(modifier.getImage(), modifier.getX(), modifier.getY(), modifier.getWidth(), modifier.getHeight(), null);
+        }
+    }
+
+    /**
+     * Paint the environmental ball.
+     *
+     * @param graphics
+     */
+    private void paintEnvironmentBall(Graphics2D graphics) {
+        final EnvironmentBall environmentBall = model.getEnvironmentBall();
+        if(environmentBall != null) {
+            graphics.setColor(environmentBall.getEnvironmentBallType().getColour());
+            graphics.fill(new Ellipse2D.Double(environmentBall.getX(), environmentBall.getY(), environmentBall.getWidth(), environmentBall.getHeight()));
         }
     }
 
