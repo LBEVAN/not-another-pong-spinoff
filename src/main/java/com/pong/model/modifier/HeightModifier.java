@@ -14,7 +14,7 @@ public class HeightModifier extends BaseModifier {
 
     private static final String NAME = "Height";
 
-    private int heightModifier = 50;
+    private int heightModifier = 75;
 
     /**
      * Constructor.

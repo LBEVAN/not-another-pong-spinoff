@@ -13,6 +13,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.awt.image.BufferedImage;
 import java.util.Collection;
 
 /**
@@ -162,8 +163,16 @@ public class PongView extends View {
      */
     private void paintPlayer(Graphics2D graphics) {
         final Player player = model.getPlayer();
+
         AffineTransform transform = new AffineTransform();
         transform.translate(player.getX(), player.getY());
+
+        // the scaling below is a fix for modified height. When using AffineTransform, needed for double precision,
+        // we need to scale as there is no other way to affect the height of the image
+        if(player.getHeight() > player.getImage().getHeight()) {
+            transform.scale(1, 2);
+        }
+
         graphics.drawImage(player.getImage(), transform, null);
     }
 
@@ -174,8 +183,16 @@ public class PongView extends View {
      */
     private void paintComputer(Graphics2D graphics) {
         final Computer computer = model.getComputer();
+
         AffineTransform transform = new AffineTransform();
         transform.translate(computer.getX(), computer.getY());
+
+        // the scaling below is a fix for modified height. When using AffineTransform, needed for double precision,
+        // we need to scale as there is no other way to affect the height of the image
+        if(computer.getHeight() > computer.getImage().getHeight()) {
+            transform.scale(1, 2);
+        }
+
         graphics.drawImage(computer.getImage(), transform, null);
     }
 
