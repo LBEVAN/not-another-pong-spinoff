@@ -1,5 +1,7 @@
 package com.pong.model.environment;
 
+import com.pong.model.eventhandler.EnvironmentBallEventHandler;
+
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
 
@@ -10,7 +12,8 @@ import java.util.stream.Stream;
  */
 public class EnvironmentBallSpawner {
 
-    private final int minTimeBetweenSpawns = 20;
+    private final int minTimeBetweenSpawns = 15;
+    private long lastDestructionTime;
 
     /**
      * Spawn and return a new environmental ball with its specific properties.
@@ -18,9 +21,9 @@ public class EnvironmentBallSpawner {
      * @param currentEnvironment
      * @return environmentBall
      */
-    public EnvironmentBall spawn(final Environment currentEnvironment) {
+    public EnvironmentBall spawn(final Environment currentEnvironment, EnvironmentBallEventHandler eventHandler) {
         final EnvironmentBallType environmentBallType = getRandomEnvironmentBallType(currentEnvironment);
-        return new EnvironmentBall(environmentBallType);
+        return new EnvironmentBall(environmentBallType, eventHandler);
     }
 
     /**
@@ -30,7 +33,21 @@ public class EnvironmentBallSpawner {
      */
     public boolean shouldSpawn() {
         // spawn a ball time since last spawn is bigger than the minimum time and random chance has hit
-        return true;
+        return hasTimeSinceLastDestructionExceededMinTimeBetweenSpawns() && ThreadLocalRandom.current().nextBoolean();
+    }
+
+    /**
+     * Set the new last destruction time
+     *
+    * @param lastDestructionTime
+    */
+    public void setLastDestructionTime(long lastDestructionTime) {
+        this.lastDestructionTime = lastDestructionTime;
+    }
+
+    private boolean hasTimeSinceLastDestructionExceededMinTimeBetweenSpawns() {
+        long elapsedTime = System.nanoTime() - lastDestructionTime;
+        return elapsedTime / 1000000000.0 > minTimeBetweenSpawns;
     }
 
     /**

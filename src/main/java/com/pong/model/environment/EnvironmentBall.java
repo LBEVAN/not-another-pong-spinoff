@@ -2,8 +2,10 @@ package com.pong.model.environment;
 
 import com.pong.gui.frame.PongFrame;
 import com.pong.model.entity.Entity;
+import com.pong.model.eventhandler.EnvironmentBallEventHandler;
 
 import java.awt.image.BufferedImage;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -17,22 +19,25 @@ public class EnvironmentBall extends Entity {
 
     private final EnvironmentBallType environmentBallType;
 
-    private double deltaX = -1;
-    private double deltaY = -1;
+    private double deltaX;
+    private double deltaY;
+
+    private EnvironmentBallEventHandler eventHandler;
 
     /**
      * Constructor.
      *
      * @param environmentBallType the type of the ball
+     * @param eventHandler
      */
-    public EnvironmentBall(EnvironmentBallType environmentBallType) {
-        super(
-            randomXYPosition(PongFrame.SCREEN_WIDTH - 40 + 1),
-            randomXYPosition(PongFrame.SCREEN_HEIGHT - 40 + 1),
-            25,
-            25
-        );
+    public EnvironmentBall(EnvironmentBallType environmentBallType, EnvironmentBallEventHandler eventHandler) {
+        super(PongFrame.SCREEN_WIDTH / 2, randomYPosition(30, PongFrame.SCREEN_HEIGHT - 40 + 1), 25, 25);
+
         this.environmentBallType = environmentBallType;
+        this.eventHandler = eventHandler;
+
+        deltaX = ThreadLocalRandom.current().nextBoolean() ? -1 : 1;
+        deltaY = ThreadLocalRandom.current().nextBoolean() ? -1 : 1;
     }
 
     /**
@@ -41,6 +46,8 @@ public class EnvironmentBall extends Entity {
     @Override
     public void update() {
         checkCollisionWithArena();
+        checkDestructionZone();
+
         move();
     }
 
@@ -72,6 +79,20 @@ public class EnvironmentBall extends Entity {
     }
 
     /**
+     * Check if the Ball is in a destruction zone
+     * If so, notify the event handler.
+     */
+    private void checkDestructionZone() {
+        if(x <= 0 - width) {
+            eventHandler.onEnvironmentBallDestruction();
+        }
+
+        if(x >= PongFrame.SCREEN_WIDTH + width) {
+            eventHandler.onEnvironmentBallDestruction();
+        }
+    }
+
+    /**
      * Retrieve the environmentBallType
      *
      * @return environmentBallType
@@ -81,13 +102,22 @@ public class EnvironmentBall extends Entity {
     }
 
     /**
-     * Produce a random x/y co-ordinate in the arena, taking into account in-operable space.
+     * Set the event handler.
      *
-     * @param bound
-     * @return random co-ordinate
+     * @param eventHandler
      */
-    private static double randomXYPosition(final int bound) {
-        return ThreadLocalRandom.current().nextDouble(30, bound);
+    public void setEventHandler(EnvironmentBallEventHandler eventHandler) {
+        this.eventHandler = eventHandler;
+    }
+
+    /**
+     * Produce a random y co-ordinate in the area, taking into account the in-operable space
+     * at the top and bottom of the arena.
+     *
+     * @return y co-ordinate
+     */
+    private static double randomYPosition(final int origin, final int bound) {
+        return ThreadLocalRandom.current().nextDouble(origin, bound);
     }
 
     /**

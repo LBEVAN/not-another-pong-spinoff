@@ -1,11 +1,13 @@
 package com.pong.model.environment;
 
+import com.pong.model.eventhandler.EnvironmentBallEventHandler;
+
 /**
  * The EnvironmentManager manages all of the data, processing and events of the game environment.
  *
  * @author LBEVAN
  */
-public class EnvironmentManager {
+public class EnvironmentManager implements EnvironmentBallEventHandler {
 
     private Environment environment;
     private EnvironmentBall environmentBall;
@@ -30,7 +32,7 @@ public class EnvironmentManager {
             environmentBall.update();
         } else if(environmentBallSpawner.shouldSpawn()) {
             // spawn
-            environmentBall = environmentBallSpawner.spawn(environment);
+            environmentBall = environmentBallSpawner.spawn(environment, this);
         }
     }
 
@@ -38,14 +40,25 @@ public class EnvironmentManager {
      * Handle the event when the environmental ball has collided with the game ball.
      */
     public void onEnvironmentalBallCollision() {
-        // retrieve details on the current ball
+        // retrieve details on the current ball and switch environment
         final Environment newEnvironment = environmentBall.getEnvironmentBallType().getEnvironment();
+        environment = newEnvironment;
 
+        // destroy the current ball and update destruction time
+        environmentBall = null;
+        environmentBallSpawner.setLastDestructionTime(System.nanoTime());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onEnvironmentBallDestruction() {
         // destroy the current ball
         environmentBall = null;
 
-        // switch the current environment to the new environment
-        environment = newEnvironment;
+        // update the last destruction time
+        environmentBallSpawner.setLastDestructionTime(System.nanoTime());
     }
 
     /**
