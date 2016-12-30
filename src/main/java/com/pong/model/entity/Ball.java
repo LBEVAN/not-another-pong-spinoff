@@ -6,6 +6,8 @@ import com.pong.model.environment.EnvironmentBall;
 import com.pong.model.eventhandler.BallEventHandler;
 import com.pong.model.modifier.Modifier;
 import com.pong.system.ResourceManager;
+import com.pong.system.Sound;
+import com.pong.system.SoundCommand;
 
 import java.awt.image.BufferedImage;
 import java.util.Random;
@@ -129,15 +131,25 @@ public class Ball extends Entity {
     private void checkScoreZone() {
         if(x <= 0 - width) {
             // player score zone, notify handler that the computer has scored
-            ballEventHandler.onComputerScored();
+            onComputerScored();
             resetPosition();
         }
 
         if(x >= PongFrame.SCREEN_WIDTH + width) {
             // computer score zone, notify handler that the player has scored
-            ballEventHandler.onPlayerScored();
+            onPlayerScored();
             resetPosition();
         }
+    }
+
+    @Sound(soundKey = "BallDeath", soundCommand = SoundCommand.PLAY_SOUND)
+    private void onComputerScored() {
+        ballEventHandler.onComputerScored();
+    }
+
+    @Sound(soundKey = "BallDeath", soundCommand = SoundCommand.PLAY_SOUND)
+    private void onPlayerScored() {
+        ballEventHandler.onPlayerScored();
     }
 
     /**

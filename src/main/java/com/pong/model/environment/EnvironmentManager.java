@@ -1,6 +1,8 @@
 package com.pong.model.environment;
 
 import com.pong.model.eventhandler.EnvironmentBallEventHandler;
+import com.pong.system.Sound;
+import com.pong.system.SoundCommand;
 
 /**
  * The EnvironmentManager manages all of the data, processing and events of the game environment.
@@ -39,6 +41,8 @@ public class EnvironmentManager implements EnvironmentBallEventHandler {
     /**
      * Handle the event when the environmental ball has collided with the game ball.
      */
+    // TODO: each environment type needs its own sound
+    @Sound(soundKey = "IceSwitch", soundCommand = SoundCommand.PLAY_SOUND_OVER_MUSIC)
     public void onEnvironmentalBallCollision() {
         // retrieve details on the current ball and switch environment
         final Environment newEnvironment = environmentBall.getEnvironmentBallType().getEnvironment();
@@ -53,6 +57,7 @@ public class EnvironmentManager implements EnvironmentBallEventHandler {
      * {@inheritDoc}
      */
     @Override
+    @Sound(soundKey = "BallDeath", soundCommand = SoundCommand.PLAY_SOUND)
     public void onEnvironmentBallDestruction() {
         // destroy the current ball
         environmentBall = null;

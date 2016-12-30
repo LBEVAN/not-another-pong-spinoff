@@ -10,6 +10,7 @@ import com.pong.model.GameOverModel;
 import com.pong.model.PongModel;
 import com.pong.model.entity.Player;
 import com.pong.state.GameState;
+import com.pong.system.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -54,6 +55,7 @@ public class PongController implements Controller {
      * {@inheritDoc}
      */
     @Override
+    @Sound(soundKey = "GameMusic", soundCommand = SoundCommand.PLAY_MUSIC)
     public void start() {
         gameTimer.start();
     }
@@ -127,11 +129,15 @@ public class PongController implements Controller {
                 model.update();
                 view.repaint();
             } else {
-                gameTimer.stop();
-
-                MvcWrapper<GameOverModel, GameOverView, GameOverController> mvc = MvcFactory.createGameOver(model.getPlayerScore(), model.getComputerScore());
-                GameStateManager.getInstance().changeState(GameState.GAME_OVER, mvc);
+                onGameOver();
             }
         }
+    }
+
+    @Sound(soundKey = "", soundCommand = SoundCommand.STOP_MUSIC)
+    private void onGameOver() {
+        gameTimer.stop();
+        MvcWrapper<GameOverModel, GameOverView, GameOverController> mvc = MvcFactory.createGameOver(model.getPlayerScore(), model.getComputerScore());
+        GameStateManager.getInstance().changeState(GameState.GAME_OVER, mvc);
     }
 }

@@ -1,6 +1,7 @@
 package com.pong.system;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -24,6 +25,7 @@ public class ResourceLoader {
 
     private static final String GRAPHICS_PATH = "/graphics/";
     private static final String FONTS_PATH = "/fonts/";
+    private static final String SOUNDS_PATH = "/sounds/";
 
     /**
      * Load all resources (i.e graphics, sounds, fonts...)
@@ -32,6 +34,7 @@ public class ResourceLoader {
         try {
             loadFonts();
             loadGraphics();
+            loadSounds();
         } catch (IOException e) {
             LOGGER.log(Level.CONFIG, "IOException loading resources: " + e);
         }
@@ -61,7 +64,6 @@ public class ResourceLoader {
         return filenames;
     }
 
-
     /**
      * Delegate method to load all graphics.
      *
@@ -86,6 +88,24 @@ public class ResourceLoader {
             ResourceManager.getInstance().registerCustomFont(loadFont(FONTS_PATH + "Technoid.ttf"));
         } catch (FontFormatException e) {
             LOGGER.log(Level.CONFIG, "FontFormatException loading font: " + e);
+        }
+    }
+
+    /**
+     * Delegate method to load all sounds.
+     *
+     * @throws IOException
+     */
+    private void loadSounds() throws IOException {
+        try {
+            ResourceManager.getInstance().addLoadedSound(getFilenameWithoutExtension("GameMusic.wav"), loadSound(SOUNDS_PATH + "GameMusic.wav"));
+            ResourceManager.getInstance().addLoadedSound(getFilenameWithoutExtension("BallDeath.wav"), loadSound(SOUNDS_PATH + "BallDeath.wav"));
+            ResourceManager.getInstance().addLoadedSound(getFilenameWithoutExtension("IceSwitch.wav"), loadSound(SOUNDS_PATH + "IceSwitch.wav"));
+            ResourceManager.getInstance().addLoadedSound(getFilenameWithoutExtension("DesertSwitch.wav"), loadSound(SOUNDS_PATH + "DesertSwitch.wav"));
+        } catch (UnsupportedAudioFileException e) {
+            LOGGER.log(Level.CONFIG, "UnsupportedAudioFileException loading sound: " + e);
+        } catch (LineUnavailableException e) {
+            LOGGER.log(Level.CONFIG, "LineUnavailableException loading sound: " + e);
         }
     }
 
@@ -128,6 +148,31 @@ public class ResourceLoader {
             return ImageIO.read(inputStream);
         } catch (IOException ioe) {
             throw ioe;
+        } finally {
+            inputStream.close();
+        }
+    }
+
+    /**
+     * Load a sound, passing resource as path + filename.
+     *
+     * @param resource
+     * @return clip
+     * @throws IOException
+     */
+    public Clip loadSound(final String resource) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+        InputStream inputStream = getResourceAsStream(resource);
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(inputStream);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            return clip;
+        } catch (IOException ioe) {
+            throw ioe;
+        } catch (UnsupportedAudioFileException uafe) {
+            throw uafe;
+        } catch (LineUnavailableException lue) {
+            throw lue;
         } finally {
             inputStream.close();
         }

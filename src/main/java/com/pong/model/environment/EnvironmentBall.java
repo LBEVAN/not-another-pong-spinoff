@@ -5,7 +5,6 @@ import com.pong.model.entity.Entity;
 import com.pong.model.eventhandler.EnvironmentBallEventHandler;
 
 import java.awt.image.BufferedImage;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**

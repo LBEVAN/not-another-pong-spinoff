@@ -1,5 +1,6 @@
 package com.pong.system;
 
+import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
@@ -16,6 +17,7 @@ public class ResourceManager {
 
     private Font customFont;
     private Map<String, BufferedImage> graphics = new HashMap<>();
+    private Map<String, Clip> sounds = new HashMap<>();
 
     /**
      * Private constructor to stop external creation.
@@ -45,6 +47,16 @@ public class ResourceManager {
     }
 
     /**
+     * Add a loaded sound file, in the form of a Clip, to the sounds map.
+     *
+     * @param key
+     * @param clip
+     */
+    public void addLoadedSound(final String key, final Clip clip) {
+        sounds.put(key, clip);
+    }
+
+    /**
      * Register the custom font.
      *
      * @param font
@@ -71,5 +83,15 @@ public class ResourceManager {
      */
     public BufferedImage getGraphic(String key) {
         return graphics.get(key);
+    }
+
+    /**
+     * Get a loaded sound with the specified key.
+     *
+     * @param key
+     * @return clip
+     */
+    public Clip getSound(String key) {
+        return sounds.get(key);
     }
 }
