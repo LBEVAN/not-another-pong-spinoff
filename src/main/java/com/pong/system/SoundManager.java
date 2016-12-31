@@ -75,11 +75,11 @@ public class SoundManager {
     public void playSoundOverMusic(final String soundKey) {
         soundOverMusic = ResourceManager.getInstance().getSound(soundKey);
 
-        // play the new sound
-        playSound(soundOverMusic);
-
         // reduce the volume of the music
         setClipVolumeToTarget(music, -50f);
+
+        // play the new sound
+        playSound(soundOverMusic);
 
         // schedule a timer to return once the length of the sound file has finished
         int time = getLengthOfClipInSeconds(soundOverMusic);

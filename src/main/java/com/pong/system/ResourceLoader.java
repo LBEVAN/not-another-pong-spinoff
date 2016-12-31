@@ -4,10 +4,7 @@ import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -36,7 +33,7 @@ public class ResourceLoader {
             loadGraphics();
             loadSounds();
         } catch (IOException e) {
-            LOGGER.log(Level.CONFIG, "IOException loading resources: " + e);
+            LOGGER.log(Level.SEVERE, "IOException loading resources: " + e);
         }
     }
 
@@ -87,7 +84,7 @@ public class ResourceLoader {
         try {
             ResourceManager.getInstance().registerCustomFont(loadFont(FONTS_PATH + "Technoid.ttf"));
         } catch (FontFormatException e) {
-            LOGGER.log(Level.CONFIG, "FontFormatException loading font: " + e);
+            LOGGER.log(Level.SEVERE, "FontFormatException loading font: " + e);
         }
     }
 
@@ -103,9 +100,9 @@ public class ResourceLoader {
             ResourceManager.getInstance().addLoadedSound(getFilenameWithoutExtension("IceSwitch.wav"), loadSound(SOUNDS_PATH + "IceSwitch.wav"));
             ResourceManager.getInstance().addLoadedSound(getFilenameWithoutExtension("DesertSwitch.wav"), loadSound(SOUNDS_PATH + "DesertSwitch.wav"));
         } catch (UnsupportedAudioFileException e) {
-            LOGGER.log(Level.CONFIG, "UnsupportedAudioFileException loading sound: " + e);
+            LOGGER.log(Level.SEVERE, "UnsupportedAudioFileException loading sound: " + e);
         } catch (LineUnavailableException e) {
-            LOGGER.log(Level.CONFIG, "LineUnavailableException loading sound: " + e);
+            LOGGER.log(Level.SEVERE, "LineUnavailableException loading sound: " + e);
         }
     }
 
@@ -161,7 +158,7 @@ public class ResourceLoader {
      * @throws IOException
      */
     public Clip loadSound(final String resource) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
-        InputStream inputStream = getResourceAsStream(resource);
+        BufferedInputStream inputStream = new BufferedInputStream(getResourceAsStream(resource));
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(inputStream);
             Clip clip = AudioSystem.getClip();
