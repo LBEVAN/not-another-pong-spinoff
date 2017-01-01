@@ -1,4 +1,4 @@
-package com.pong.system;
+package com.pong.system.sound;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

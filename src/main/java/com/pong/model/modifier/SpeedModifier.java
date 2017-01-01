@@ -1,7 +1,7 @@
 package com.pong.model.modifier;
 
 import com.pong.model.entity.Entity;
-import com.pong.system.ResourceManager;
+import com.pong.system.resource.ResourceManager;
 
 import java.awt.image.BufferedImage;
 

@@ -63,7 +63,7 @@ public class EnvironmentBall extends Entity {
      */
     @Override
     public BufferedImage getImage() {
-        return null;
+        return environmentBallType.getImage();
     }
 
     /**

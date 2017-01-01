@@ -1,7 +1,6 @@
 package com.pong;
 
 import com.pong.factory.MvcWrapper;
-import com.pong.gui.frame.PongFrame;
 import com.pong.gui.view.GameStateView;
 import com.pong.state.GameState;
 

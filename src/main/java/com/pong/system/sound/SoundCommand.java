@@ -1,4 +1,4 @@
-package com.pong.system;
+package com.pong.system.sound;
 
 /**
  * The SoundCommand enum defines commands that can be sent and interpreted by the SoundManager

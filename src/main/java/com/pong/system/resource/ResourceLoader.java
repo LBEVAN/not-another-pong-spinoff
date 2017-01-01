@@ -1,4 +1,6 @@
-package com.pong.system;
+package com.pong.system.resource;
+
+import com.pong.system.Constants;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
@@ -67,12 +69,16 @@ public class ResourceLoader {
      * @throws IOException
      */
     private void loadGraphics() throws IOException {
-        ResourceManager.getInstance().addLoadedGraphic(getFilenameWithoutExtension("HeightModifier.png"), loadGraphic(GRAPHICS_PATH + "HeightModifier.png"));
-        ResourceManager.getInstance().addLoadedGraphic(getFilenameWithoutExtension("SpeedModifier.png"), loadGraphic(GRAPHICS_PATH + "SpeedModifier.png"));
-        ResourceManager.getInstance().addLoadedGraphic(getFilenameWithoutExtension("Paddle.png"), loadGraphic(GRAPHICS_PATH + "Paddle.png"));
-        ResourceManager.getInstance().addLoadedGraphic(getFilenameWithoutExtension("Ice.png"), loadGraphic(GRAPHICS_PATH + "Ice.png"));
-        ResourceManager.getInstance().addLoadedGraphic(getFilenameWithoutExtension("Space.png"), loadGraphic(GRAPHICS_PATH + "Space.png"));
-        ResourceManager.getInstance().addLoadedGraphic(getFilenameWithoutExtension("Desert.png"), loadGraphic(GRAPHICS_PATH + "Desert.png"));
+        ResourceManager.getInstance().addLoadedGraphic(Constants.SPACE_BACKGROUND, loadGraphic(GRAPHICS_PATH + "SpaceBackground.png"));
+        ResourceManager.getInstance().addLoadedGraphic(Constants.ICE_BACKGROUND, loadGraphic(GRAPHICS_PATH + "IceBackground.png"));
+        ResourceManager.getInstance().addLoadedGraphic(Constants.DESERT_BACKGROUND, loadGraphic(GRAPHICS_PATH + "DesertBackground.png"));
+
+        ResourceManager.getInstance().addLoadedGraphic(Constants.HEIGHT_MODIFIER, loadGraphic(GRAPHICS_PATH + "HeightModifier.png"));
+        ResourceManager.getInstance().addLoadedGraphic(Constants.SPEED_MODIFIER, loadGraphic(GRAPHICS_PATH + "SpeedModifier.png"));
+
+        ResourceManager.getInstance().addLoadedGraphic(Constants.SPACE_ENVIRONMENT_ICON, loadGraphic(GRAPHICS_PATH + "SpaceEnvironmentIcon.png"));
+        ResourceManager.getInstance().addLoadedGraphic(Constants.ICE_ENVIRONMENT_ICON, loadGraphic(GRAPHICS_PATH + "IceEnvironmentIcon.png"));
+        ResourceManager.getInstance().addLoadedGraphic(Constants.DESERT_ENVIRONMENT_ICON, loadGraphic(GRAPHICS_PATH + "DesertEnvironmentIcon.png"));
     }
 
     /**
@@ -95,10 +101,13 @@ public class ResourceLoader {
      */
     private void loadSounds() throws IOException {
         try {
-            ResourceManager.getInstance().addLoadedSound(getFilenameWithoutExtension("GameMusic.wav"), loadSound(SOUNDS_PATH + "GameMusic.wav"));
-            ResourceManager.getInstance().addLoadedSound(getFilenameWithoutExtension("BallDeath.wav"), loadSound(SOUNDS_PATH + "BallDeath.wav"));
-            ResourceManager.getInstance().addLoadedSound(getFilenameWithoutExtension("IceSwitch.wav"), loadSound(SOUNDS_PATH + "IceSwitch.wav"));
-            ResourceManager.getInstance().addLoadedSound(getFilenameWithoutExtension("DesertSwitch.wav"), loadSound(SOUNDS_PATH + "DesertSwitch.wav"));
+            ResourceManager.getInstance().addLoadedSound(Constants.GAME_MUSIC, loadSound(SOUNDS_PATH + "GameMusic.wav"));
+
+            ResourceManager.getInstance().addLoadedSound(Constants.BALL_DEATH_SOUND, loadSound(SOUNDS_PATH + "BallDeath.wav"));
+
+            ResourceManager.getInstance().addLoadedSound(Constants.SPACE_ENVIRONMENT_SWITCH_SOUND, loadSound(SOUNDS_PATH + "SpaceEnvironmentSwitch.wav"));
+            ResourceManager.getInstance().addLoadedSound(Constants.ICE_ENVIRONMENT_SWITCH_SOUND, loadSound(SOUNDS_PATH + "IceEnvironmentSwitch.wav"));
+            ResourceManager.getInstance().addLoadedSound(Constants.DESERT_ENVIRONMENT_SWITCH_SOUND, loadSound(SOUNDS_PATH + "DesertEnvironmentSwitch.wav"));
         } catch (UnsupportedAudioFileException e) {
             LOGGER.log(Level.SEVERE, "UnsupportedAudioFileException loading sound: " + e);
         } catch (LineUnavailableException e) {

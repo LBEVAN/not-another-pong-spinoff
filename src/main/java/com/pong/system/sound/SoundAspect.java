@@ -1,4 +1,4 @@
-package com.pong.system;
+package com.pong.system.sound;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -12,7 +12,7 @@ import org.aspectj.lang.annotation.Aspect;
 @Aspect
 public class SoundAspect {
 
-    @Around("execution(@com.pong.system.Sound * *(..)) && @annotation(soundAnnotation)")
+    @Around("execution(@com.pong.system.sound.Sound * *(..)) && @annotation(soundAnnotation)")
     public Object playSound(ProceedingJoinPoint joinPoint, Sound soundAnnotation) throws Throwable {
         // execute the method and get the result
         Object result = joinPoint.proceed();

@@ -6,7 +6,7 @@ import com.pong.model.PongModel;
 import com.pong.state.AIStateMachine;
 import com.pong.state.ComputerState;
 import com.pong.state.StateMachine;
-import com.pong.system.ResourceManager;
+import com.pong.system.resource.ResourceManager;
 
 import java.awt.image.BufferedImage;
 import java.util.Random;

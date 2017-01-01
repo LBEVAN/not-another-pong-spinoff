@@ -5,9 +5,10 @@ import com.pong.model.PongModel;
 import com.pong.model.environment.EnvironmentBall;
 import com.pong.model.eventhandler.BallEventHandler;
 import com.pong.model.modifier.Modifier;
-import com.pong.system.ResourceManager;
-import com.pong.system.Sound;
-import com.pong.system.SoundCommand;
+import com.pong.system.Constants;
+import com.pong.system.resource.ResourceManager;
+import com.pong.system.sound.Sound;
+import com.pong.system.sound.SoundCommand;
 
 import java.awt.image.BufferedImage;
 import java.util.Random;
@@ -142,12 +143,12 @@ public class Ball extends Entity {
         }
     }
 
-    @Sound(soundKey = "BallDeath", soundCommand = SoundCommand.PLAY_SOUND)
+    @Sound(soundKey = Constants.BALL_DEATH_SOUND, soundCommand = SoundCommand.PLAY_SOUND)
     private void onComputerScored() {
         ballEventHandler.onComputerScored();
     }
 
-    @Sound(soundKey = "BallDeath", soundCommand = SoundCommand.PLAY_SOUND)
+    @Sound(soundKey = Constants.BALL_DEATH_SOUND, soundCommand = SoundCommand.PLAY_SOUND)
     private void onPlayerScored() {
         ballEventHandler.onPlayerScored();
     }

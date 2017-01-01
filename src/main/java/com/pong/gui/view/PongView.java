@@ -7,12 +7,12 @@ import com.pong.model.entity.Computer;
 import com.pong.model.entity.Player;
 import com.pong.model.environment.EnvironmentBall;
 import com.pong.model.modifier.Modifier;
-import com.pong.system.ResourceManager;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Collection;
 
@@ -164,16 +164,18 @@ public class PongView extends View {
     private void paintPlayer(Graphics2D graphics) {
         final Player player = model.getPlayer();
 
-        AffineTransform transform = new AffineTransform();
-        transform.translate(player.getX(), player.getY());
+//        AffineTransform transform = new AffineTransform();
+//        transform.translate(player.getX(), player.getY());
+//
+//        // the scaling below is a fix for modified height. When using AffineTransform, needed for double precision,
+//        // we need to scale as there is no other way to affect the height of the image
+//        if(player.getHeight() > player.getImage().getHeight()) {
+//            transform.scale(1, 2);
+//        }
+//
+//        graphics.drawImage(player.getImage(), transform, null);
 
-        // the scaling below is a fix for modified height. When using AffineTransform, needed for double precision,
-        // we need to scale as there is no other way to affect the height of the image
-        if(player.getHeight() > player.getImage().getHeight()) {
-            transform.scale(1, 2);
-        }
-
-        graphics.drawImage(player.getImage(), transform, null);
+        graphics.fill(new Rectangle2D.Double(player.getX(), player.getY(), player.getWidth(), player.getHeight()));
     }
 
     /**
@@ -184,16 +186,18 @@ public class PongView extends View {
     private void paintComputer(Graphics2D graphics) {
         final Computer computer = model.getComputer();
 
-        AffineTransform transform = new AffineTransform();
-        transform.translate(computer.getX(), computer.getY());
+//        AffineTransform transform = new AffineTransform();
+//        transform.translate(computer.getX(), computer.getY());
+//
+//        // the scaling below is a fix for modified height. When using AffineTransform, needed for double precision,
+//        // we need to scale as there is no other way to affect the height of the image
+//        if(computer.getHeight() > computer.getImage().getHeight()) {
+//            transform.scale(1, 2);
+//        }
+//
+//        graphics.drawImage(computer.getImage(), transform, null);
 
-        // the scaling below is a fix for modified height. When using AffineTransform, needed for double precision,
-        // we need to scale as there is no other way to affect the height of the image
-        if(computer.getHeight() > computer.getImage().getHeight()) {
-            transform.scale(1, 2);
-        }
-
-        graphics.drawImage(computer.getImage(), transform, null);
+        graphics.fill(new Rectangle2D.Double(computer.getX(), computer.getY(), computer.getWidth(), computer.getHeight()));
     }
 
     /**
@@ -215,8 +219,10 @@ public class PongView extends View {
     private void paintEnvironmentBall(Graphics2D graphics) {
         final EnvironmentBall environmentBall = model.getEnvironmentBall();
         if(environmentBall != null) {
-            graphics.setColor(environmentBall.getEnvironmentBallType().getColour());
-            graphics.fill(new Ellipse2D.Double(environmentBall.getX(), environmentBall.getY(), environmentBall.getWidth(), environmentBall.getHeight()));
+            final BufferedImage image = environmentBall.getImage();
+            AffineTransform transform = new AffineTransform();
+            transform.translate(environmentBall.getX(), environmentBall.getY());
+            graphics.drawImage(image, transform, null);
         }
     }
 

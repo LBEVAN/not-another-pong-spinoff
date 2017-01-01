@@ -1,4 +1,6 @@
-package com.pong.system;
+package com.pong.system.sound;
+
+import com.pong.system.resource.ResourceManager;
 
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;

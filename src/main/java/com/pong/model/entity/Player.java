@@ -2,7 +2,7 @@ package com.pong.model.entity;
 
 import com.pong.controller.input.Direction;
 import com.pong.gui.frame.PongFrame;
-import com.pong.system.ResourceManager;
+import com.pong.system.resource.ResourceManager;
 
 import java.awt.image.BufferedImage;
 

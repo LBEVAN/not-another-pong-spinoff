@@ -4,8 +4,7 @@ import com.pong.GameStateManager;
 import com.pong.factory.MvcFactory;
 import com.pong.gui.view.GameStateView;
 import com.pong.state.GameState;
-import com.pong.system.ResourceLoader;
-import com.pong.system.ResourceManager;
+import com.pong.system.resource.ResourceLoader;
 
 import javax.swing.*;
 

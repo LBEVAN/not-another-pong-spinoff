@@ -1,6 +1,7 @@
 package com.pong.model.environment;
 
-import com.pong.system.ResourceManager;
+import com.pong.system.Constants;
+import com.pong.system.resource.ResourceManager;
 
 import java.awt.image.BufferedImage;
 
@@ -12,9 +13,9 @@ import java.awt.image.BufferedImage;
  */
 public enum Environment {
 
-    SPACE(1, ResourceManager.getInstance().getGraphic("Space")),
-    ICE(1.4, ResourceManager.getInstance().getGraphic("Ice")),
-    DESERT(0.8, ResourceManager.getInstance().getGraphic("Desert"));
+    SPACE(1, ResourceManager.getInstance().getGraphic(Constants.SPACE_BACKGROUND)),
+    ICE(1.4, ResourceManager.getInstance().getGraphic(Constants.ICE_BACKGROUND)),
+    DESERT(0.8, ResourceManager.getInstance().getGraphic(Constants.DESERT_BACKGROUND));
 
     private final double speedModifier;
     private final BufferedImage image;

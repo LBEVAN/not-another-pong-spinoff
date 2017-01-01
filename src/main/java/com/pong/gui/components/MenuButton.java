@@ -1,6 +1,6 @@
 package com.pong.gui.components;
 
-import com.pong.system.ResourceManager;
+import com.pong.system.resource.ResourceManager;
 
 import javax.swing.*;
 import java.awt.*;

@@ -10,7 +10,9 @@ import com.pong.model.GameOverModel;
 import com.pong.model.PongModel;
 import com.pong.model.entity.Player;
 import com.pong.state.GameState;
-import com.pong.system.*;
+import com.pong.system.Constants;
+import com.pong.system.sound.Sound;
+import com.pong.system.sound.SoundCommand;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -55,7 +57,7 @@ public class PongController implements Controller {
      * {@inheritDoc}
      */
     @Override
-    @Sound(soundKey = "GameMusic", soundCommand = SoundCommand.PLAY_MUSIC)
+    @Sound(soundKey = Constants.GAME_MUSIC, soundCommand = SoundCommand.PLAY_MUSIC)
     public void start() {
         gameTimer.start();
     }

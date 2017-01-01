@@ -1,4 +1,4 @@
-package com.pong.system;
+package com.pong.system.resource;
 
 import javax.sound.sampled.Clip;
 import java.awt.*;
