@@ -14,11 +14,10 @@
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
-                <includes></includes>
             </resource>
         </resources>
         <plugins>
-
+            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -45,8 +44,14 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
+                            <addClasspath>true</addClasspath>
                             <mainClass>com.pong.Pong</mainClass>
                         </manifest>
+                        <manifestEntries>
+                            <Permissions>sandbox</Permissions>
+                            <Application-Name>${artifactId}</Application-Name>
+                            <Entry-Point>com.pong.Pong</Entry-Point>
+                        </manifestEntries>
                     </archive>
                     <finalName>Not Another Pong Spin-off ${version}</finalName>
                     <appendAssemblyId>false</appendAssemblyId>
