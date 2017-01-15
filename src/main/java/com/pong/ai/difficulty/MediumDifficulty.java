@@ -9,6 +9,7 @@ public class MediumDifficulty implements Difficulty {
 
     private final double sightRange = 0.75;
     private final double speed = 4;
+    private final int pointValue = 3;
 
     /**
      * {@inheritDoc}
@@ -22,6 +23,14 @@ public class MediumDifficulty implements Difficulty {
      */
     public double getSpeed() {
         return speed;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getPointValue() {
+        return pointValue;
     }
 
     @Override

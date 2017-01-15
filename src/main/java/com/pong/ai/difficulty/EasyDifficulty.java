@@ -9,6 +9,7 @@ public class EasyDifficulty implements Difficulty {
 
     private final double sightRange = 0.6;
     private final double speed = 4;
+    private final int pointValue = 2;
 
     /**
      * {@inheritDoc}
@@ -22,6 +23,14 @@ public class EasyDifficulty implements Difficulty {
      */
     public double getSpeed() {
         return speed;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getPointValue() {
+        return pointValue;
     }
 
     @Override

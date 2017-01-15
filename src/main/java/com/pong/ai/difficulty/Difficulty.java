@@ -20,4 +20,11 @@ public interface Difficulty {
      * @return speed
      */
     double getSpeed();
+
+    /**
+     * Retrieve the point value for this difficulty.
+     *
+     * @return pointValue
+     */
+    int getPointValue();
 }
