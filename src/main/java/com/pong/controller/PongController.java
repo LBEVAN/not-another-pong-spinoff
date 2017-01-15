@@ -9,6 +9,8 @@ import com.pong.gui.view.PongView;
 import com.pong.model.GameOverModel;
 import com.pong.model.PongModel;
 import com.pong.model.entity.Player;
+import com.pong.model.leaderboard.Leaderboard;
+import com.pong.model.leaderboard.LeaderboardEntry;
 import com.pong.state.GameState;
 import com.pong.system.Constants;
 import com.pong.system.sound.Sound;
@@ -27,11 +29,14 @@ import java.awt.event.KeyEvent;
  */
 public class PongController implements Controller {
 
+    // region data
     private final PongModel model;
     private final PongView view;
 
     private Timer gameTimer;
+    // endregion
 
+    // region init
     /**
      * Constructor.
      *
@@ -44,7 +49,9 @@ public class PongController implements Controller {
 
         this.gameTimer = new Timer(1000/60, new GameLoop());
     }
+    // endregion
 
+    // region public API
     /**
      * {@inheritDoc}
      */
@@ -60,8 +67,11 @@ public class PongController implements Controller {
     @Sound(soundKey = Constants.GAME_MUSIC, soundCommand = SoundCommand.PLAY_MUSIC)
     public void start() {
         gameTimer.start();
+        model.setStartGameTime(System.nanoTime());
     }
+    // endregion
 
+    // region private API
     /**
      * Setup the user input methods.
      */
@@ -81,6 +91,21 @@ public class PongController implements Controller {
 
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, true), "RELEASED_UP");
         actionMap.put("RELEASED_UP", new MoveAction(model.getPlayer(), 0, Direction.UP));
+    }
+
+    /**
+     * OnGameOver event. Stop the game timer, add an entry to the leaderboard and change to the game over screen.
+     */
+    @Sound(soundKey = "", soundCommand = SoundCommand.STOP_MUSIC)
+    private void onGameOver() {
+        gameTimer.stop();
+
+        Leaderboard leaderboard = new Leaderboard();
+        leaderboard.add(new LeaderboardEntry("Player1", model.getPlayerScore()));
+        leaderboard.save();
+
+        MvcWrapper<GameOverModel, GameOverView, GameOverController> mvc = MvcFactory.createGameOver(model.getPlayerScore(), model.getComputerScore());
+        GameStateManager.getInstance().changeState(GameState.GAME_OVER, mvc);
     }
 
     /**
@@ -127,19 +152,13 @@ public class PongController implements Controller {
          * {@inheritDoc}
          */
         public void actionPerformed(ActionEvent e) {
-            if(!model.checkGameOverScenario()) {
+            if(model.isGameOver()) {
+                onGameOver();
+            } else {
                 model.update();
                 view.repaint();
-            } else {
-                onGameOver();
             }
         }
     }
-
-    @Sound(soundKey = "", soundCommand = SoundCommand.STOP_MUSIC)
-    private void onGameOver() {
-        gameTimer.stop();
-        MvcWrapper<GameOverModel, GameOverView, GameOverController> mvc = MvcFactory.createGameOver(model.getPlayerScore(), model.getComputerScore());
-        GameStateManager.getInstance().changeState(GameState.GAME_OVER, mvc);
-    }
+    // endregion
 }

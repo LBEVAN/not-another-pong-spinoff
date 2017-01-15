@@ -1,5 +1,10 @@
 package com.pong.model;
 
+import com.pong.model.leaderboard.Leaderboard;
+import com.pong.model.leaderboard.LeaderboardEntry;
+
+import java.util.List;
+
 /**
  * GameOverModel represents the model for the GameOverView.
  *
@@ -7,9 +12,14 @@ package com.pong.model;
  */
 public class GameOverModel implements Model {
 
+    // region data
     private final int playerScore;
     private final int computerScore;
 
+    private final Leaderboard leaderboard;
+    // endregion
+
+    // region init
     /**
      * Constructor.
      *
@@ -19,8 +29,12 @@ public class GameOverModel implements Model {
     public GameOverModel(int playerScore, int computerScore) {
         this.playerScore = playerScore;
         this.computerScore = computerScore;
-    }
 
+        this.leaderboard = new Leaderboard();
+    }
+    // endregion
+
+    // region public API
     /**
      * Derive the winner text from the game scores.
      *
@@ -33,7 +47,9 @@ public class GameOverModel implements Model {
             return "The Computer won! Better luck next time.";
         }
     }
+    // endregion
 
+    // region getters & setters
     public int getPlayerScore() {
         return playerScore;
     }
@@ -41,4 +57,9 @@ public class GameOverModel implements Model {
     public int getComputerScore() {
         return computerScore;
     }
+
+    public List<LeaderboardEntry> getHighScores() {
+        return leaderboard.getHighScores();
+    }
+    // endregion
 }

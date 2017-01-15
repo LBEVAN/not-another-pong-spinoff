@@ -4,8 +4,10 @@ import com.pong.GameStateManager;
 import com.pong.factory.MvcFactory;
 import com.pong.factory.MvcWrapper;
 import com.pong.gui.view.GameOptionsView;
+import com.pong.gui.view.LeaderboardView;
 import com.pong.gui.view.MainMenuView;
 import com.pong.model.GameOptionsModel;
+import com.pong.model.LeaderboardModel;
 import com.pong.model.MainMenuModel;
 import com.pong.state.GameState;
 
@@ -21,11 +23,14 @@ import java.awt.event.ActionListener;
  */
 public class MainMenuController implements Controller {
 
+    // region data
     private final MainMenuModel model;
     private final MainMenuView view;
 
     private Timer animationTimer;
+    // endregion
 
+    // region init
     /**
      * Constructor.
      *
@@ -38,7 +43,9 @@ public class MainMenuController implements Controller {
 
         this.animationTimer = new Timer(1000/60, new AnimatorLoop());
     }
+    // endregion
 
+    // region public API
     /**
      * {@inheritDoc}
      */
@@ -54,13 +61,16 @@ public class MainMenuController implements Controller {
     public void start() {
         animationTimer.start();
     }
+    // endregion
 
+    // region private API
     /**
      * Create and set the action listeners to the view.
      */
     private void initActionListeners() {
         view.getExitButton().addActionListener((e) -> System.exit(0));
         view.getPlayButton().addActionListener((e) -> playButtonAction());
+        view.getLeaderboardButton().addActionListener((e) -> leaderboardButtonAction());
     }
 
     /**
@@ -71,6 +81,14 @@ public class MainMenuController implements Controller {
 
         MvcWrapper<GameOptionsModel, GameOptionsView, GameOptionsController> mvc = MvcFactory.createGameOptions();
         GameStateManager.getInstance().changeState(GameState.GAME_OPTIONS, mvc);
+    }
+
+    /**
+     * Perform the leaderboard button action - switch to the leaderboard view
+     */
+    private void leaderboardButtonAction() {
+        MvcWrapper<LeaderboardModel, LeaderboardView, LeaderboardController> mvc = MvcFactory.createLeaderboard();
+        GameStateManager.getInstance().changeState(GameState.LEADERBOARD, mvc);
     }
 
     /**
@@ -86,4 +104,5 @@ public class MainMenuController implements Controller {
             view.repaint();
         }
     }
+    // endregion
 }

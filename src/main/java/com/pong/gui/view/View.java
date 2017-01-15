@@ -25,11 +25,4 @@ public abstract class View extends JPanel {
 
         setPreferredSize(new Dimension(width, height));
     }
-
-    /**
-     * Retrieve the view name.
-     *
-     * @return viewName
-     */
-    public abstract String getViewName();
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * LeaderboardModel represents the model for the leaderboard screen.
- * 
+ *
  * @author LBEVAN
  */
 public class LeaderboardModel implements Model {

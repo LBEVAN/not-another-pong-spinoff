@@ -12,6 +12,8 @@ import com.pong.model.modifier.Modifier;
 import com.pong.model.modifier.ModifierSpawner;
 import com.pong.model.wrapper.GameOptions;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -24,6 +26,7 @@ import java.util.List;
  */
 public class PongModel implements Model, BallEventHandler {
 
+    // region data
     private final GameOptions gameOptions;
 
     private Player player;
@@ -36,10 +39,15 @@ public class PongModel implements Model, BallEventHandler {
     private int playerScore = 0;
     private int computerScore = 0;
 
-    private int maxScore = 10;
+    private int maxScore = 1;
 
     private EnvironmentManager environmentManager;
 
+    private long startGameTime;
+    private final double gameDuration = 5.0;
+    // endregion
+
+    // region init
     /**
      * Constructor.
      *
@@ -61,7 +69,9 @@ public class PongModel implements Model, BallEventHandler {
 
         this.environmentManager = new EnvironmentManager(Environment.SPACE);
     }
+    // endregion
 
+    // region public API
     /**
      * Update the entities.
      */
@@ -85,6 +95,79 @@ public class PongModel implements Model, BallEventHandler {
         return playerScore >= maxScore || computerScore >= maxScore;
     }
 
+    /**
+     * Check if the game is over.
+     * The game is considered over when the elapsed time is greater than the game duration.
+     *
+     * @return isGameOver
+     */
+    public boolean isGameOver() {
+        long elapsedTime = System.nanoTime() - startGameTime;
+        return elapsedTime / 1000000000.0 > gameDuration;
+    }
+
+    /**
+     * Retrieve the remaining game time.
+     *
+     * @return timeRemaining
+     */
+    public double getTimeRemaining() {
+        long elapsedTime = System.nanoTime() - startGameTime;
+        return new BigDecimal(gameDuration - (elapsedTime / 1000000000.0)).setScale(1, RoundingMode.HALF_UP).doubleValue();
+    }
+
+    /**
+     * Add a modifier to the game world.
+     *
+     * @param modifier
+     */
+    public void addActiveModifier(Modifier modifier) {
+        activeModifiers.add(modifier);
+    }
+    // endregion
+
+    // region events
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onPlayerScored() {
+        playerScore += gameOptions.getDifficulty().getPointValue();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onComputerScored() {
+        computerScore += gameOptions.getDifficulty().getPointValue();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onEnvironmentalBallCollision() {
+        environmentManager.onEnvironmentalBallCollision();
+    }
+    // endregion
+
+    // region private API
+    /**
+     * Delegate method to perform cleanup actions every tick (e.g. removing inactive modifiers);
+     */
+    private void cleanup() {
+        Iterator<Modifier> iter = activeModifiers.iterator();
+        while(iter.hasNext()) {
+            Modifier modifier = iter.next();
+            if(!modifier.isActive()) {
+                iter.remove();
+            }
+        }
+    }
+    // endregion
+
+    // region getters & setters
     /**
      * Retrieve the Ball.
      *
@@ -140,15 +223,6 @@ public class PongModel implements Model, BallEventHandler {
     }
 
     /**
-     * Add a modifier to the game world.
-     *
-     * @param modifier
-     */
-    public void addActiveModifier(Modifier modifier) {
-        activeModifiers.add(modifier);
-    }
-
-    /**
      * Retrieve the list of active modifiers in the game world.
      *
      * @return activeModifiers
@@ -176,39 +250,12 @@ public class PongModel implements Model, BallEventHandler {
     }
 
     /**
-     * Delegate method to perform cleanup actions every tick (e.g. removing inactive modifiers);
+     * Set the startGameTime.
+     *
+     * @param startGameTime
      */
-    private void cleanup() {
-        Iterator<Modifier> iter = activeModifiers.iterator();
-        while(iter.hasNext()) {
-            Modifier modifier = iter.next();
-            if(!modifier.isActive()) {
-                iter.remove();
-            }
-        }
+    public void setStartGameTime(long startGameTime) {
+        this.startGameTime = startGameTime;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void onPlayerScored() {
-        playerScore++;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void onComputerScored() {
-        computerScore++;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void onEnvironmentalBallCollision() {
-        environmentManager.onEnvironmentalBallCollision();
-    }
+    // endregion
 }

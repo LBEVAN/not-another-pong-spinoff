@@ -24,6 +24,7 @@ import java.util.Collection;
  */
 public class PongView extends View {
 
+    // region data
     private PongModel model;
 
     private JPanel infoPanel;
@@ -34,9 +35,13 @@ public class PongView extends View {
     private JLabel playerScore;
     private JLabel computerScore;
 
+    private JLabel gameTime;
+
     private JLabel playerModifiers;
     private JLabel computerModifiers;
+    // endregion
 
+    // region init
     /**
      * Constructor.
      *
@@ -58,7 +63,32 @@ public class PongView extends View {
 
         add(infoPanel);
     }
+    // endregion
 
+    // region public API
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void paintComponent(Graphics graphics) {
+        super.paintComponent(graphics);
+
+        Graphics2D graphics2D = ((Graphics2D) graphics);
+
+        paintArena(graphics);
+        paintBall(graphics2D);
+        paintPlayer(graphics2D);
+        paintComputer(graphics2D);
+        paintModifiers(graphics);
+        paintEnvironmentBall(graphics2D);
+
+        updateScores();
+        updateGameTimer();
+        updateModifiers();
+    }
+    // endregion
+
+    // region private API
     /**
      * Initialise the InfoPanel (i.e. the in-game UI).
      */
@@ -67,7 +97,7 @@ public class PongView extends View {
         infoPanel.setPreferredSize(new Dimension(width, height));
         infoPanel.setOpaque(false);
 
-        top = new JPanel(new GridLayout(1, 2));
+        top = new JPanel(new GridLayout(1, 3));
         top.setOpaque(false);
 
         JPanel playerScorePanel = new JPanel();
@@ -75,12 +105,18 @@ public class PongView extends View {
         playerScorePanel.setOpaque(false);
         playerScorePanel.add(playerScore);
 
+        JPanel gameTimePanel = new JPanel();
+        gameTime = new MenuLabel(16f);
+        gameTimePanel.setOpaque(false);
+        gameTimePanel.add(gameTime);
+
         JPanel computerScorePanel = new JPanel();
         computerScore = new MenuLabel(16f);
         computerScorePanel.setOpaque(false);
         computerScorePanel.add(computerScore);
 
         top.add(playerScorePanel);
+        top.add(gameTimePanel);
         top.add(computerScorePanel);
 
         infoPanel.add(top, BorderLayout.PAGE_START);
@@ -102,34 +138,6 @@ public class PongView extends View {
         bottom.add(computerModifiersPanel);
 
         infoPanel.add(bottom, BorderLayout.PAGE_END);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getViewName() {
-        return "PongView";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void paintComponent(Graphics graphics) {
-        super.paintComponent(graphics);
-
-        Graphics2D graphics2D = ((Graphics2D) graphics);
-
-        paintArena(graphics);
-        paintBall(graphics2D);
-        paintPlayer(graphics2D);
-        paintComputer(graphics2D);
-        paintModifiers(graphics);
-        paintEnvironmentBall(graphics2D);
-
-        updateScores();
-        updateModifiers();
     }
 
     /**
@@ -235,6 +243,13 @@ public class PongView extends View {
     }
 
     /**
+     * Update the game timer text.
+     */
+    private void updateGameTimer() {
+        gameTime.setText("Time: " + model.getTimeRemaining());
+    }
+
+    /**
      * Update the modifiers text for the Player and Computer
      */
     private void updateModifiers() {
@@ -260,4 +275,5 @@ public class PongView extends View {
 
         return stringBuilder.toString();
     }
+    // endregion
 }

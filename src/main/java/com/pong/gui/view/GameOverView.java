@@ -1,5 +1,6 @@
 package com.pong.gui.view;
 
+import com.pong.gui.components.LeaderboardPanel;
 import com.pong.gui.components.MenuButton;
 import com.pong.gui.components.MenuLabel;
 import com.pong.model.GameOverModel;
@@ -10,12 +11,12 @@ import java.awt.*;
 
 /**
  * GameOverView is the view component for game over.
- * It handles all of the UI components fo rthe UI.
  *
  * @author LBEVAN
  */
 public class GameOverView extends View {
 
+    // region data
     private static final String VIEW_TITLE = "Game Over";
 
     private GameOverModel model;
@@ -24,6 +25,7 @@ public class GameOverView extends View {
 
     private JPanel titlePanel;
     private JPanel detailsPanel;
+    private JPanel leaderboardPanel;
     private JPanel buttonPanel;
 
     private JLabel titleLabel;
@@ -32,7 +34,9 @@ public class GameOverView extends View {
     private JLabel computerScoreLabel;
     private JButton playAgainButton;
     private JButton exitButton;
+    // endregion
 
+    // region init
     /**
      * Constructor.
      *
@@ -58,6 +62,8 @@ public class GameOverView extends View {
         detailsPanel = new JPanel();
         detailsPanel.setBackground(Color.BLACK);
         detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
+
+        leaderboardPanel = new LeaderboardPanel(model.getHighScores());
 
         buttonPanel = new JPanel();
         buttonPanel.setBackground(Color.BLACK);
@@ -87,21 +93,17 @@ public class GameOverView extends View {
         detailsPanel.add(winnerLabel);
         detailsPanel.add(playerScoreLabel);
         detailsPanel.add(computerScoreLabel);
+        detailsPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        detailsPanel.add(leaderboardPanel);
         add(detailsPanel, BorderLayout.CENTER);
 
         buttonPanel.add(playAgainButton);
         buttonPanel.add(exitButton);
         add(buttonPanel, BorderLayout.PAGE_END);
     }
+    // endregion
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getViewName() {
-        return "GameOverView";
-    }
-
+    // region getters & setters
     /**
      * Retrieve the play again button.
      *
@@ -128,4 +130,5 @@ public class GameOverView extends View {
     public void setWinnerLabelText(String text) {
         winnerLabel.setText(text);
     }
+    // endregion
 }

@@ -18,6 +18,7 @@ import java.awt.*;
  */
 public class GameOptionsView extends View {
 
+    // region data
     private static final String VIEW_TITLE = "Game Options";
 
     private GameOptionsModel model;
@@ -33,7 +34,9 @@ public class GameOptionsView extends View {
     private JComboBox<DifficultyType> difficultyComboBox;
     private JButton startButton;
     private JButton backButton;
+    // endregion
 
+    // region init
     /**
      * Constructor.
      *
@@ -101,15 +104,9 @@ public class GameOptionsView extends View {
         buttonPanel.add(startButton);
         add(buttonPanel, BorderLayout.PAGE_END);
     }
+    // endregion
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getViewName() {
-        return "GameOptionsView";
-    }
-
+    // region public API
     /**
      * {@inheritDoc}
      */
@@ -117,7 +114,9 @@ public class GameOptionsView extends View {
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
     }
+    // endregion
 
+    // region getters & setters
     /**
      * Retrieve the start button component.
      *
@@ -144,4 +143,5 @@ public class GameOptionsView extends View {
     public JComboBox<DifficultyType> getDifficultyComboBox() {
         return difficultyComboBox;
     }
+    // endregion
 }
