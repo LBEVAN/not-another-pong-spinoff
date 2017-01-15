@@ -1,18 +1,9 @@
 package com.pong.factory;
 
-import com.pong.controller.GameOptionsController;
-import com.pong.controller.GameOverController;
-import com.pong.controller.MainMenuController;
-import com.pong.controller.PongController;
+import com.pong.controller.*;
 import com.pong.gui.frame.PongFrame;
-import com.pong.gui.view.GameOptionsView;
-import com.pong.gui.view.GameOverView;
-import com.pong.gui.view.MainMenuView;
-import com.pong.gui.view.PongView;
-import com.pong.model.GameOptionsModel;
-import com.pong.model.GameOverModel;
-import com.pong.model.MainMenuModel;
-import com.pong.model.PongModel;
+import com.pong.gui.view.*;
+import com.pong.model.*;
 import com.pong.model.wrapper.GameOptions;
 
 /**
@@ -82,6 +73,22 @@ public class MvcFactory {
         GameOverModel model = new GameOverModel(playerScore, computerScore);
         GameOverView view = new GameOverView(model, PongFrame.SCREEN_WIDTH, PongFrame.SCREEN_HEIGHT);
         GameOverController controller = new GameOverController(model, view);
+
+        controller.bind();
+        controller.start();
+
+        return new MvcWrapper<>(model, view, controller);
+    }
+
+    /**
+     * Create all MVC components for the leaderboard screen.
+     *
+     * @return mvc
+     */
+    public static MvcWrapper<LeaderboardModel, LeaderboardView, LeaderboardController> createLeaderboard() {
+        LeaderboardModel model = new LeaderboardModel();
+        LeaderboardView view = new LeaderboardView(model, PongFrame.SCREEN_WIDTH, PongFrame.SCREEN_HEIGHT);
+        LeaderboardController controller = new LeaderboardController(model, view);
 
         controller.bind();
         controller.start();
