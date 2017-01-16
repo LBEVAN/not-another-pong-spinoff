@@ -1,13 +1,11 @@
 package com.pong;
 
-import com.pong.ai.difficulty.EasyDifficulty;
 import com.pong.controller.GameOptionsController;
 import com.pong.factory.MvcFactory;
 import com.pong.factory.MvcWrapper;
 import com.pong.gui.view.GameOptionsView;
 import com.pong.gui.view.GameStateView;
 import com.pong.model.GameOptionsModel;
-import com.pong.model.wrapper.GameOptions;
 import com.pong.state.GameState;
 import com.pong.system.resource.ResourceManager;
 import org.junit.After;
@@ -63,7 +61,7 @@ public class TestGameStateManager {
         // set up test data - add a number of states to the stack
         GameStateManager.getInstance().changeState(GameState.MENU, MvcFactory.createMainMenu());
         GameStateManager.getInstance().changeState(GameState.GAME_OPTIONS, MvcFactory.createGameOptions());
-        GameStateManager.getInstance().changeState(GameState.GAME, MvcFactory.createPong(new GameOptions(new EasyDifficulty())));
+        GameStateManager.getInstance().changeState(GameState.LEADERBOARD, MvcFactory.createLeaderboard());
 
         // run the test
         GameStateManager.getInstance().returnToPreviousState();

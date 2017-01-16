@@ -44,7 +44,7 @@ public class PongModel implements Model, BallEventHandler {
     private EnvironmentManager environmentManager;
 
     private long startGameTime;
-    private final double gameDuration = 5.0;
+    private final double gameDuration = 90;
     // endregion
 
     // region init
