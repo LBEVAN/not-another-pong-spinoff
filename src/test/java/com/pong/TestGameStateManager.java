@@ -9,11 +9,12 @@ import com.pong.gui.view.GameStateView;
 import com.pong.model.GameOptionsModel;
 import com.pong.model.wrapper.GameOptions;
 import com.pong.state.GameState;
-import com.pong.system.resource.ResourceLoader;
+import com.pong.system.resource.ResourceManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.awt.*;
 import java.lang.reflect.Field;
 
 import static org.junit.Assert.*;
@@ -27,20 +28,22 @@ public class TestGameStateManager {
 
     private GameStateView gameStateView;
 
+    // region init
     @Before
     public void setUp() {
         gameStateView = new GameStateView(1280, 720);
         GameStateManager.getInstance().setGameStateView(gameStateView);
 
-        // there is a dependency on the resource manager - load it here
-        new ResourceLoader().loadResources();
+        ResourceManager.getInstance().registerCustomFont(new Font("Test", 100, 100));
     }
 
     @After
     public void tearDown() {
         resetGameStateManager();
     }
+    // endregion
 
+    // region changeState tests
     @Test
     public void testChangeState() {
         // run the test
@@ -52,7 +55,9 @@ public class TestGameStateManager {
         // assert the mvc component is not null
         assertNotNull(GameStateManager.getInstance().getCurrentMvc());
     }
+    // endregion
 
+    // region previousState tests
     @Test
     public void testReturnToPreviousState() {
         // set up test data - add a number of states to the stack
@@ -86,7 +91,9 @@ public class TestGameStateManager {
         // assert the previous state is Menu
         assertEquals(GameState.MENU, gameState);
     }
+    // endregion
 
+    // region helpers
     /**
      * Reset the GameStateManager using reflection.
      */
@@ -100,4 +107,5 @@ public class TestGameStateManager {
             e.printStackTrace();
         }
     }
+    // endregion
 }
