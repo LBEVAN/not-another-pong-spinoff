@@ -37,4 +37,22 @@ public class MenuLabel extends JLabel {
         setForeground(Color.WHITE);
         setAlignmentX(Component.CENTER_ALIGNMENT);
     }
+
+    /**
+     * Constructor.
+     *
+     * @param text
+     * @param icon
+     * @param fontSize
+     */
+    public MenuLabel(String text, Icon icon, float fontSize) {
+        setText(text);
+        setIcon(icon);
+        setFont(ResourceManager.getInstance().getFont().deriveFont(fontSize));
+        setForeground(Color.WHITE);
+        setAlignmentX(Component.CENTER_ALIGNMENT);
+        setHorizontalAlignment(JLabel.CENTER);
+        setHorizontalTextPosition(JLabel.CENTER);
+        setVerticalTextPosition(JLabel.BOTTOM);
+    }
 }

@@ -23,6 +23,7 @@ public class ResourceLoader {
     private static final Logger LOGGER = Logger.getLogger(ResourceLoader.class.getName());
 
     private static final String GRAPHICS_PATH = "/graphics/";
+    private static final String MODIFIERS_PATH = "/graphics/modifiers/";
     private static final String FONTS_PATH = "/fonts/";
     private static final String SOUNDS_PATH = "/sounds/";
 
@@ -79,6 +80,8 @@ public class ResourceLoader {
         ResourceManager.getInstance().addLoadedGraphic(Constants.SPACE_ENVIRONMENT_ICON, loadGraphic(GRAPHICS_PATH + "SpaceEnvironmentIcon.png"));
         ResourceManager.getInstance().addLoadedGraphic(Constants.ICE_ENVIRONMENT_ICON, loadGraphic(GRAPHICS_PATH + "IceEnvironmentIcon.png"));
         ResourceManager.getInstance().addLoadedGraphic(Constants.DESERT_ENVIRONMENT_ICON, loadGraphic(GRAPHICS_PATH + "DesertEnvironmentIcon.png"));
+
+        ResourceManager.getInstance().addLoadedGraphic(Constants.SPEED_MODIFIER_ICON, loadGraphic(MODIFIERS_PATH + "SpeedModifierIcon.png"));
     }
 
     /**

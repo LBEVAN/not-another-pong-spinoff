@@ -19,6 +19,8 @@ public class Constants {
     public static final String ICE_ENVIRONMENT_ICON = "IceEnvironmentIcon";
     public static final String DESERT_ENVIRONMENT_ICON = "DesertEnvironmentIcon";
 
+    public static final String SPEED_MODIFIER_ICON = "SpeedModifierIcon";
+
     // SOUNDS
     public static final String GAME_MUSIC = "GameMusic";
 

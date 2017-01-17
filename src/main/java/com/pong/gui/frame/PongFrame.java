@@ -16,7 +16,7 @@ import javax.swing.*;
  */
 public class PongFrame extends JFrame {
 
-    public static final String VERSION = "2.0";
+    public static final String VERSION = "3.0";
     public static final String TITLE = "Not Another Pong Spin-off";
     public static final int SCREEN_WIDTH = 1280;
     public static final int SCREEN_HEIGHT = SCREEN_WIDTH / 16 * 9;

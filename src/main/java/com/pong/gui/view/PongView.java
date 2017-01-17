@@ -1,6 +1,6 @@
 package com.pong.gui.view;
 
-import com.pong.gui.components.MenuLabel;
+import com.pong.gui.view.pongview.GameUIPanel;
 import com.pong.model.PongModel;
 import com.pong.model.entity.Ball;
 import com.pong.model.entity.Computer;
@@ -8,7 +8,6 @@ import com.pong.model.entity.Player;
 import com.pong.model.environment.EnvironmentBall;
 import com.pong.model.modifier.Modifier;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
@@ -27,18 +26,7 @@ public class PongView extends View {
     // region data
     private PongModel model;
 
-    private JPanel infoPanel;
-    private JPanel top;
-    private JPanel bottom;
-    private JPanel playerModifiersPanel;
-
-    private JLabel playerScore;
-    private JLabel computerScore;
-
-    private JLabel gameTime;
-
-    private JLabel playerModifiers;
-    private JLabel computerModifiers;
+    private GameUIPanel gameUIPanel;
     // endregion
 
     // region init
@@ -51,17 +39,15 @@ public class PongView extends View {
      */
     public PongView(final PongModel model, int width, int height) {
         super(width, height);
-
         this.model = model;
-
-        initInfoPanel();
 
         setOpaque(true);
         enableEvents(AWTEvent.KEY_EVENT_MASK);
         requestFocus();
         setFocusable(true);
 
-        add(infoPanel);
+        gameUIPanel = new GameUIPanel(width, height);
+        add(gameUIPanel);
     }
     // endregion
 
@@ -82,64 +68,11 @@ public class PongView extends View {
         paintModifiers(graphics);
         paintEnvironmentBall(graphics2D);
 
-        updateScores();
-        updateGameTimer();
-        updateModifiers();
+        gameUIPanel.update(graphics2D, model);
     }
     // endregion
 
     // region private API
-    /**
-     * Initialise the InfoPanel (i.e. the in-game UI).
-     */
-    private void initInfoPanel() {
-        infoPanel = new JPanel(new BorderLayout());
-        infoPanel.setPreferredSize(new Dimension(width, height));
-        infoPanel.setOpaque(false);
-
-        top = new JPanel(new GridLayout(1, 3));
-        top.setOpaque(false);
-
-        JPanel playerScorePanel = new JPanel();
-        playerScore = new MenuLabel(16f);
-        playerScorePanel.setOpaque(false);
-        playerScorePanel.add(playerScore);
-
-        JPanel gameTimePanel = new JPanel();
-        gameTime = new MenuLabel(16f);
-        gameTimePanel.setOpaque(false);
-        gameTimePanel.add(gameTime);
-
-        JPanel computerScorePanel = new JPanel();
-        computerScore = new MenuLabel(16f);
-        computerScorePanel.setOpaque(false);
-        computerScorePanel.add(computerScore);
-
-        top.add(playerScorePanel);
-        top.add(gameTimePanel);
-        top.add(computerScorePanel);
-
-        infoPanel.add(top, BorderLayout.PAGE_START);
-
-        bottom = new JPanel(new GridLayout(1, 2));
-        bottom.setOpaque(false);
-
-        playerModifiersPanel = new JPanel();
-        playerModifiers = new MenuLabel(16f);
-        playerModifiersPanel.setOpaque(false);
-        playerModifiersPanel.add(playerModifiers);
-
-        JPanel computerModifiersPanel = new JPanel();
-        computerModifiers = new MenuLabel(16f);
-        computerModifiersPanel.setOpaque(false);
-        computerModifiersPanel.add(computerModifiers);
-
-        bottom.add(playerModifiersPanel);
-        bottom.add(computerModifiersPanel);
-
-        infoPanel.add(bottom, BorderLayout.PAGE_END);
-    }
-
     /**
      * Paint the arena bounds and its details (e.g. center line).
      *
@@ -232,48 +165,6 @@ public class PongView extends View {
             transform.translate(environmentBall.getX(), environmentBall.getY());
             graphics.drawImage(image, transform, null);
         }
-    }
-
-    /**
-     * Update the scores text for the Player and Computer.
-     */
-    private void updateScores() {
-        playerScore.setText(String.format("Player Score: %s", model.getPlayerScore()));
-        computerScore.setText(String.format("Computer Score: %s", model.getComputerScore()));
-    }
-
-    /**
-     * Update the game timer text.
-     */
-    private void updateGameTimer() {
-        gameTime.setText("Time: " + model.getTimeRemaining());
-    }
-
-    /**
-     * Update the modifiers text for the Player and Computer
-     */
-    private void updateModifiers() {
-        playerModifiers.setText("Modifiers: " + createModifierString(model.getPlayer().getModifiers()));
-        computerModifiers.setText("Modifiers: " + createModifierString(model.getComputer().getModifiers()));
-    }
-
-    /**
-     * Create the string for a list of modifiers.
-     *
-     * @param modifiers
-     * @return modifiersString
-     */
-    private String createModifierString(Collection<Modifier> modifiers) {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        modifiers.forEach(modifier -> {
-            stringBuilder.append(modifier.getName());
-            stringBuilder.append(" ");
-            stringBuilder.append(modifier.getTimeRemaining());
-            stringBuilder.append(" | ");
-        });
-
-        return stringBuilder.toString();
     }
     // endregion
 }
