@@ -1,5 +1,6 @@
 package com.pong.model.entity;
 
+import com.pong.model.modifier.AbstractModifier;
 import com.pong.model.modifier.Modifier;
 import com.pong.model.modifier.ModifierSystem;
 import com.pong.model.modifier.ModifierType;
@@ -147,14 +148,14 @@ public abstract class Entity {
      *
      * @param modifier
      */
-    public void addModifier(final Modifier modifier) {
+    public void addModifier(final AbstractModifier modifier) {
         modifierSystem.addModifier(modifier);
     }
 
     /**
      * Get the modifiers on this entity.
      */
-    public Collection<Modifier> getModifiers() {
+    public Collection<AbstractModifier> getModifiers() {
         return modifierSystem.getModifiers();
     }
 

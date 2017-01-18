@@ -12,13 +12,17 @@ import java.util.*;
  */
 public final class ModifierSystem {
 
-    private Map<ModifierType, Modifier> modifierMap;
+    private Map<ModifierType, AbstractModifier> modifierMap;
+    private Map<ModifierType, Integer> modifierCharges;
+
+    private int maxCharges = 2;
 
     /**
      * Constructor.
      */
     public ModifierSystem() {
         modifierMap = new HashMap<>();
+        modifierCharges = new HashMap<>();
     }
 
     /**
@@ -29,9 +33,9 @@ public final class ModifierSystem {
      * @param entity
      */
     public void update(final Entity entity) {
-        Iterator<Modifier> iter = modifierMap.values().iterator();
+        Iterator<AbstractModifier> iter = modifierMap.values().iterator();
         while(iter.hasNext()) {
-            Modifier modifier = iter.next();
+            AbstractModifier modifier = iter.next();
 
             // only apply the modifier if it hasn't already been applied
             if(modifier.hasApplied()) {
@@ -53,15 +57,39 @@ public final class ModifierSystem {
      *
      * @param modifier
      */
-    public void addModifier(Modifier modifier) {
-        if(modifierMap.containsKey(modifier.getType())) {
-            // type exists so increase duration
-            Modifier mod = modifierMap.get(modifier.getType());
-            mod.increaseDuration(modifier.getDuration());
-            modifierMap.put(mod.getType(), mod);
+    public void addModifier(AbstractModifier modifier) {
+        final ModifierType modifierType = modifier.getType();
+
+        boolean isMaxNumCharges = isMaxNumChargesForModifierType(modifierType);
+
+        if(!isMaxNumCharges) {
+            if(modifierMap.containsKey(modifierType)) {
+                // type exists so increase duration
+                AbstractModifier mod = modifierMap.get(modifierType);
+                mod.increaseDuration(modifier.getDuration());
+                modifierMap.put(mod.getType(), mod);
+            } else {
+                // does not exist so add to map
+                modifierMap.put(modifierType, modifier);
+            }
+        }
+
+        // update charges count
+        if(modifierCharges.containsKey(modifierType)) {
+            if(!isMaxNumCharges) {
+                modifierCharges.put(modifierType, modifierCharges.get(modifierType) + 1);
+            }
         } else {
-            // does not exist so add to map
-            modifierMap.put(modifier.getType(), modifier);
+            modifierCharges.put(modifierType, 1);
+        }
+    }
+
+    public boolean isMaxNumChargesForModifierType(ModifierType modifierType) {
+        if(modifierCharges.containsKey(modifierType)) {
+            int currentCharges = modifierCharges.get(modifierType);
+            return currentCharges >= maxCharges;
+        } else {
+          return false;
         }
     }
 
@@ -71,7 +99,7 @@ public final class ModifierSystem {
      * @param key
      * @return modifier
      */
-    public Modifier getModifier(final ModifierType key) {
+    public AbstractModifier getModifier(final ModifierType key) {
         return modifierMap.get(key);
     }
 
@@ -80,7 +108,15 @@ public final class ModifierSystem {
      *
      * @return modifiers
      */
-    public Collection<Modifier> getModifiers() {
+    public Collection<AbstractModifier> getModifiers() {
         return modifierMap.values();
+    }
+
+    public int getNumChargesForModifierType(ModifierType modifierType) {
+        if(modifierCharges.containsKey(modifierType)) {
+            return modifierCharges.get(modifierType);
+        } else {
+            return maxCharges;
+        }
     }
 }

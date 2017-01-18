@@ -114,8 +114,10 @@ public class SoundManager {
      * @param target float volume
      */
     private void setClipVolumeToTarget(final Clip clip, final float target) {
-        FloatControl fc = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        fc.setValue(target);
+        if(clip != null) {
+            FloatControl fc = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            fc.setValue(target);
+        }
     }
 
     /**

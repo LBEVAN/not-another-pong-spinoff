@@ -42,6 +42,6 @@ public final class ModifierSpawner {
         ModifierType randomModifier = modifierTypes[ThreadLocalRandom.current().nextInt(0, modifierTypes.length)];
 
         // add a new active modifier using the factory associated to the ModifierType
-        pongModel.addActiveModifier(randomModifier.getFactory().create(x, y));
+//        pongModel.addActiveModifier(randomModifier.getFactory().create(x, y));
     }
 }

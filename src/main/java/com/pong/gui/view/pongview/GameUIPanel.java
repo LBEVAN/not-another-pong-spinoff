@@ -2,6 +2,7 @@ package com.pong.gui.view.pongview;
 
 import com.pong.gui.components.MenuLabel;
 import com.pong.model.PongModel;
+import com.pong.model.modifier.AbstractModifier;
 import com.pong.model.modifier.Modifier;
 
 import javax.swing.*;
@@ -87,7 +88,7 @@ public class GameUIPanel extends JPanel {
         gameInfoPanel.updateP2Score(model.getComputerScore());
         gameInfoPanel.updateGameTime(model.getTimeRemaining());
 
-        modifiersPanel.update(graphics);
+        modifiersPanel.update(model.getPlayer(), model.getComputer());
 
         playerModifiersLabel.setText("Modifiers: " + createModifierString(model.getPlayer().getModifiers()));
         computerModifiersLabel.setText("Modifiers: " + createModifierString(model.getComputer().getModifiers()));
@@ -101,11 +102,11 @@ public class GameUIPanel extends JPanel {
      * @param modifiers
      * @return modifiersString
      */
-    private String createModifierString(Collection<Modifier> modifiers) {
+    private String createModifierString(Collection<AbstractModifier> modifiers) {
         StringBuilder stringBuilder = new StringBuilder();
 
         modifiers.forEach(modifier -> {
-            stringBuilder.append(modifier.getName());
+            stringBuilder.append("BLAH");
             stringBuilder.append(" ");
             stringBuilder.append(modifier.getTimeRemaining());
             stringBuilder.append(" | ");

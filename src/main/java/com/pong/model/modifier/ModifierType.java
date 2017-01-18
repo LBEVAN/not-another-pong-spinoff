@@ -1,8 +1,8 @@
 package com.pong.model.modifier;
 
-import com.pong.model.modifier.factory.HeightModifierFactory;
-import com.pong.model.modifier.factory.ModifierFactory;
-import com.pong.model.modifier.factory.SpeedModifierFactory;
+import com.pong.system.resource.ResourceManager;
+
+import java.awt.image.BufferedImage;
 
 /**
  * ModifiersType enum is a defined set of modifiers available in the game (e.g. HeightModifier).
@@ -10,27 +10,29 @@ import com.pong.model.modifier.factory.SpeedModifierFactory;
  * @author LBEVAN
  */
 public enum ModifierType {
+    INCREASE_HEIGHT() {
+        @Override
+        public AbstractModifier create() {
+            return new IncreaseHeightModifier();
+        }
 
-    PADDLE_HEIGHT(new HeightModifierFactory()),
-    PADDLE_SPEED(new SpeedModifierFactory());
+        @Override
+        public BufferedImage getImage() {
+            return ResourceManager.getInstance().getGraphic("HeightModifier");
+        }
+    },
+    INCREASE_SPEED() {
+        @Override
+        public AbstractModifier create() {
+            return new IncreaseSpeedModifier();
+        }
 
-    private ModifierFactory factory;
+        @Override
+        public BufferedImage getImage() {
+            return ResourceManager.getInstance().getGraphic("SpeedModifier");
+        }
+    };
 
-    /**
-     * Enum constructor.
-     *
-     * @param factory
-     */
-    ModifierType(ModifierFactory factory) {
-        this.factory = factory;
-    }
-
-    /**
-     * Retrieve the factory.
-     *
-     * @return factory
-     */
-    public ModifierFactory getFactory() {
-        return factory;
-    }
+    public abstract AbstractModifier create();
+    public abstract BufferedImage getImage();
 }

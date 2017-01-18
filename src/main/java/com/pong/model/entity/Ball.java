@@ -57,7 +57,6 @@ public class Ball extends Entity {
         checkCollisionWithPlayer();
         checkCollisionWithComputer();
         checkCollisionWithArena();
-        checkCollisionWithModifier();
         checkCollisionWithEnvironmentalBall();
         checkScoreZone();
 
@@ -151,19 +150,6 @@ public class Ball extends Entity {
     @Sound(soundKey = Constants.BALL_DEATH_SOUND, soundCommand = SoundCommand.PLAY_SOUND)
     private void onPlayerScored() {
         ballEventHandler.onPlayerScored();
-    }
-
-    /**
-     * Check if the ball has intersected a modifier.
-     * If so add it to the owner entity.
-     */
-    private void checkCollisionWithModifier() {
-        for(Modifier modifier: pongModel.getActiveModifiers()) {
-            if(getBounds().intersects(modifier.getBounds())) {
-                modifier.onHit();
-                owner.addModifier(modifier);
-            }
-        }
     }
 
     /**

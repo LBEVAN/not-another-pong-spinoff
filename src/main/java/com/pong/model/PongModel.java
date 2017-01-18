@@ -33,7 +33,6 @@ public class PongModel implements Model, BallEventHandler {
     private Ball ball;
     private Computer computer;
 
-    private ModifierSpawner modifierSpawner = new ModifierSpawner();
     private List<Modifier> activeModifiers;
 
     private int playerScore = 0;
@@ -82,7 +81,6 @@ public class PongModel implements Model, BallEventHandler {
         player.update();
         computer.update();
 
-        modifierSpawner.spawn(this);
         environmentManager.update();
 
         cleanup();

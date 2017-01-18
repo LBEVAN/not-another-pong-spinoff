@@ -65,7 +65,6 @@ public class PongView extends View {
         paintBall(graphics2D);
         paintPlayer(graphics2D);
         paintComputer(graphics2D);
-        paintModifiers(graphics);
         paintEnvironmentBall(graphics2D);
 
         gameUIPanel.update(graphics2D, model);
@@ -139,17 +138,6 @@ public class PongView extends View {
 //        graphics.drawImage(computer.getImage(), transform, null);
 
         graphics.fill(new Rectangle2D.Double(computer.getX(), computer.getY(), computer.getWidth(), computer.getHeight()));
-    }
-
-    /**
-     * Paint the modifiers in the game.
-     *
-     * @param graphics
-     */
-    private void paintModifiers(Graphics graphics) {
-        for(Modifier modifier : model.getActiveModifiers()) {
-            graphics.drawImage(modifier.getImage(), modifier.getX(), modifier.getY(), modifier.getWidth(), modifier.getHeight(), null);
-        }
     }
 
     /**
