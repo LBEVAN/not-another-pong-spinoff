@@ -19,7 +19,11 @@ public class Constants {
     public static final String ICE_ENVIRONMENT_ICON = "IceEnvironmentIcon";
     public static final String DESERT_ENVIRONMENT_ICON = "DesertEnvironmentIcon";
 
+    public static final String HEIGHT_MODIFIER_ICON = "HeightModifierIcon";
     public static final String SPEED_MODIFIER_ICON = "SpeedModifierIcon";
+    public static final String BALL_SPEED_MODIFIER_ICON = "BallSpeedModifierIcon";
+    public static final String DECREASE_SPEED_MODIFIER_ICON = "DecreaseSpeedModifierIcon";
+    public static final String DECREASE_HEIGHT_MODIFIER_ICON = "DecreaseHeightModifierIcon";
 
     // SOUNDS
     public static final String GAME_MUSIC = "GameMusic";

@@ -1,8 +1,7 @@
-package com.pong;
+package com.pong.gamestate;
 
 import com.pong.factory.MvcWrapper;
 import com.pong.gui.view.GameStateView;
-import com.pong.state.GameState;
 
 import java.util.Stack;
 
@@ -45,7 +44,7 @@ public class GameStateManager {
     }
 
     /**
-     * Change the current game state to the new specified state.
+     * Change the current game gamestate to the new specified gamestate.
      *
      * @param gameState
      * @param mvc
@@ -57,7 +56,7 @@ public class GameStateManager {
     }
 
     /**
-     * Return to the previous state.
+     * Return to the previous gamestate.
      * Note: this will not recreate the mvc components!
      */
     public void returnToPreviousState() {
@@ -67,7 +66,7 @@ public class GameStateManager {
     }
 
     /**
-     * Retrieve the size of the game state stack.
+     * Retrieve the size of the game gamestate stack.
      *
      * @return size
      */
@@ -85,7 +84,7 @@ public class GameStateManager {
     }
 
     /**
-     * Retrieve the previous game state.
+     * Retrieve the previous game gamestate.
      *
      * @return gameState
      */
@@ -114,7 +113,7 @@ public class GameStateManager {
         }
 
         /**
-         * Retrieve the game state.
+         * Retrieve the game gamestate.
          *
          * @return gameState
          */

@@ -1,6 +1,6 @@
 package com.pong.model.modifier;
 
-import com.pong.model.entity.Player;
+import com.pong.model.entity.Entity;
 import com.pong.system.resource.ResourceManager;
 
 import java.awt.image.BufferedImage;
@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 /**
  * @author LBEVAN
  */
-public class IncreaseSpeedModifier extends AbstractModifier<Player> {
+public class IncreaseSpeedModifier extends AbstractModifier<Entity> {
 
     // region data
     private final int speedModifier = 4;
@@ -47,6 +47,14 @@ public class IncreaseSpeedModifier extends AbstractModifier<Player> {
     public ModifierType getType() {
         return ModifierType.INCREASE_SPEED;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return "++SPEED  " + getTimeRemaining() + "  ";
+    }
     // endregion
 
     // region protected API
@@ -54,7 +62,7 @@ public class IncreaseSpeedModifier extends AbstractModifier<Player> {
      * {@inheritDoc}
      */
     @Override
-    protected void modify(Player entity, int modifier) {
+    protected void modify(Entity entity, int modifier) {
         entity.setModifiedSpeed(entity.getModifiedSpeed() + modifier);
     }
     // endregion

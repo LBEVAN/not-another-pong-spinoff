@@ -82,6 +82,8 @@ public class ResourceLoader {
         ResourceManager.getInstance().addLoadedGraphic(Constants.DESERT_ENVIRONMENT_ICON, loadGraphic(GRAPHICS_PATH + "DesertEnvironmentIcon.png"));
 
         ResourceManager.getInstance().addLoadedGraphic(Constants.SPEED_MODIFIER_ICON, loadGraphic(MODIFIERS_PATH + "SpeedModifierIcon.png"));
+        ResourceManager.getInstance().addLoadedGraphic(Constants.BALL_SPEED_MODIFIER_ICON, loadGraphic(MODIFIERS_PATH + "BallSpeedModifierIcon.png"));
+        ResourceManager.getInstance().addLoadedGraphic(Constants.DECREASE_SPEED_MODIFIER_ICON, loadGraphic(MODIFIERS_PATH + "DecreaseSpeedModifierIcon.png"));
     }
 
     /**
@@ -92,6 +94,7 @@ public class ResourceLoader {
     private void loadFonts() throws IOException {
         try {
             ResourceManager.getInstance().registerCustomFont(loadFont(FONTS_PATH + "Technoid.ttf"));
+//            ResourceManager.getInstance().registerCustomFont(loadFont(FONTS_PATH + "TitilliumWeb.ttf"));
         } catch (FontFormatException e) {
             LOGGER.log(Level.SEVERE, "FontFormatException loading font: " + e);
         }

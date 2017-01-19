@@ -1,7 +1,7 @@
-package com.pong.state;
+package com.pong.gamestate;
 
 /**
- * A defined set of Game states - only one state is active at a given time.
+ * A defined set of Game states - only one gamestate is active at a given time.
  *
  * @author LBEVAN
  */

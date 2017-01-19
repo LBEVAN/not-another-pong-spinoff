@@ -1,24 +1,23 @@
 package com.pong.model.modifier;
 
-import com.pong.model.entity.Player;
-import com.pong.system.resource.ResourceManager;
+import com.pong.model.entity.Entity;
 
 import java.awt.image.BufferedImage;
 
 /**
  * @author LBEVAN
  */
-public class IncreaseHeightModifier extends AbstractModifier<Player> {
+public class DecreaseHeightModifier extends AbstractModifier<Entity> {
 
     // region data
-    private final int heightModifier = 75;
+    public int decreaseHeightModifier = -25;
     // endregion
 
     // region init
     /**
      * Constructor.
      */
-    public IncreaseHeightModifier() {
+    public DecreaseHeightModifier() {
         super(5.0);
     }
     // endregion
@@ -29,7 +28,7 @@ public class IncreaseHeightModifier extends AbstractModifier<Player> {
      */
     @Override
     public BufferedImage getImage() {
-        return ResourceManager.getInstance().getGraphic("HeightModifier");
+        return null;
     }
 
     /**
@@ -37,7 +36,7 @@ public class IncreaseHeightModifier extends AbstractModifier<Player> {
      */
     @Override
     public int getValue() {
-        return heightModifier;
+        return 0;
     }
 
     /**
@@ -45,7 +44,7 @@ public class IncreaseHeightModifier extends AbstractModifier<Player> {
      */
     @Override
     public ModifierType getType() {
-        return ModifierType.INCREASE_HEIGHT;
+        return ModifierType.DECREASE_HEIGHT;
     }
 
     /**
@@ -53,7 +52,7 @@ public class IncreaseHeightModifier extends AbstractModifier<Player> {
      */
     @Override
     public String toString() {
-        return "++HEIGHT  " + getTimeRemaining() + "  ";
+        return "--HEIGHT  " + getTimeRemaining() + "  ";
     }
     // endregion
 
@@ -62,8 +61,8 @@ public class IncreaseHeightModifier extends AbstractModifier<Player> {
      * {@inheritDoc}
      */
     @Override
-    protected void modify(Player entity, int modifier) {
-        entity.setHeight(entity.getHeight() + modifier);
+    protected void modify(Entity entity, int modifier) {
+        entity.setHeight(entity.getHeight() - modifier);
     }
     // endregion
 }

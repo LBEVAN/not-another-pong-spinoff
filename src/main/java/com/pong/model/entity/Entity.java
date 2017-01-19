@@ -1,11 +1,10 @@
 package com.pong.model.entity;
 
+import com.pong.model.eventhandler.ModifierEventHandler;
 import com.pong.model.modifier.AbstractModifier;
-import com.pong.model.modifier.Modifier;
 import com.pong.model.modifier.ModifierSystem;
 import com.pong.model.modifier.ModifierType;
 
-import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Collection;
@@ -17,7 +16,7 @@ import java.util.Collection;
  *
  * @author LBEVAN
  */
-public abstract class Entity {
+public abstract class Entity implements ModifierEventHandler {
 
     protected double x;
     protected double y;
@@ -144,19 +143,25 @@ public abstract class Entity {
     }
 
     /**
-     * Add a modifier to the entity.
-     *
-     * @param modifier
-     */
-    public void addModifier(final AbstractModifier modifier) {
-        modifierSystem.addModifier(modifier);
-    }
-
-    /**
      * Get the modifiers on this entity.
      */
     public Collection<AbstractModifier> getModifiers() {
         return modifierSystem.getModifiers();
+    }
+
+    public ModifierSystem getModifierSystem() {
+        return modifierSystem;
+    }
+
+    @Override
+    public void onConsumeModifier(AbstractModifier modifier) {
+        modifierSystem.addModifier(modifier);
+        modifierSystem.incrementNumCharges(modifier.getType());
+    }
+
+    @Override
+    public void onUseOffensiveModifier(ModifierType modifierType) {
+        modifierSystem.incrementNumCharges(modifierType);
     }
 
     /**

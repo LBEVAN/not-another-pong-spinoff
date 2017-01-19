@@ -1,11 +1,8 @@
 package com.pong.gui.view.pongview;
 
-import com.pong.gui.components.MenuLabel;
-import com.pong.model.entity.Computer;
+import com.pong.gui.components.IconLabel;
 import com.pong.model.entity.Player;
 import com.pong.model.modifier.ModifierType;
-import com.pong.system.Constants;
-import com.pong.system.resource.ResourceManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,11 +20,10 @@ public class ModifiersPanel extends JPanel {
 
     private JLabel[] p1Labels = new JLabel[5];
     private JLabel[] p2Labels = new JLabel[5];
-    private ModifierType[] modifierTypePos = new ModifierType []{ModifierType.INCREASE_HEIGHT, ModifierType.INCREASE_SPEED, null, null, null};
+    private ModifierType[] modifierTypePos = new ModifierType []{ModifierType.INCREASE_HEIGHT, ModifierType.INCREASE_SPEED, ModifierType.INCREASE_BALL_SPEED, ModifierType.DECREASE_SPEED, ModifierType.DECREASE_HEIGHT};
     // endregion
 
     // region init
-
     /**
      * Constructor.
      */
@@ -35,8 +31,14 @@ public class ModifiersPanel extends JPanel {
         setLayout(new GridLayout(0, 2));
         setOpaque(false);
 
-        createP1ModifiersPanel();
-        createP2ModifiersPanel();
+        p1ModifiersPanel = new JPanel(new GridLayout(0, 5));
+        p1ModifiersPanel.setOpaque(false);
+
+        p2ModifiersPanel = new JPanel(new GridLayout(0, 5));
+        p2ModifiersPanel.setOpaque(false);
+
+        createModifiersPanel(p1Labels, p1ModifiersPanel);
+        createModifiersPanel(p2Labels, p2ModifiersPanel);
 
         add(p1ModifiersPanel);
         add(p2ModifiersPanel);
@@ -44,66 +46,44 @@ public class ModifiersPanel extends JPanel {
     // endregion
 
     // region public API
-    public void update(Player player, Computer computer) {
-        for (int i = 0; i < p1Labels.length; i++) {
-            ModifierType modifierType = modifierTypePos[i];
-            if(modifierType == null) {
-                continue;
-            }
-            boolean isMax = player.isMaxNumChargesForModifierType(modifierType);
-
-            if(isMax) {
-                p1Labels[i].setEnabled(false);
-            }
-        }
+    public void update(Player player1, Player player2) {
+        updateModifierLabels(p1Labels, player1);
+        updateModifierLabels(p2Labels, player2);
     }
     // endregion
 
     // region private API
     /**
-     * Create the modifiers panel for player 1.
+     * Create the modifiers panel for each player.
      */
-    private void createP1ModifiersPanel() {
-        p1ModifiersPanel = new JPanel(new GridLayout(0, 5));
-        p1ModifiersPanel.setOpaque(false);
-
-        for (int i = 0; i < 5; i++) {
-
-            ModifierType modifierType = null;
-
-            switch(i) {
-                case 0:
-                    modifierType = ModifierType.INCREASE_HEIGHT;
-                    break;
-                case 1:
-                    modifierType = ModifierType.INCREASE_SPEED;
-                    break;
-
-                default:
-                    modifierType = ModifierType.INCREASE_HEIGHT;
-                    break;
-            }
+    private void createModifiersPanel(JLabel[] labels, JPanel modifiersPanel) {
+        for (int i = 0; i < labels.length; i++) {
+            ModifierType modifierType = modifierTypePos[i];
 
             Icon icon = new ImageIcon(modifierType.getImage());
-            JLabel label = new MenuLabel(Integer.valueOf(2).toString(),icon , 12f);
-            p1Labels[i] = label;
-            p1ModifiersPanel.add(label);
+            JLabel label = new IconLabel(icon);
+            labels[i] = label;
+            modifiersPanel.add(label);
         }
     }
 
     /**
-     * Create the modifiers panel for player 2.
+     * Update the modifier labels for a player
+     *
+     * @param labels
+     * @param player
      */
-    private void createP2ModifiersPanel() {
-        p2ModifiersPanel = new JPanel(new GridLayout(0, 5));
-        p2ModifiersPanel.setOpaque(false);
+    private void updateModifierLabels(JLabel[] labels, Player player) {
+        for (int i = 0; i < p1Labels.length; i++) {
+            ModifierType modifierType = modifierTypePos[i];
+            if(modifierType == null) {
+                continue;
+            }
+            boolean isMax = player.getModifierSystem().isMaxNumChargesForModifierType(modifierType);
 
-        // TODO: show all other modifier icons
-        for (int i = 0; i < 5; i++) {
-            Icon icon = new ImageIcon(ResourceManager.getInstance().getGraphic(Constants.SPEED_MODIFIER_ICON), "" + i);
-            JLabel label = new MenuLabel("" + (i + 1),icon , 12f);
-            p2Labels[i] = label;
-            p2ModifiersPanel.add(label);
+            if(isMax) {
+                p1Labels[i].setEnabled(false);
+            }
         }
     }
     // endregion

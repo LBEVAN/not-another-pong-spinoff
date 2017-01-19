@@ -1,16 +1,22 @@
 package com.pong.controller;
 
-import com.pong.GameStateManager;
+import com.pong.gamestate.GameStateManager;
 import com.pong.factory.MvcFactory;
 import com.pong.factory.MvcWrapper;
 import com.pong.gui.view.GameOverView;
 import com.pong.gui.view.PongView;
 import com.pong.model.GameOverModel;
 import com.pong.model.PongModel;
-import com.pong.model.input.PlayerInput;
+import com.pong.model.entity.Player;
+import com.pong.model.entity.component.InputComponent;
+import com.pong.model.entity.player.ComputerInputComponent;
+import com.pong.model.entity.player.PlayerId;
+import com.pong.model.entity.player.PlayerInputComponent;
+import com.pong.model.input.GlobalInputManager;
 import com.pong.model.leaderboard.Leaderboard;
 import com.pong.model.leaderboard.LeaderboardEntry;
-import com.pong.state.GameState;
+import com.pong.model.scoring.ScoreManager;
+import com.pong.gamestate.GameState;
 import com.pong.system.Constants;
 import com.pong.system.sound.Sound;
 import com.pong.system.sound.SoundCommand;
@@ -77,8 +83,13 @@ public class PongController implements Controller {
         InputMap inputMap = view.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         ActionMap actionMap = view.getActionMap();
 
-        PlayerInput playerInput = new PlayerInput(inputMap, actionMap, model.getPlayer());
-        model.getPlayer().setPlayerInput(playerInput);
+        InputComponent<Player> playerInputComponent = new PlayerInputComponent(inputMap, actionMap);
+        model.getPlayerById(PlayerId.ONE).setInputComponent(playerInputComponent);
+
+        InputComponent<Player> computerInputComponent = new ComputerInputComponent(model);
+        model.getPlayerById(PlayerId.TWO).setInputComponent(computerInputComponent);
+
+        GlobalInputManager globalInputManager = new GlobalInputManager(inputMap, actionMap, model);
     }
 
     /**
@@ -88,11 +99,13 @@ public class PongController implements Controller {
     private void onGameOver() {
         gameTimer.stop();
 
+        final ScoreManager scoreManager = model.getScoreManager();
+
         Leaderboard leaderboard = new Leaderboard();
-        leaderboard.add(new LeaderboardEntry("Player1", model.getPlayerScore()));
+        leaderboard.add(new LeaderboardEntry("Player1", scoreManager.getScore(PlayerId.ONE)));
         leaderboard.save();
 
-        MvcWrapper<GameOverModel, GameOverView, GameOverController> mvc = MvcFactory.createGameOver(model.getPlayerScore(), model.getComputerScore());
+        MvcWrapper<GameOverModel, GameOverView, GameOverController> mvc = MvcFactory.createGameOver(scoreManager.getScore(PlayerId.ONE), scoreManager.getScore(PlayerId.TWO));
         GameStateManager.getInstance().changeState(GameState.GAME_OVER, mvc);
     }
 

@@ -60,9 +60,7 @@ public final class ModifierSystem {
     public void addModifier(AbstractModifier modifier) {
         final ModifierType modifierType = modifier.getType();
 
-        boolean isMaxNumCharges = isMaxNumChargesForModifierType(modifierType);
-
-        if(!isMaxNumCharges) {
+        if(!isMaxNumChargesForModifierType(modifierType)) {
             if(modifierMap.containsKey(modifierType)) {
                 // type exists so increase duration
                 AbstractModifier mod = modifierMap.get(modifierType);
@@ -73,10 +71,17 @@ public final class ModifierSystem {
                 modifierMap.put(modifierType, modifier);
             }
         }
+    }
 
+    /**
+     * Increment the number of charges for a given modifier type.
+     *
+     * @param modifierType
+     */
+    public void incrementNumCharges(ModifierType modifierType) {
         // update charges count
         if(modifierCharges.containsKey(modifierType)) {
-            if(!isMaxNumCharges) {
+            if(!isMaxNumChargesForModifierType(modifierType)) {
                 modifierCharges.put(modifierType, modifierCharges.get(modifierType) + 1);
             }
         } else {

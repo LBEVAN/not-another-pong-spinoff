@@ -3,10 +3,11 @@ package com.pong;
 import com.pong.controller.GameOptionsController;
 import com.pong.factory.MvcFactory;
 import com.pong.factory.MvcWrapper;
+import com.pong.gamestate.GameStateManager;
 import com.pong.gui.view.GameOptionsView;
 import com.pong.gui.view.GameStateView;
 import com.pong.model.GameOptionsModel;
-import com.pong.state.GameState;
+import com.pong.gamestate.GameState;
 import com.pong.system.resource.ResourceManager;
 import org.junit.After;
 import org.junit.Before;
@@ -86,7 +87,7 @@ public class TestGameStateManager {
         // run the test
         GameState gameState = GameStateManager.getInstance().getPreviousState();
 
-        // assert the previous state is Menu
+        // assert the previous gamestate is Menu
         assertEquals(GameState.MENU, gameState);
     }
     // endregion

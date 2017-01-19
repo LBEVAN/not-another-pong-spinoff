@@ -1,13 +1,13 @@
 package com.pong.controller;
 
-import com.pong.GameStateManager;
+import com.pong.gamestate.GameStateManager;
 import com.pong.factory.MvcFactory;
 import com.pong.factory.MvcWrapper;
 import com.pong.gui.view.LeaderboardView;
 import com.pong.gui.view.MainMenuView;
 import com.pong.model.LeaderboardModel;
 import com.pong.model.MainMenuModel;
-import com.pong.state.GameState;
+import com.pong.gamestate.GameState;
 
 /**
  * The LeaderboardController controls the input actions for the leaderboard screen.

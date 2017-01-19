@@ -1,24 +1,23 @@
 package com.pong.model.modifier;
 
-import com.pong.model.entity.Player;
-import com.pong.system.resource.ResourceManager;
+import com.pong.model.entity.Entity;
 
 import java.awt.image.BufferedImage;
 
 /**
  * @author LBEVAN
  */
-public class IncreaseHeightModifier extends AbstractModifier<Player> {
+public class DecreaseSpeedModifier extends AbstractModifier<Entity> {
 
     // region data
-    private final int heightModifier = 75;
+    private final int speedModifier = -2;
     // endregion
 
     // region init
     /**
      * Constructor.
      */
-    public IncreaseHeightModifier() {
+    public DecreaseSpeedModifier() {
         super(5.0);
     }
     // endregion
@@ -29,7 +28,7 @@ public class IncreaseHeightModifier extends AbstractModifier<Player> {
      */
     @Override
     public BufferedImage getImage() {
-        return ResourceManager.getInstance().getGraphic("HeightModifier");
+        return null;
     }
 
     /**
@@ -37,7 +36,7 @@ public class IncreaseHeightModifier extends AbstractModifier<Player> {
      */
     @Override
     public int getValue() {
-        return heightModifier;
+        return 0;
     }
 
     /**
@@ -45,7 +44,7 @@ public class IncreaseHeightModifier extends AbstractModifier<Player> {
      */
     @Override
     public ModifierType getType() {
-        return ModifierType.INCREASE_HEIGHT;
+        return null;
     }
 
     /**
@@ -53,7 +52,7 @@ public class IncreaseHeightModifier extends AbstractModifier<Player> {
      */
     @Override
     public String toString() {
-        return "++HEIGHT  " + getTimeRemaining() + "  ";
+        return "--SPEED  " + getTimeRemaining() + "  ";
     }
     // endregion
 
@@ -62,8 +61,8 @@ public class IncreaseHeightModifier extends AbstractModifier<Player> {
      * {@inheritDoc}
      */
     @Override
-    protected void modify(Player entity, int modifier) {
-        entity.setHeight(entity.getHeight() + modifier);
+    protected void modify(Entity entity, int modifier) {
+        entity.setModifiedSpeed(entity.getModifiedSpeed() + modifier);
     }
     // endregion
 }
