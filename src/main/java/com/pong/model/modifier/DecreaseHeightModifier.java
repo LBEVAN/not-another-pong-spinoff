@@ -5,6 +5,8 @@ import com.pong.model.entity.Entity;
 import java.awt.image.BufferedImage;
 
 /**
+ * Modifier implementation, use for decreasing the height of an entity.
+ *
  * @author LBEVAN
  */
 public class DecreaseHeightModifier extends AbstractModifier<Entity> {
@@ -36,7 +38,7 @@ public class DecreaseHeightModifier extends AbstractModifier<Entity> {
      */
     @Override
     public int getValue() {
-        return 0;
+        return decreaseHeightModifier;
     }
 
     /**
@@ -62,7 +64,7 @@ public class DecreaseHeightModifier extends AbstractModifier<Entity> {
      */
     @Override
     protected void modify(Entity entity, int modifier) {
-        entity.setHeight(entity.getHeight() - modifier);
+        entity.setHeight(entity.getHeight() + modifier);
     }
     // endregion
 }

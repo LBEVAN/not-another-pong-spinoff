@@ -55,6 +55,9 @@ public class ModifiersPanel extends JPanel {
     // region private API
     /**
      * Create the modifiers panel for each player.
+     *
+     * @param labels
+     * @param modifiersPanel
      */
     private void createModifiersPanel(JLabel[] labels, JPanel modifiersPanel) {
         for (int i = 0; i < labels.length; i++) {
@@ -74,7 +77,7 @@ public class ModifiersPanel extends JPanel {
      * @param player
      */
     private void updateModifierLabels(JLabel[] labels, Player player) {
-        for (int i = 0; i < p1Labels.length; i++) {
+        for (int i = 0; i < labels.length; i++) {
             ModifierType modifierType = modifierTypePos[i];
             if(modifierType == null) {
                 continue;
@@ -82,7 +85,7 @@ public class ModifiersPanel extends JPanel {
             boolean isMax = player.getModifierSystem().isMaxNumChargesForModifierType(modifierType);
 
             if(isMax) {
-                p1Labels[i].setEnabled(false);
+                labels[i].setEnabled(false);
             }
         }
     }

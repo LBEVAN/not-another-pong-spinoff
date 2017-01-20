@@ -18,6 +18,7 @@ import java.util.Collection;
  */
 public abstract class Entity implements ModifierEventHandler {
 
+    // region data
     protected double x;
     protected double y;
     protected int width;
@@ -26,6 +27,9 @@ public abstract class Entity implements ModifierEventHandler {
     protected double modifiedSpeed = 0;
 
     protected ModifierSystem modifierSystem;
+    // endregion
+
+    // region init
     /**
      * Entity constructor.
      *
@@ -42,7 +46,36 @@ public abstract class Entity implements ModifierEventHandler {
 
         this.modifierSystem = new ModifierSystem();
     }
+    // endregion
 
+    // region events
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onConsumeDefensiveModifier(AbstractModifier modifier) {
+        modifierSystem.addModifier(modifier);
+        modifierSystem.incrementNumCharges(modifier.getType());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onUseOffensiveModifier(ModifierType modifierType) {
+        modifierSystem.incrementNumCharges(modifierType);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onConsumeOffensiveModifier(AbstractModifier modifier) {
+        modifierSystem.addModifier(modifier);
+    }
+    // endregion
+
+    // region getters & setters
     /**
      * Retrieve the x coordinate of the entity.
      *
@@ -152,18 +185,9 @@ public abstract class Entity implements ModifierEventHandler {
     public ModifierSystem getModifierSystem() {
         return modifierSystem;
     }
+    // endregion
 
-    @Override
-    public void onConsumeModifier(AbstractModifier modifier) {
-        modifierSystem.addModifier(modifier);
-        modifierSystem.incrementNumCharges(modifier.getType());
-    }
-
-    @Override
-    public void onUseOffensiveModifier(ModifierType modifierType) {
-        modifierSystem.incrementNumCharges(modifierType);
-    }
-
+    // region abstract methods
     /**
      * Update the entity (e.g. move).
      */
@@ -182,4 +206,5 @@ public abstract class Entity implements ModifierEventHandler {
      * @return bufferedImage
      */
     public abstract BufferedImage getImage();
+    // endregion
 }

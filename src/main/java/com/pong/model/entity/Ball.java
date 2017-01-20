@@ -21,6 +21,7 @@ import java.util.Random;
  */
 public class Ball extends Entity {
 
+    // region data
     private final PongModel pongModel;
 
     private double deltaX = -2;
@@ -29,6 +30,10 @@ public class Ball extends Entity {
 
     private BallEventHandler ballEventHandler;
 
+    private boolean hasCollided = false;
+    // endregion
+
+    // region init
     /**
      * Constructor.
      *
@@ -42,21 +47,23 @@ public class Ball extends Entity {
         super(x, y, width, height);
         this.pongModel = pongModel;
     }
+    // endregion
 
+    // region public API
     /**
      * {@inheritDoc}
      */
     public void update() {
         move();
 
-        checkCollisionWithPlayer(PlayerId.ONE);
-        checkCollisionWithPlayer(PlayerId.TWO);
+        checkCollisionWithPlayers();
         checkCollisionWithArena();
         checkCollisionWithEnvironmentalBall();
         checkScoreZone();
 
         modifierSystem.update(this);
     }
+    // endregion
 
     // region private API
     /**
@@ -68,24 +75,36 @@ public class Ball extends Entity {
     }
 
     /**
-     * Check if the Ball collides with a Player.
-     * If so inverse the x delta (direction).
+     * Check collision with the players.
      */
-    private void checkCollisionWithPlayer(PlayerId playerId) {
-        final Player player = pongModel.getPlayerById(playerId);
-        if(getBounds().intersects(player.getBounds())) {
+    private void checkCollisionWithPlayers() {
+        boolean isCollidingWithPlayer = (isCollidingWithPlayer(PlayerId.ONE) || isCollidingWithPlayer(PlayerId.TWO));
 
-            // WIP
-//            final double yTop = pongModel.getPlayer1().getY();
-//            final double yMiddle = yTop + (pongModel.getPlayer1().getHeight() / 2);
-//            final double yBottom = yTop + pongModel.getPlayer1().getHeight();
-//
-//            double intersectPoint = yMiddle - y;
-//            System.out.println("Intersect Point: " + intersectPoint);
-            // WIP
-
-            deltaX *= -1;
+        if(isCollidingWithPlayer && !hasCollided) {
+            updateCollisionValues();
+            hasCollided = true;
+        } else if(isCollidingWithPlayer && hasCollided) {
+            hasCollided = true;
+        } else {
+            hasCollided = false;
         }
+    }
+
+    /**
+     * Check if the ball is colliding with the specified player.
+     *
+     * @param playerId
+     * @return isCollidingWithPlayer
+     */
+    private boolean isCollidingWithPlayer(PlayerId playerId) {
+        return getBounds().intersects(pongModel.getPlayerById(playerId).getBounds());
+    }
+
+    /**
+     * Update the collision values. Inverse deltaX.
+     */
+    private void updateCollisionValues() {
+        deltaX *= -1;
     }
 
     /**

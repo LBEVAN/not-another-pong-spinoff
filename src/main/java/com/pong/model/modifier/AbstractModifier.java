@@ -7,6 +7,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 /**
+ * Base class for all types of modifiers.
+ *
  * @author LBEVAN
  */
 public abstract class AbstractModifier<E extends Entity> {

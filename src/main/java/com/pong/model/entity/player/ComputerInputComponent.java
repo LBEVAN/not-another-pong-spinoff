@@ -5,8 +5,10 @@ import com.pong.gui.frame.PongFrame;
 import com.pong.model.PongModel;
 import com.pong.model.entity.Player;
 import com.pong.model.entity.component.InputComponent;
+import com.pong.model.modifier.ModifierType;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author LBEVAN
@@ -22,6 +24,9 @@ public class ComputerInputComponent implements InputComponent<Player> {
 
     private Direction idleMoveDirection;
     private long idleMoveTime = 0;
+
+    private int modifierUseCooldown = 10;
+    private long timeSinceLastModifierUse = 0;
     // endregion
 
     // region init
@@ -45,6 +50,10 @@ public class ComputerInputComponent implements InputComponent<Player> {
     public void update(Player entity) {
         if(isBallInSightRange()) {
             moveAndTrackBall(entity);
+
+            if(canUseModifier()) {
+                useRandomModifier();
+            }
         } else {
             idleMove(entity);
         }
@@ -112,6 +121,35 @@ public class ComputerInputComponent implements InputComponent<Player> {
         }
 
         player.setY(playerY);
+    }
+
+    /**
+     * See if the computer can use a modifier.
+     * It is valid to use a modifier when the timeSinceLastModifierUse is over the modifierUseCooldown
+     * and a random 2% chance is calculated.
+     *
+     * @return canUseModifier
+     */
+    public boolean canUseModifier() {
+        boolean isOverModifierUseCooldown = (System.nanoTime() - timeSinceLastModifierUse) / 1000000000.0 > modifierUseCooldown;
+
+        if(isOverModifierUseCooldown) {
+            return Math.random() > 0.99;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Use a random modifier.
+     */
+    public void useRandomModifier() {
+        ModifierType[] modifierTypes = ModifierType.values();
+        int num = ThreadLocalRandom.current().nextInt(0, modifierTypes.length);
+        ModifierType modifierType = modifierTypes[num];
+
+        modifierType.generateAction(pongModel, PlayerId.TWO).execute();
+        timeSinceLastModifierUse = System.nanoTime();
     }
     // endregion
 

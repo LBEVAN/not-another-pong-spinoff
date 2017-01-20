@@ -5,6 +5,8 @@ import com.pong.model.entity.Entity;
 import java.awt.image.BufferedImage;
 
 /**
+ * Modifier implementation, use for decreasing the speed of an entity.
+ *
  * @author LBEVAN
  */
 public class DecreaseSpeedModifier extends AbstractModifier<Entity> {
@@ -36,7 +38,7 @@ public class DecreaseSpeedModifier extends AbstractModifier<Entity> {
      */
     @Override
     public int getValue() {
-        return 0;
+        return speedModifier;
     }
 
     /**
@@ -44,7 +46,7 @@ public class DecreaseSpeedModifier extends AbstractModifier<Entity> {
      */
     @Override
     public ModifierType getType() {
-        return null;
+        return ModifierType.DECREASE_SPEED;
     }
 
     /**

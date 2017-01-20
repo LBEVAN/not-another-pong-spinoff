@@ -73,6 +73,17 @@ public class PongController implements Controller {
         gameTimer.start();
         model.setStartGameTime(System.nanoTime());
     }
+
+    /**
+     * Pause the game if it is running and resume the game if its paused.
+     */
+    public void pauseOrResume() {
+        if(gameTimer.isRunning()) {
+            gameTimer.stop();
+        } else {
+            gameTimer.start();
+        }
+    }
     // endregion
 
     // region private API
@@ -89,7 +100,7 @@ public class PongController implements Controller {
         InputComponent<Player> computerInputComponent = new ComputerInputComponent(model);
         model.getPlayerById(PlayerId.TWO).setInputComponent(computerInputComponent);
 
-        GlobalInputManager globalInputManager = new GlobalInputManager(inputMap, actionMap, model);
+        new GlobalInputManager(inputMap, actionMap, model, this);
     }
 
     /**
