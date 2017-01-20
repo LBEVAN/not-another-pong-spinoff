@@ -95,4 +95,19 @@ public class MvcFactory {
 
         return new MvcWrapper<>(model, view, controller);
     }
+
+    /**
+     * Create all MVC components for the howToPlay screen.
+     *
+     * @return mvc
+     */
+    public static MvcWrapper<Model, HowToPlayView, HowToPlayController> createHowToPlay() {
+        HowToPlayView view = new HowToPlayView(PongFrame.SCREEN_WIDTH, PongFrame.SCREEN_HEIGHT);
+        HowToPlayController controller = new HowToPlayController(view);
+
+        controller.bind();
+        controller.start();
+
+        return new MvcWrapper<>(null, view, controller);
+    }
 }

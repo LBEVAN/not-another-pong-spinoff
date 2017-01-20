@@ -41,6 +41,14 @@ public enum ModifierType {
         public ModifierAction generateAction(PongModel data, PlayerId initiator) {
             return new DefensiveModifierAction(create(), data.getPlayerById(initiator));
         }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public String getDescription() {
+            return "Increases the height of the user's paddle.";
+        }
     },
     INCREASE_SPEED() {
         /**
@@ -65,6 +73,14 @@ public enum ModifierType {
         @Override
         public ModifierAction generateAction(PongModel data, PlayerId initiator) {
             return new DefensiveModifierAction(create(), data.getPlayerById(initiator));
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public String getDescription() {
+            return "Increases the speed of the user's paddle.";
         }
     },
     INCREASE_BALL_SPEED() {
@@ -91,6 +107,14 @@ public enum ModifierType {
         public ModifierAction generateAction(PongModel data, PlayerId initiator) {
             return new OffensiveModifierAction(create(), data.getBall(), data.getPlayerById(initiator));
         }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public String getDescription() {
+            return "Increases the speed of the ball.";
+        }
     },
     DECREASE_SPEED() {
         /**
@@ -115,6 +139,14 @@ public enum ModifierType {
         @Override
         public ModifierAction generateAction(PongModel data, PlayerId initiator) {
             return new OffensiveModifierAction(create(), data.getPlayerById(PlayerId.getOther(initiator)), data.getPlayerById(initiator));
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public String getDescription() {
+            return "Decreases the speed of the opponents paddle.";
         }
     },
     DECREASE_HEIGHT() {
@@ -142,6 +174,14 @@ public enum ModifierType {
             return new OffensiveModifierAction(create(), data.getPlayerById(PlayerId.getOther(initiator)), data.getPlayerById(initiator)
             );
         }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public String getDescription() {
+            return "Decreases the height of the opponent's paddle.";
+        }
     };
 
     /**
@@ -166,4 +206,11 @@ public enum ModifierType {
      * @return action
      */
     public abstract ModifierAction generateAction(PongModel data, PlayerId initiator);
+
+    /**
+     * Retrieve a string description for this modifier type.
+     *
+     * @return dedcription
+     */
+    public abstract String getDescription();
 }

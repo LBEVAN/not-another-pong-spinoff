@@ -7,5 +7,5 @@ package com.pong.gamestate;
  */
 public enum GameState {
 
-    MENU, GAME, GAME_OPTIONS, GAME_OVER, LEADERBOARD
+    MENU, GAME, GAME_OPTIONS, GAME_OVER, LEADERBOARD, HOW_TO_PLAY
 }

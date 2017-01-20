@@ -26,6 +26,7 @@ public class MainMenuView extends View {
     private JButton exitButton;
     private JButton playButton;
     private JButton leaderboardButton;
+    private JButton howToPlayButton;
     // endregion
 
     // region init
@@ -51,6 +52,7 @@ public class MainMenuView extends View {
         exitButton = new MenuButton("Exit");
         playButton = new MenuButton("Play");
         leaderboardButton = new MenuButton("Leaderboard");
+        howToPlayButton = new MenuButton("How To Play");
 
         // title and version
         add(Box.createRigidArea(new Dimension(0, 10)));
@@ -63,6 +65,8 @@ public class MainMenuView extends View {
         add(playButton);
         add(Box.createRigidArea(new Dimension(0, 30)));
         add(leaderboardButton);
+        add(Box.createRigidArea(new Dimension(0, 30)));
+        add(howToPlayButton);
         add(Box.createRigidArea(new Dimension(0, 30)));
         add(exitButton);
     }
@@ -114,6 +118,15 @@ public class MainMenuView extends View {
      */
     public JButton getLeaderboardButton() {
         return leaderboardButton;
+    }
+
+    /**
+     * Retrieve the howToPlay button.
+     *
+     * @return howToPlayButton
+     */
+    public JButton getHowToPlayButton() {
+        return howToPlayButton;
     }
     // endregion
 }

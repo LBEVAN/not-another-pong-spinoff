@@ -1,15 +1,17 @@
 package com.pong.controller;
 
-import com.pong.gamestate.GameStateManager;
 import com.pong.factory.MvcFactory;
 import com.pong.factory.MvcWrapper;
+import com.pong.gamestate.GameState;
+import com.pong.gamestate.GameStateManager;
 import com.pong.gui.view.GameOptionsView;
+import com.pong.gui.view.HowToPlayView;
 import com.pong.gui.view.LeaderboardView;
 import com.pong.gui.view.MainMenuView;
 import com.pong.model.GameOptionsModel;
 import com.pong.model.LeaderboardModel;
 import com.pong.model.MainMenuModel;
-import com.pong.gamestate.GameState;
+import com.pong.model.Model;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -71,6 +73,7 @@ public class MainMenuController implements Controller {
         view.getExitButton().addActionListener((e) -> System.exit(0));
         view.getPlayButton().addActionListener((e) -> playButtonAction());
         view.getLeaderboardButton().addActionListener((e) -> leaderboardButtonAction());
+        view.getHowToPlayButton().addActionListener((e) -> howToPlayButtonAction());
     }
 
     /**
@@ -89,6 +92,14 @@ public class MainMenuController implements Controller {
     private void leaderboardButtonAction() {
         MvcWrapper<LeaderboardModel, LeaderboardView, LeaderboardController> mvc = MvcFactory.createLeaderboard();
         GameStateManager.getInstance().changeState(GameState.LEADERBOARD, mvc);
+    }
+
+    /**
+     * Perform the howToPlay button action - switch to the How To Play view.
+     */
+    private void howToPlayButtonAction() {
+        MvcWrapper<Model, HowToPlayView, HowToPlayController> mvc = MvcFactory.createHowToPlay();
+        GameStateManager.getInstance().changeState(GameState.HOW_TO_PLAY, mvc);
     }
 
     /**
