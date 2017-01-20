@@ -11,6 +11,7 @@ import com.pong.model.GameOptionsModel;
 import com.pong.model.PongModel;
 import com.pong.model.wrapper.GameOptions;
 
+import java.awt.*;
 import java.awt.event.ItemEvent;
 
 /**
@@ -60,6 +61,8 @@ public class GameOptionsController implements Controller {
         });
 
         view.getDifficultyComboBox().addItemListener(e -> difficultySelectedAction(e));
+
+        view.getColourSelectorButton().addColorChangedListener(e -> colourSelectedAction(e));
     }
 
     /**
@@ -87,5 +90,14 @@ public class GameOptionsController implements Controller {
         if(event.getStateChange() == ItemEvent.SELECTED) {
             model.setSelectedDifficulty((DifficultyType) event.getItem());
         }
+    }
+
+    /**
+     * Handle the event when the user chooses a colour.
+     *
+     * @param color
+     */
+    private void colourSelectedAction(Color color) {
+        model.setPlayerColor(color);
     }
 }

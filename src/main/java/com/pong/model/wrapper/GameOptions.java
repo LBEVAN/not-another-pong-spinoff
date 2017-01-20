@@ -2,6 +2,8 @@ package com.pong.model.wrapper;
 
 import com.pong.ai.difficulty.Difficulty;
 
+import java.awt.*;
+
 /**
  * @author LBEVAN
  */
@@ -10,6 +12,7 @@ public class GameOptions {
     // region data
     private Difficulty difficulty;
     private String playerName;
+    private Color playerColour;
     // endregion
 
     // region init
@@ -18,9 +21,10 @@ public class GameOptions {
      *
      * @param difficulty
      */
-    public GameOptions(Difficulty difficulty, String playerName) {
+    public GameOptions(Difficulty difficulty, String playerName, Color playerColour) {
         this.difficulty = difficulty;
         this.playerName = playerName;
+        this.playerColour = playerColour;
     }
     // endregion
 
@@ -35,21 +39,21 @@ public class GameOptions {
     }
 
     /**
-     * Set the difficulty.
-     *
-     * @param difficulty
-     */
-    public void setDifficulty(Difficulty difficulty) {
-        this.difficulty = difficulty;
-    }
-
-    /**
      * Retrieve the player name;
      *
      * @return playerName
      */
     public String getPlayerName() {
         return playerName;
+    }
+
+    /**
+     * Retrieve the player colour;
+     *
+     * @return playerColour
+     */
+    public Color getPlayerColour() {
+        return playerColour;
     }
     // endregion
 }

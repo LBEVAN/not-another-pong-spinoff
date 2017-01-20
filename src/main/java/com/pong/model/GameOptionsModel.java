@@ -5,6 +5,7 @@ import com.pong.ai.difficulty.DifficultyType;
 import com.pong.model.wrapper.GameOptions;
 import com.pong.system.Constants;
 
+import java.awt.*;
 import java.util.prefs.Preferences;
 
 /**
@@ -17,6 +18,7 @@ public class GameOptionsModel implements Model {
     // region data
     private DifficultyType selectedDifficulty;
     private String playerName;
+    private Color playerColor;
     // endregion
 
     // region init
@@ -27,6 +29,7 @@ public class GameOptionsModel implements Model {
         // init the game difficulty to Medium
         selectedDifficulty = DifficultyType.MEDIUM;
         playerName = getStoredPlayerName();
+        playerColor = Color.WHITE;
     }
     // endregion
 
@@ -38,9 +41,12 @@ public class GameOptionsModel implements Model {
      * @return gameOptions
      */
     public GameOptions createGameOptions() {
-        return new GameOptions(selectedDifficulty.getDifficulty(), playerName);
+        return new GameOptions(selectedDifficulty.getDifficulty(), playerName, playerColor);
     }
 
+    /**
+     * Save the entered player name into the preferences.
+     */
     public void savePlayerName() {
         Preferences preferences = Preferences.userNodeForPackage(Pong.class);
         preferences.put(Constants.KEY_PLAYERNAME, playerName);
@@ -48,6 +54,12 @@ public class GameOptionsModel implements Model {
     // endregion
 
     // region private API
+    /**
+     * Retrieve the stored player name from the preferences.
+     * Return empty string if no name is found.
+     *
+     * @return playerName
+     */
     private String getStoredPlayerName() {
         Preferences preferences = Preferences.userNodeForPackage(Pong.class);
         return preferences.get(Constants.KEY_PLAYERNAME, "");
@@ -98,6 +110,10 @@ public class GameOptionsModel implements Model {
      */
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
+    }
+
+    public void setPlayerColor(Color playerColor) {
+        this.playerColor = playerColor;
     }
     // endregion
 }

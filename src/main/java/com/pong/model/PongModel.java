@@ -11,6 +11,7 @@ import com.pong.model.eventhandler.BallEventHandler;
 import com.pong.model.scoring.ScoreManager;
 import com.pong.model.wrapper.GameOptions;
 
+import java.awt.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -46,10 +47,10 @@ public class PongModel implements Model, BallEventHandler {
         this.gameOptions = gameOptions;
 
         // create player1
-        this.player1 = new Player(10, PongFrame.SCREEN_HEIGHT / 2, 15, 75, gameOptions.getPlayerName());
+        this.player1 = new Player(10, PongFrame.SCREEN_HEIGHT / 2, 15, 75, gameOptions.getPlayerName(), gameOptions.getPlayerColour());
 
         // create the player2
-        this.player2 = new Player(PongFrame.SCREEN_WIDTH - 30, PongFrame.SCREEN_HEIGHT / 2, 15, 75, "Computer");
+        this.player2 = new Player(PongFrame.SCREEN_WIDTH - 30, PongFrame.SCREEN_HEIGHT / 2, 15, 75, "Computer", Color.WHITE);
 
         // create the ball
         this.ball = new Ball(PongFrame.SCREEN_WIDTH / 2, PongFrame.SCREEN_HEIGHT / 2, 25, 25, this);

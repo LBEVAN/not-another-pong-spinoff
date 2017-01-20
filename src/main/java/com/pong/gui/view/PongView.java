@@ -114,6 +114,7 @@ public class PongView extends View {
 //
 //        graphics.drawImage(player.getImage(), transform, null);
 
+        graphics.setColor(player.getColour());
         graphics.fill(new Rectangle2D.Double(player.getX(), player.getY(), player.getWidth(), player.getHeight()));
     }
 

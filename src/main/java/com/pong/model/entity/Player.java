@@ -3,6 +3,7 @@ package com.pong.model.entity;
 import com.pong.model.entity.component.InputComponent;
 import com.pong.system.resource.ResourceManager;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
@@ -17,6 +18,7 @@ public class Player extends Entity {
     private InputComponent<Player> inputComponent;
 
     private String name;
+    private Color colour;
     // endregion
 
     // region init
@@ -29,9 +31,10 @@ public class Player extends Entity {
      * @param height
      * @param name
      */
-    public Player(int x, int y, int width, int height, String name) {
+    public Player(int x, int y, int width, int height, String name, Color colour) {
         super(x, y, width, height);
         this.name = name;
+        this.colour = colour;
     }
     // endregion
 
@@ -89,12 +92,21 @@ public class Player extends Entity {
     }
 
     /**
-     * Retreieve the player name.
+     * Retrieve the player name.
      *
      * @return name
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * Retrieve the colour of the player.
+     *
+     * @return colour
+     */
+    public Color getColour() {
+        return colour;
     }
     // endregion
 }

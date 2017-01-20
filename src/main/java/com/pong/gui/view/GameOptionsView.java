@@ -35,6 +35,9 @@ public class GameOptionsView extends View {
     private JLabel usernameLabel;
     private JTextField usernameField;
 
+    private JLabel playerColorLabel;
+    private ColourSelectorButton colourSelectorButton;
+
     private JButton startButton;
     private JButton backButton;
     // endregion
@@ -85,6 +88,10 @@ public class GameOptionsView extends View {
         usernameField.setDocument(new TextFieldLimit(20));
         usernameField.setText(model.getPlayerName());
 
+        playerColorLabel = new MenuLabel("Player Colour", 24f);
+
+        colourSelectorButton = new ColourSelectorButton(Color.WHITE);
+
         startButton = new MenuButton("Start");
         startButton.setBorder(new EmptyBorder(20, 0, 20, 0));
 
@@ -111,10 +118,20 @@ public class GameOptionsView extends View {
         constraints.gridx = 0;
         constraints.gridy = 1;
         constraints.insets = new Insets(10, 0, 0, 200);
-        optionsPanel.add(difficultyLabel, constraints);
+        optionsPanel.add(playerColorLabel, constraints);
 
         constraints.gridx = 1;
         constraints.gridy = 1;
+        constraints.insets = new Insets(10, 200, 0, 0);
+        optionsPanel.add(colourSelectorButton, constraints);
+
+        constraints.gridx = 0;
+        constraints.gridy = 2;
+        constraints.insets = new Insets(10, 0, 0, 200);
+        optionsPanel.add(difficultyLabel, constraints);
+
+        constraints.gridx = 1;
+        constraints.gridy = 2;
         constraints.insets = new Insets(10, 200, 0, 0);
         optionsPanel.add(difficultyComboBox, constraints);
 
@@ -171,6 +188,15 @@ public class GameOptionsView extends View {
      */
     public JTextField getUsernameField() {
         return usernameField;
+    }
+
+    /**
+     * Retrieve the colour selected button
+     *
+     * @return colourSelectorButton
+     */
+    public ColourSelectorButton getColourSelectorButton() {
+        return colourSelectorButton;
     }
     // endregion
 }
