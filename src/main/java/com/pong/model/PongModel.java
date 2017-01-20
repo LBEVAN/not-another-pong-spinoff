@@ -2,21 +2,17 @@ package com.pong.model;
 
 import com.pong.gui.frame.PongFrame;
 import com.pong.model.entity.Ball;
-import com.pong.model.entity.Computer;
 import com.pong.model.entity.Player;
+import com.pong.model.entity.player.PlayerId;
 import com.pong.model.environment.Environment;
 import com.pong.model.environment.EnvironmentBall;
 import com.pong.model.environment.EnvironmentManager;
 import com.pong.model.eventhandler.BallEventHandler;
-import com.pong.model.modifier.Modifier;
-import com.pong.model.modifier.ModifierSpawner;
+import com.pong.model.scoring.ScoreManager;
 import com.pong.model.wrapper.GameOptions;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * PongModel represents the model of the game.
@@ -29,17 +25,10 @@ public class PongModel implements Model, BallEventHandler {
     // region data
     private final GameOptions gameOptions;
 
-    private Player player;
+    private final ScoreManager scoreManager;
+
+    private Player player1, player2;
     private Ball ball;
-    private Computer computer;
-
-    private ModifierSpawner modifierSpawner = new ModifierSpawner();
-    private List<Modifier> activeModifiers;
-
-    private int playerScore = 0;
-    private int computerScore = 0;
-
-    private int maxScore = 1;
 
     private EnvironmentManager environmentManager;
 
@@ -55,19 +44,19 @@ public class PongModel implements Model, BallEventHandler {
      */
     public PongModel(final GameOptions gameOptions) {
         this.gameOptions = gameOptions;
-        activeModifiers = new ArrayList<>();
 
-        // create the player
-        this.player = new Player(10, PongFrame.SCREEN_HEIGHT / 2, 15, 75);
+        // create the player1
+        this.player1 = new Player(10, PongFrame.SCREEN_HEIGHT / 2, 15, 75);
 
         // create the computer
-        this.computer = new Computer(PongFrame.SCREEN_WIDTH - 30, PongFrame.SCREEN_HEIGHT / 2, 15, 75, this);
+        this.player2 = new Player(PongFrame.SCREEN_WIDTH - 30, PongFrame.SCREEN_HEIGHT / 2, 15, 75);
 
         // create the ball
         this.ball = new Ball(PongFrame.SCREEN_WIDTH / 2, PongFrame.SCREEN_HEIGHT / 2, 25, 25, this);
         ball.setBallEventHandler(this);
 
         this.environmentManager = new EnvironmentManager(Environment.SPACE);
+        this.scoreManager = new ScoreManager();
     }
     // endregion
 
@@ -76,23 +65,11 @@ public class PongModel implements Model, BallEventHandler {
      * Update the entities.
      */
     public void update() {
-        checkGameOverScenario();
-
         ball.update();
-        player.update();
-        computer.update();
+        player1.update();
+        player2.update();
 
-        modifierSpawner.spawn(this);
         environmentManager.update();
-
-        cleanup();
-    }
-
-    /**
-     * Check if the Player or the Computer has won (i.e. hit the maxScore).
-     */
-    public boolean checkGameOverScenario() {
-        return playerScore >= maxScore || computerScore >= maxScore;
     }
 
     /**
@@ -117,12 +94,22 @@ public class PongModel implements Model, BallEventHandler {
     }
 
     /**
-     * Add a modifier to the game world.
+     * Retrieve the player by its id.
+     * PlayerId.ONE = player1.
+     * PlayerId.TWO = player2.
      *
-     * @param modifier
+     * @param playerId
+     * @return player
      */
-    public void addActiveModifier(Modifier modifier) {
-        activeModifiers.add(modifier);
+    public Player getPlayerById(PlayerId playerId) {
+        Player player = null;
+
+        switch (playerId) {
+            case ONE: player = player1; break;
+            case TWO: player = player2; break;
+        }
+
+        return player;
     }
     // endregion
 
@@ -131,16 +118,8 @@ public class PongModel implements Model, BallEventHandler {
      * {@inheritDoc}
      */
     @Override
-    public void onPlayerScored() {
-        playerScore += gameOptions.getDifficulty().getPointValue();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void onComputerScored() {
-        computerScore += gameOptions.getDifficulty().getPointValue();
+    public void onPlayerScored(PlayerId playerId) {
+        scoreManager.increaseScore(playerId, gameOptions.getDifficulty().getPointValue());
     }
 
     /**
@@ -149,21 +128,6 @@ public class PongModel implements Model, BallEventHandler {
     @Override
     public void onEnvironmentalBallCollision() {
         environmentManager.onEnvironmentalBallCollision();
-    }
-    // endregion
-
-    // region private API
-    /**
-     * Delegate method to perform cleanup actions every tick (e.g. removing inactive modifiers);
-     */
-    private void cleanup() {
-        Iterator<Modifier> iter = activeModifiers.iterator();
-        while(iter.hasNext()) {
-            Modifier modifier = iter.next();
-            if(!modifier.isActive()) {
-                iter.remove();
-            }
-        }
     }
     // endregion
 
@@ -178,57 +142,12 @@ public class PongModel implements Model, BallEventHandler {
     }
 
     /**
-     * Retrieve the Player.
-     *
-     * @return player
-     */
-    public Player getPlayer() {
-        return player;
-    }
-
-    /**
-     * Retrieve the Computer.
-     *
-     * @return computer
-     */
-    public Computer getComputer() {
-        return computer;
-    }
-
-    /**
-     * Retrieve the player score.
-     *
-     * @return playerScore
-     */
-    public int getPlayerScore() {
-        return playerScore;
-    }
-
-    /**
-     * Retrieve the computer score.
-     *
-     * @return computerScore
-     */
-    public int getComputerScore() {
-        return computerScore;
-    }
-
-    /**
      * Retrieve the gameOptions.
      *
      * @return gameOptions
      */
     public GameOptions getGameOptions() {
         return gameOptions;
-    }
-
-    /**
-     * Retrieve the list of active modifiers in the game world.
-     *
-     * @return activeModifiers
-     */
-    public List<Modifier> getActiveModifiers() {
-        return activeModifiers;
     }
 
     /**
@@ -256,6 +175,15 @@ public class PongModel implements Model, BallEventHandler {
      */
     public void setStartGameTime(long startGameTime) {
         this.startGameTime = startGameTime;
+    }
+
+    /**
+     * Retrieve the scoreManager.
+     *
+     * @return
+     */
+    public ScoreManager getScoreManager() {
+        return scoreManager;
     }
     // endregion
 }

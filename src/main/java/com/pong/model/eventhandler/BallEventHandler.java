@@ -1,5 +1,7 @@
 package com.pong.model.eventhandler;
 
+import com.pong.model.entity.player.PlayerId;
+
 /**
  * Ball events interface. Defines ball events that need to be handled, called back from within the Ball class.
  *
@@ -8,14 +10,11 @@ package com.pong.model.eventhandler;
 public interface BallEventHandler {
 
     /**
-     * Event - the player has scored.
+     * Event - a player has scored.
+     *
+     * @param playerId
      */
-    void onPlayerScored();
-
-    /**
-     * Event - the computer has scored.
-     */
-    void onComputerScored();
+    void onPlayerScored(PlayerId playerId);
 
     /**
      * Event - the ball has collided with the environmental ball.

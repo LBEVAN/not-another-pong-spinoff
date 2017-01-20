@@ -1,9 +1,9 @@
 package com.pong.gui.frame;
 
-import com.pong.GameStateManager;
+import com.pong.gamestate.GameStateManager;
 import com.pong.factory.MvcFactory;
 import com.pong.gui.view.GameStateView;
-import com.pong.state.GameState;
+import com.pong.gamestate.GameState;
 import com.pong.system.resource.ResourceLoader;
 
 import javax.swing.*;

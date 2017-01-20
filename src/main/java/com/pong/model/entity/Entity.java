@@ -1,10 +1,10 @@
 package com.pong.model.entity;
 
-import com.pong.model.modifier.Modifier;
+import com.pong.model.eventhandler.ModifierEventHandler;
+import com.pong.model.modifier.AbstractModifier;
 import com.pong.model.modifier.ModifierSystem;
 import com.pong.model.modifier.ModifierType;
 
-import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Collection;
@@ -16,8 +16,9 @@ import java.util.Collection;
  *
  * @author LBEVAN
  */
-public abstract class Entity {
+public abstract class Entity implements ModifierEventHandler {
 
+    // region data
     protected double x;
     protected double y;
     protected int width;
@@ -26,6 +27,9 @@ public abstract class Entity {
     protected double modifiedSpeed = 0;
 
     protected ModifierSystem modifierSystem;
+    // endregion
+
+    // region init
     /**
      * Entity constructor.
      *
@@ -42,7 +46,36 @@ public abstract class Entity {
 
         this.modifierSystem = new ModifierSystem();
     }
+    // endregion
 
+    // region events
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onConsumeDefensiveModifier(AbstractModifier modifier) {
+        modifierSystem.addModifier(modifier);
+        modifierSystem.incrementNumCharges(modifier.getType());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onUseOffensiveModifier(ModifierType modifierType) {
+        modifierSystem.incrementNumCharges(modifierType);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onConsumeOffensiveModifier(AbstractModifier modifier) {
+        modifierSystem.addModifier(modifier);
+    }
+    // endregion
+
+    // region getters & setters
     /**
      * Retrieve the x coordinate of the entity.
      *
@@ -143,21 +176,18 @@ public abstract class Entity {
     }
 
     /**
-     * Add a modifier to the entity.
-     *
-     * @param modifier
-     */
-    public void addModifier(final Modifier modifier) {
-        modifierSystem.addModifier(modifier);
-    }
-
-    /**
      * Get the modifiers on this entity.
      */
-    public Collection<Modifier> getModifiers() {
+    public Collection<AbstractModifier> getModifiers() {
         return modifierSystem.getModifiers();
     }
 
+    public ModifierSystem getModifierSystem() {
+        return modifierSystem;
+    }
+    // endregion
+
+    // region abstract methods
     /**
      * Update the entity (e.g. move).
      */
@@ -176,4 +206,5 @@ public abstract class Entity {
      * @return bufferedImage
      */
     public abstract BufferedImage getImage();
+    // endregion
 }

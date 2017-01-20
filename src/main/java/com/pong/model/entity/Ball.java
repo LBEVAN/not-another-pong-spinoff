@@ -2,9 +2,9 @@ package com.pong.model.entity;
 
 import com.pong.gui.frame.PongFrame;
 import com.pong.model.PongModel;
+import com.pong.model.entity.player.PlayerId;
 import com.pong.model.environment.EnvironmentBall;
 import com.pong.model.eventhandler.BallEventHandler;
-import com.pong.model.modifier.Modifier;
 import com.pong.system.Constants;
 import com.pong.system.resource.ResourceManager;
 import com.pong.system.sound.Sound;
@@ -21,9 +21,8 @@ import java.util.Random;
  */
 public class Ball extends Entity {
 
+    // region data
     private final PongModel pongModel;
-
-    private Entity owner;
 
     private double deltaX = -2;
     private double deltaY = -2;
@@ -31,6 +30,10 @@ public class Ball extends Entity {
 
     private BallEventHandler ballEventHandler;
 
+    private boolean hasCollided = false;
+    // endregion
+
+    // region init
     /**
      * Constructor.
      *
@@ -43,27 +46,26 @@ public class Ball extends Entity {
     public Ball(int x, int y, int width, int height, final PongModel pongModel) {
         super(x, y, width, height);
         this.pongModel = pongModel;
-
-        // assign first owner to the computer (for now)
-        this.owner = pongModel.getComputer();
     }
+    // endregion
 
+    // region public API
     /**
      * {@inheritDoc}
      */
     public void update() {
         move();
 
-        checkCollisionWithPlayer();
-        checkCollisionWithComputer();
+        checkCollisionWithPlayers();
         checkCollisionWithArena();
-        checkCollisionWithModifier();
         checkCollisionWithEnvironmentalBall();
         checkScoreZone();
 
         modifierSystem.update(this);
     }
+    // endregion
 
+    // region private API
     /**
      * Move the ball, called every tick, by the delta (speed).
      */
@@ -73,45 +75,36 @@ public class Ball extends Entity {
     }
 
     /**
-     * Check if the Ball collides with the Player.
-     * If so inverse the x delta (direction).
+     * Check collision with the players.
      */
-    private void checkCollisionWithPlayer() {
-        if(getBounds().intersects(pongModel.getPlayer().getBounds())) {
-            owner = pongModel.getPlayer();
+    private void checkCollisionWithPlayers() {
+        boolean isCollidingWithPlayer = (isCollidingWithPlayer(PlayerId.ONE) || isCollidingWithPlayer(PlayerId.TWO));
 
-            // WIP
-            final double yTop = pongModel.getPlayer().getY();
-            final double yMiddle = yTop + (pongModel.getPlayer().getHeight() / 2);
-            final double yBottom = yTop + pongModel.getPlayer().getHeight();
-
-            double intersectPoint = yMiddle - y;
-            System.out.println("Intersect Point: " + intersectPoint);
-            // WIP
-
-            // only reverse the delta is we are going towards the paddle.
-            // this is here to fix a bug whereby the collision is detected multiple times
-            // and the entity gets trapped in the paddle.
-            if(deltaX < 0) {
-                deltaX *= -1;
-            }
+        if(isCollidingWithPlayer && !hasCollided) {
+            updateCollisionValues();
+            hasCollided = true;
+        } else if(isCollidingWithPlayer && hasCollided) {
+            hasCollided = true;
+        } else {
+            hasCollided = false;
         }
     }
 
     /**
-     * Check if the Ball collides with the Computer.
-     * If so inverse the x delta (direction).
+     * Check if the ball is colliding with the specified player.
+     *
+     * @param playerId
+     * @return isCollidingWithPlayer
      */
-    private void checkCollisionWithComputer() {
-        if(getBounds().intersects(pongModel.getComputer().getBounds())) {
-            owner = pongModel.getComputer();
-            // only reverse the delta is we are going towards the paddle.
-            // this is here to fix a bug whereby the collision is detected multiple times
-            // and the entity gets trapped in the paddle.
-            if(deltaX > 0) {
-                deltaX *= -1;
-            }
-        }
+    private boolean isCollidingWithPlayer(PlayerId playerId) {
+        return getBounds().intersects(pongModel.getPlayerById(playerId).getBounds());
+    }
+
+    /**
+     * Update the collision values. Inverse deltaX.
+     */
+    private void updateCollisionValues() {
+        deltaX *= -1;
     }
 
     /**
@@ -132,38 +125,26 @@ public class Ball extends Entity {
     private void checkScoreZone() {
         if(x <= 0 - width) {
             // player score zone, notify handler that the computer has scored
-            onComputerScored();
+            onPlayerScored(PlayerId.TWO);
             resetPosition();
         }
 
         if(x >= PongFrame.SCREEN_WIDTH + width) {
             // computer score zone, notify handler that the player has scored
-            onPlayerScored();
+            onPlayerScored(PlayerId.ONE);
             resetPosition();
         }
     }
 
-    @Sound(soundKey = Constants.BALL_DEATH_SOUND, soundCommand = SoundCommand.PLAY_SOUND)
-    private void onComputerScored() {
-        ballEventHandler.onComputerScored();
-    }
-
-    @Sound(soundKey = Constants.BALL_DEATH_SOUND, soundCommand = SoundCommand.PLAY_SOUND)
-    private void onPlayerScored() {
-        ballEventHandler.onPlayerScored();
-    }
-
     /**
-     * Check if the ball has intersected a modifier.
-     * If so add it to the owner entity.
+     * Delegate event method for when a player scores.
+     * This is used to play a sound when fired.
+     *
+     * @param playerId
      */
-    private void checkCollisionWithModifier() {
-        for(Modifier modifier: pongModel.getActiveModifiers()) {
-            if(getBounds().intersects(modifier.getBounds())) {
-                modifier.onHit();
-                owner.addModifier(modifier);
-            }
-        }
+    @Sound(soundKey = Constants.BALL_DEATH_SOUND, soundCommand = SoundCommand.PLAY_SOUND)
+    private void onPlayerScored(PlayerId playerId) {
+        ballEventHandler.onPlayerScored(playerId);
     }
 
     /**
@@ -185,8 +166,9 @@ public class Ball extends Entity {
         y = PongFrame.SCREEN_HEIGHT / 2 - height / 2;
         deltaY = new Random().nextBoolean() ? -2 : 2;
     }
+    // endregion
 
-
+    // region getters & setters
     /**
      * Set the ball event handler.
      *
@@ -201,12 +183,15 @@ public class Ball extends Entity {
      */
     public double getSpeed() {
         // the ball speed if affected by the environment (e.g. ice = quicker, desert = slower)
-        return normalMoveSpeed * pongModel.getEnvironment().getSpeedModifier();
+        return (normalMoveSpeed + modifiedSpeed) * pongModel.getEnvironment().getSpeedModifier();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public BufferedImage getImage() {
-        // todo: change
         return ResourceManager.getInstance().getGraphic("Ball");
     }
+    // endregion
 }

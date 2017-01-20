@@ -2,10 +2,12 @@ package com.pong.gui.view.pongview;
 
 import com.pong.gui.components.MenuLabel;
 import com.pong.model.PongModel;
-import com.pong.model.modifier.Modifier;
+import com.pong.model.entity.Player;
+import com.pong.model.entity.player.PlayerId;
+import com.pong.model.modifier.AbstractModifier;
+import com.pong.model.scoring.ScoreManager;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.util.Collection;
 
@@ -31,7 +33,6 @@ public class GameUIPanel extends JPanel {
     // endregion
 
     // region init
-
     /**
      * Constructor.
      *
@@ -83,14 +84,19 @@ public class GameUIPanel extends JPanel {
      * @param model
      */
     public void update(Graphics2D graphics, final PongModel model) {
-        gameInfoPanel.updateP1Score(model.getPlayerScore());
-        gameInfoPanel.updateP2Score(model.getComputerScore());
+        final ScoreManager scoreManager = model.getScoreManager();
+
+        gameInfoPanel.updateP1Score(scoreManager.getScore(PlayerId.ONE));
+        gameInfoPanel.updateP2Score(scoreManager.getScore(PlayerId.TWO));
         gameInfoPanel.updateGameTime(model.getTimeRemaining());
 
-        modifiersPanel.update(graphics);
+        final Player player1 = model.getPlayerById(PlayerId.ONE);
+        final Player player2 = model.getPlayerById(PlayerId.TWO);
 
-        playerModifiersLabel.setText("Modifiers: " + createModifierString(model.getPlayer().getModifiers()));
-        computerModifiersLabel.setText("Modifiers: " + createModifierString(model.getComputer().getModifiers()));
+        modifiersPanel.update(player1, player2);
+
+        playerModifiersLabel.setText("Modifiers: " + createModifierString(player1.getModifiers()));
+        computerModifiersLabel.setText("Modifiers: " + createModifierString(player2.getModifiers()));
     }
     // endregion
 
@@ -101,15 +107,10 @@ public class GameUIPanel extends JPanel {
      * @param modifiers
      * @return modifiersString
      */
-    private String createModifierString(Collection<Modifier> modifiers) {
+    private String createModifierString(Collection<AbstractModifier> modifiers) {
         StringBuilder stringBuilder = new StringBuilder();
 
-        modifiers.forEach(modifier -> {
-            stringBuilder.append(modifier.getName());
-            stringBuilder.append(" ");
-            stringBuilder.append(modifier.getTimeRemaining());
-            stringBuilder.append(" | ");
-        });
+        modifiers.forEach(modifier -> stringBuilder.append(modifier.toString()));
 
         return stringBuilder.toString();
     }

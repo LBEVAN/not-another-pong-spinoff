@@ -1,7 +1,6 @@
 package com.pong.model.entity;
 
-import com.pong.controller.input.Direction;
-import com.pong.gui.frame.PongFrame;
+import com.pong.model.entity.component.InputComponent;
 import com.pong.system.resource.ResourceManager;
 
 import java.awt.image.BufferedImage;
@@ -14,9 +13,11 @@ import java.awt.image.BufferedImage;
  */
 public class Player extends Entity {
 
-    private double deltaY = 0;
-    private Direction direction;
+    // region data
+    private InputComponent<Player> inputComponent;
+    // endregion
 
+    // region init
     /**
      * Player constructor.
      *
@@ -28,38 +29,25 @@ public class Player extends Entity {
     public Player(int x, int y, int width, int height) {
         super(x, y, width, height);
     }
+    // endregion
 
+    // region public API
     /**
      * {@inheritDoc}
      */
     public void update() {
-        // if within bounds move player
-        if(direction == Direction.DOWN && y <= PongFrame.SCREEN_HEIGHT - height) {
-            y += deltaY;
-        } else if(direction == Direction.UP && y >= 0) {
-            y += deltaY;
-        }
-
+        inputComponent.update(this);
         modifierSystem.update(this);
     }
+    // endregion
 
+    // region getters & setters
     /**
      * {@inheritDoc}
      */
     @Override
     public BufferedImage getImage() {
         return ResourceManager.getInstance().getGraphic("Paddle");
-    }
-
-    /**
-     * Action to move the player entity in a direction at the specified speed.
-     *
-     * @param deltaY
-     * @param direction
-     */
-    public void move(double deltaY, Direction direction) {
-        this.deltaY = deltaY;
-        this.direction = direction;
     }
 
     /**
@@ -77,4 +65,13 @@ public class Player extends Entity {
             return baseSpeed + modifiedSpeed;
         }
     }
+
+    public InputComponent<Player> getInputComponent() {
+        return inputComponent;
+    }
+
+    public void setInputComponent(InputComponent<Player> inputComponent) {
+        this.inputComponent = inputComponent;
+    }
+    // endregion
 }
