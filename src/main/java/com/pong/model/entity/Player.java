@@ -15,6 +15,8 @@ public class Player extends Entity {
 
     // region data
     private InputComponent<Player> inputComponent;
+
+    private String name;
     // endregion
 
     // region init
@@ -25,9 +27,11 @@ public class Player extends Entity {
      * @param y
      * @param width
      * @param height
+     * @param name
      */
-    public Player(int x, int y, int width, int height) {
+    public Player(int x, int y, int width, int height, String name) {
         super(x, y, width, height);
+        this.name = name;
     }
     // endregion
 
@@ -66,12 +70,31 @@ public class Player extends Entity {
         }
     }
 
+    /**
+     * Retrieve the input component for the player.
+     *
+     * @return inputComponent
+     */
     public InputComponent<Player> getInputComponent() {
         return inputComponent;
     }
 
+    /**
+     * Set a new input componenent.
+     *
+     * @param inputComponent
+     */
     public void setInputComponent(InputComponent<Player> inputComponent) {
         this.inputComponent = inputComponent;
+    }
+
+    /**
+     * Retreieve the player name.
+     *
+     * @return name
+     */
+    public String getName() {
+        return name;
     }
     // endregion
 }

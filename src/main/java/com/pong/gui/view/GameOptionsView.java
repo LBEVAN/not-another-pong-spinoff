@@ -1,9 +1,7 @@
 package com.pong.gui.view;
 
 import com.pong.ai.difficulty.DifficultyType;
-import com.pong.gui.components.MenuButton;
-import com.pong.gui.components.MenuDropdown;
-import com.pong.gui.components.MenuLabel;
+import com.pong.gui.components.*;
 import com.pong.model.GameOptionsModel;
 
 import javax.swing.*;
@@ -30,8 +28,13 @@ public class GameOptionsView extends View {
     private JPanel buttonPanel;
 
     private JLabel titleLabel;
+
     private JLabel difficultyLabel;
     private JComboBox<DifficultyType> difficultyComboBox;
+
+    private JLabel usernameLabel;
+    private JTextField usernameField;
+
     private JButton startButton;
     private JButton backButton;
     // endregion
@@ -76,6 +79,12 @@ public class GameOptionsView extends View {
         difficultyComboBox.setModel(new DefaultComboBoxModel<>(model.getDifficulties()));
         difficultyComboBox.setSelectedItem(model.getSelectedDifficulty());
 
+        usernameLabel = new MenuLabel("Player Name", 24f);
+
+        usernameField = new MenuTextField(15);
+        usernameField.setDocument(new TextFieldLimit(20));
+        usernameField.setText(model.getPlayerName());
+
         startButton = new MenuButton("Start");
         startButton.setBorder(new EmptyBorder(20, 0, 20, 0));
 
@@ -92,12 +101,23 @@ public class GameOptionsView extends View {
         constraints.gridx = 0;
         constraints.gridy = 0;
         constraints.insets = new Insets(0, 0, 0, 200);
-        optionsPanel.add(difficultyLabel, constraints);
+        optionsPanel.add(usernameLabel, constraints);
 
         constraints.gridx = 1;
         constraints.gridy = 0;
         constraints.insets = new Insets(0, 200, 0, 0);
+        optionsPanel.add(usernameField, constraints);
+
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        constraints.insets = new Insets(10, 0, 0, 200);
+        optionsPanel.add(difficultyLabel, constraints);
+
+        constraints.gridx = 1;
+        constraints.gridy = 1;
+        constraints.insets = new Insets(10, 200, 0, 0);
         optionsPanel.add(difficultyComboBox, constraints);
+
         add(optionsPanel, BorderLayout.CENTER);
 
         buttonPanel.add(backButton);
@@ -142,6 +162,15 @@ public class GameOptionsView extends View {
      */
     public JComboBox<DifficultyType> getDifficultyComboBox() {
         return difficultyComboBox;
+    }
+
+    /**
+     * Retrieve the username field.
+     *
+     * @return usernameField
+     */
+    public JTextField getUsernameField() {
+        return usernameField;
     }
     // endregion
 }

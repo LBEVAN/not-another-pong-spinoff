@@ -1,6 +1,7 @@
 package com.pong.model.leaderboard;
 
 import com.pong.Pong;
+import com.pong.system.Constants;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -16,8 +17,6 @@ import java.util.prefs.Preferences;
 public class Leaderboard {
 
     // region data
-    public static final String KEY = "LEADERBOARD";
-
     private List<LeaderboardEntry> leaderboardEntries;
     private final int maxEntries = 5;
     // endregion
@@ -80,7 +79,7 @@ public class Leaderboard {
             byte[] bytes = bos.toByteArray();
 
             Preferences preferences = getPreferences();
-            preferences.putByteArray(KEY, bytes);
+            preferences.putByteArray(Constants.KEY_LEADERBOARD, bytes);
         } catch(IOException ioe) {
             ioe.printStackTrace();
         } finally {
@@ -97,7 +96,7 @@ public class Leaderboard {
      */
     public void load() {
         Preferences preferences = getPreferences();
-        byte[] leaderboardBytes = preferences.getByteArray(KEY, null);
+        byte[] leaderboardBytes = preferences.getByteArray(Constants.KEY_LEADERBOARD, null);
 
         if(leaderboardBytes == null) {
             leaderboardEntries = new ArrayList<>();
@@ -129,7 +128,7 @@ public class Leaderboard {
      */
     public void clear() {
         Preferences preferences = getPreferences();
-        preferences.remove(KEY);
+        preferences.remove(Constants.KEY_LEADERBOARD);
         load();
     }
     // endregion

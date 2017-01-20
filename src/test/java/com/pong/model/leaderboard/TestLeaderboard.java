@@ -1,6 +1,7 @@
 package com.pong.model.leaderboard;
 
 import com.pong.Pong;
+import com.pong.system.Constants;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,7 +52,7 @@ public class TestLeaderboard {
             out.flush();
             byte[] bytes = bos.toByteArray();
 
-            preferences.putByteArray(Leaderboard.KEY, bytes);
+            preferences.putByteArray(Constants.KEY_LEADERBOARD, bytes);
         } catch(IOException ioe) {
             ioe.printStackTrace();
         } finally {
@@ -97,7 +98,7 @@ public class TestLeaderboard {
 
         // manually check the preferences
         Preferences preferences = Preferences.userNodeForPackage(Pong.class);
-        byte[] byteArrayToCheck = preferences.getByteArray(Leaderboard.KEY, null);
+        byte[] byteArrayToCheck = preferences.getByteArray(Constants.KEY_LEADERBOARD, null);
         assertNotNull(byteArrayToCheck);
 
         // parse values

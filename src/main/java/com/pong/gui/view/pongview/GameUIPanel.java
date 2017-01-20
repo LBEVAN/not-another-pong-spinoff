@@ -86,12 +86,12 @@ public class GameUIPanel extends JPanel {
     public void update(Graphics2D graphics, final PongModel model) {
         final ScoreManager scoreManager = model.getScoreManager();
 
-        gameInfoPanel.updateP1Score(scoreManager.getScore(PlayerId.ONE));
-        gameInfoPanel.updateP2Score(scoreManager.getScore(PlayerId.TWO));
-        gameInfoPanel.updateGameTime(model.getTimeRemaining());
-
         final Player player1 = model.getPlayerById(PlayerId.ONE);
         final Player player2 = model.getPlayerById(PlayerId.TWO);
+
+        gameInfoPanel.updateP1Score(player1.getName(), scoreManager.getScore(PlayerId.ONE));
+        gameInfoPanel.updateP2Score(player2.getName(), scoreManager.getScore(PlayerId.TWO));
+        gameInfoPanel.updateGameTime(model.getTimeRemaining());
 
         modifiersPanel.update(player1, player2);
 

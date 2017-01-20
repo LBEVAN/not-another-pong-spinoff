@@ -65,19 +65,21 @@ public class GameInfoPanel extends JPanel {
     /**
      * Update the UI element for player 1's score.
      *
+     * @param name
      * @param score
      */
-    public void updateP1Score(final int score) {
-        p1ScoreLabel.setText(String.format("Player Score: %s", score));
+    public void updateP1Score(final String name, final int score) {
+        p1ScoreLabel.setText(String.format("%s Score: %d", name, score));
     }
 
     /**
      * Update the UI element for player 2's score.
      *
+     * @param name
      * @param score
      */
-    public void updateP2Score(final int score) {
-        p2ScoreLabel.setText(String.format("Computer Score: %s", score));
+    public void updateP2Score(final String name, final int score) {
+        p2ScoreLabel.setText(String.format("%s Score: %d", name, score));
     }
 
     /**

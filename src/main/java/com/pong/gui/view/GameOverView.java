@@ -7,6 +7,7 @@ import com.pong.model.GameOverModel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 
 /**
@@ -30,8 +31,8 @@ public class GameOverView extends View {
 
     private JLabel titleLabel;
     private JLabel winnerLabel;
-    private JLabel playerScoreLabel;
-    private JLabel computerScoreLabel;
+    private JLabel p1ScoreLabel;
+    private JLabel p2ScoreLabel;
     private JButton playAgainButton;
     private JButton exitButton;
     // endregion
@@ -64,6 +65,10 @@ public class GameOverView extends View {
         detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
 
         leaderboardPanel = new LeaderboardPanel(model.getHighScores());
+        leaderboardPanel.setBorder(BorderFactory.createCompoundBorder(
+                new MatteBorder(1, 0, 0, 0, Color.LIGHT_GRAY),
+                new EmptyBorder(20, 0, 0, 0))
+        );
 
         buttonPanel = new JPanel();
         buttonPanel.setBackground(Color.BLACK);
@@ -75,9 +80,9 @@ public class GameOverView extends View {
         winnerLabel = new MenuLabel(24f);
         winnerLabel.setBorder(new EmptyBorder(20, 0, 20, 0));
 
-        playerScoreLabel = new MenuLabel("Player Score: " + model.getPlayerScore(), 24f);
+        p1ScoreLabel = new MenuLabel(String.format("%s Score: %d", model.getP1Name(), model.getP1Score()), 24f, deriveColorFromScores(model.getP1Score(), model.getP2Score()));
 
-        computerScoreLabel = new MenuLabel("Computer Score: " + model.getComputerScore(), 24f);
+        p2ScoreLabel = new MenuLabel(String.format("%s Score: %d", model.getP2Name(), model.getP2Score()), 24f, deriveColorFromScores(model.getP2Score(), model.getP1Score()));
 
         playAgainButton = new MenuButton("Play Again");
         playAgainButton.setBorder(new EmptyBorder(20, 0, 20, 0));
@@ -91,8 +96,8 @@ public class GameOverView extends View {
         add(titlePanel, BorderLayout.PAGE_START);
 
         detailsPanel.add(winnerLabel);
-        detailsPanel.add(playerScoreLabel);
-        detailsPanel.add(computerScoreLabel);
+        detailsPanel.add(p1ScoreLabel);
+        detailsPanel.add(p2ScoreLabel);
         detailsPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         detailsPanel.add(leaderboardPanel);
         add(detailsPanel, BorderLayout.CENTER);
@@ -100,6 +105,18 @@ public class GameOverView extends View {
         buttonPanel.add(playAgainButton);
         buttonPanel.add(exitButton);
         add(buttonPanel, BorderLayout.PAGE_END);
+    }
+    // endregion
+
+    // region private API
+    private Color deriveColorFromScores(int scoreToCheck, int scoreToCompare) {
+        if(scoreToCheck > scoreToCompare) {
+            return Color.GREEN;
+        } else if(scoreToCheck < scoreToCompare) {
+            return Color.RED;
+        } else {
+            return Color.WHITE;
+        }
     }
     // endregion
 

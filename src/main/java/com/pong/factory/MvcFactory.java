@@ -65,12 +65,14 @@ public class MvcFactory {
     /**
      * Create all MVC components for the Game Over screen.
      *
-     * @param playerScore
-     * @param computerScore
+     * @param p1Name
+     * @param p1Score
+     * @param p2Name
+     * @param p2Score
      * @return mvc
      */
-    public static MvcWrapper<GameOverModel, GameOverView, GameOverController> createGameOver(final int playerScore, final int computerScore) {
-        GameOverModel model = new GameOverModel(playerScore, computerScore);
+    public static MvcWrapper<GameOverModel, GameOverView, GameOverController> createGameOver(final String p1Name, final int p1Score, final String p2Name, final int p2Score) {
+        GameOverModel model = new GameOverModel(p1Score, p1Name, p2Score, p2Name);
         GameOverView view = new GameOverView(model, PongFrame.SCREEN_WIDTH, PongFrame.SCREEN_HEIGHT);
         GameOverController controller = new GameOverController(model, view);
 

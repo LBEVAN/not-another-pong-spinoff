@@ -13,8 +13,10 @@ import java.util.List;
 public class GameOverModel implements Model {
 
     // region data
-    private final int playerScore;
-    private final int computerScore;
+    private final int p1Score;
+    private final String p1Name;
+    private final int p2Score;
+    private final String p2Name;
 
     private final Leaderboard leaderboard;
     // endregion
@@ -23,12 +25,16 @@ public class GameOverModel implements Model {
     /**
      * Constructor.
      *
-     * @param playerScore
-     * @param computerScore
+     * @param p1Score
+     * @param p2Name
+     * @param p2Score
+     * @param p2Name
      */
-    public GameOverModel(int playerScore, int computerScore) {
-        this.playerScore = playerScore;
-        this.computerScore = computerScore;
+    public GameOverModel(int p1Score, String p1Name, int p2Score, String p2Name) {
+        this.p1Score = p1Score;
+        this.p2Score = p2Score;
+        this.p1Name = p1Name;
+        this.p2Name = p2Name;
 
         this.leaderboard = new Leaderboard();
     }
@@ -41,7 +47,7 @@ public class GameOverModel implements Model {
      * @return winnerText
      */
     public String deriveWinnerText() {
-        if(playerScore > computerScore) {
+        if(p1Score > p2Score) {
             return "You've won! Good job.";
         } else {
             return "The Computer won! Better luck next time.";
@@ -50,14 +56,47 @@ public class GameOverModel implements Model {
     // endregion
 
     // region getters & setters
-    public int getPlayerScore() {
-        return playerScore;
+    /**
+     * Retrieve the p1 score.
+     *
+     * @return p1Score
+     */
+    public int getP1Score() {
+        return p1Score;
     }
 
-    public int getComputerScore() {
-        return computerScore;
+    /**
+     * Retrieve the p2 score.
+     *
+     * @return p2Score
+     */
+    public int getP2Score() {
+        return p2Score;
     }
 
+    /**
+     * Retrieve the p1 name.
+     *
+     * @return p1Name
+     */
+    public String getP1Name() {
+        return p1Name;
+    }
+
+    /**
+     * Retrieve the p2 name.
+     *
+     * @return p2Name
+     */
+    public String getP2Name() {
+        return p2Name;
+    }
+
+    /**
+     * Retrieve the game high scores.
+     *
+     * @return highscores
+     */
     public List<LeaderboardEntry> getHighScores() {
         return leaderboard.getHighScores();
     }

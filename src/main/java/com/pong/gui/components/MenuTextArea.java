@@ -20,5 +20,6 @@ public class MenuTextArea extends JTextArea {
         setFont(ResourceManager.getInstance().getFont().deriveFont(fontSize));
         setLineWrap(true);
         setWrapStyleWord(true);
+        setEditable(false);
     }
 }

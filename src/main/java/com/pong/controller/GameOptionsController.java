@@ -1,14 +1,15 @@
 package com.pong.controller;
 
-import com.pong.gamestate.GameStateManager;
 import com.pong.ai.difficulty.DifficultyType;
 import com.pong.factory.MvcFactory;
 import com.pong.factory.MvcWrapper;
+import com.pong.gamestate.GameState;
+import com.pong.gamestate.GameStateManager;
 import com.pong.gui.view.GameOptionsView;
 import com.pong.gui.view.PongView;
 import com.pong.model.GameOptionsModel;
 import com.pong.model.PongModel;
-import com.pong.gamestate.GameState;
+import com.pong.model.wrapper.GameOptions;
 
 import java.awt.event.ItemEvent;
 
@@ -66,8 +67,12 @@ public class GameOptionsController implements Controller {
      * Change the gamestate and set the game options.
      */
     private void startGameAction() {
-        MvcWrapper<PongModel, PongView, PongController> mvc = MvcFactory.createPong(model.createGameOptions());
+        model.setPlayerName(view.getUsernameField().getText());
 
+        final GameOptions gameOptions = model.createGameOptions();
+        model.savePlayerName();
+
+        MvcWrapper<PongModel, PongView, PongController> mvc = MvcFactory.createPong(gameOptions);
         GameStateManager.getInstance().changeState(GameState.GAME, mvc);
     }
 

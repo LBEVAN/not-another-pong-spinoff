@@ -33,4 +33,8 @@ public class Constants {
     public static final String SPACE_ENVIRONMENT_SWITCH_SOUND = "SpaceEnvironmentSwitch";
     public static final String ICE_ENVIRONMENT_SWITCH_SOUND = "IceEnvironmentSwitch";
     public static final String DESERT_ENVIRONMENT_SWITCH_SOUND = "DesertEnvironmentSwitch";
+
+    // PREF KEYS
+    public static final String KEY_LEADERBOARD = "LEADERBOARD";
+    public static final String KEY_PLAYERNAME = "PLAYERNAME";
 }

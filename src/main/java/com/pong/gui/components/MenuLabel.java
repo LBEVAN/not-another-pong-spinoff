@@ -28,6 +28,20 @@ public class MenuLabel extends JLabel {
 
     /**
      * Constructor.
+     *
+     * @param text
+     * @param fontSize
+     * @param textColor
+     */
+    public MenuLabel(String text, float fontSize, Color textColor) {
+        setText(text);
+        setFont(ResourceManager.getInstance().getFont().deriveFont(fontSize));
+        setForeground(textColor);
+        setAlignmentX(Component.CENTER_ALIGNMENT);
+    }
+
+    /**
+     * Constructor.
      * Ensure label text is set from another source.
      *
      * @param fontSize

@@ -113,10 +113,14 @@ public class PongController implements Controller {
         final ScoreManager scoreManager = model.getScoreManager();
 
         Leaderboard leaderboard = new Leaderboard();
-        leaderboard.add(new LeaderboardEntry("Player1", scoreManager.getScore(PlayerId.ONE)));
+        leaderboard.add(new LeaderboardEntry(model.getPlayerById(PlayerId.ONE).getName(), scoreManager.getScore(PlayerId.ONE)));
         leaderboard.save();
 
-        MvcWrapper<GameOverModel, GameOverView, GameOverController> mvc = MvcFactory.createGameOver(scoreManager.getScore(PlayerId.ONE), scoreManager.getScore(PlayerId.TWO));
+        MvcWrapper<GameOverModel, GameOverView, GameOverController> mvc = MvcFactory.createGameOver(
+                model.getPlayerById(PlayerId.ONE).getName(),
+                scoreManager.getScore(PlayerId.ONE),
+                model.getPlayerById(PlayerId.TWO).getName(),
+                scoreManager.getScore(PlayerId.TWO));
         GameStateManager.getInstance().changeState(GameState.GAME_OVER, mvc);
     }
 
