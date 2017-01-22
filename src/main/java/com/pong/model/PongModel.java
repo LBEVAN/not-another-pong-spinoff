@@ -2,7 +2,7 @@ package com.pong.model;
 
 import com.pong.gui.frame.PongFrame;
 import com.pong.model.entity.Ball;
-import com.pong.model.entity.Player;
+import com.pong.model.entity.player.Player;
 import com.pong.model.entity.player.PlayerId;
 import com.pong.model.environment.Environment;
 import com.pong.model.environment.EnvironmentBall;

@@ -1,5 +1,6 @@
-package com.pong.model.entity;
+package com.pong.model.entity.player;
 
+import com.pong.model.entity.Entity;
 import com.pong.model.entity.component.InputComponent;
 import com.pong.system.resource.ResourceManager;
 

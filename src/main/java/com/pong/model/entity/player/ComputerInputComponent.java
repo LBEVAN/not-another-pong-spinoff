@@ -3,7 +3,6 @@ package com.pong.model.entity.player;
 import com.pong.controller.input.Direction;
 import com.pong.gui.frame.PongFrame;
 import com.pong.model.PongModel;
-import com.pong.model.entity.Player;
 import com.pong.model.entity.component.InputComponent;
 import com.pong.model.modifier.ModifierType;
 

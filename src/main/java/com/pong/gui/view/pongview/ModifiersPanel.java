@@ -1,7 +1,7 @@
 package com.pong.gui.view.pongview;
 
 import com.pong.gui.components.IconLabel;
-import com.pong.model.entity.Player;
+import com.pong.model.entity.player.Player;
 import com.pong.model.modifier.ModifierType;
 
 import javax.swing.*;

@@ -1,4 +1,4 @@
-package com.pong;
+package com.pong.gamestate;
 
 import com.pong.controller.GameOptionsController;
 import com.pong.factory.MvcFactory;

@@ -7,7 +7,7 @@ import com.pong.gui.view.GameOverView;
 import com.pong.gui.view.PongView;
 import com.pong.model.GameOverModel;
 import com.pong.model.PongModel;
-import com.pong.model.entity.Player;
+import com.pong.model.entity.player.Player;
 import com.pong.model.entity.component.InputComponent;
 import com.pong.model.entity.player.ComputerInputComponent;
 import com.pong.model.entity.player.PlayerId;

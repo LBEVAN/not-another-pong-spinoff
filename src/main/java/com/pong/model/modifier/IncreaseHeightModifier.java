@@ -1,6 +1,6 @@
 package com.pong.model.modifier;
 
-import com.pong.model.entity.Player;
+import com.pong.model.entity.player.Player;
 import com.pong.system.resource.ResourceManager;
 
 import java.awt.image.BufferedImage;

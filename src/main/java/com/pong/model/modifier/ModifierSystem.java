@@ -2,7 +2,10 @@ package com.pong.model.modifier;
 
 import com.pong.model.entity.Entity;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * The ModifierSystem handles the modifiers for a particular entity;
@@ -12,11 +15,14 @@ import java.util.*;
  */
 public final class ModifierSystem {
 
+    // region data
     private Map<ModifierType, AbstractModifier> modifierMap;
     private Map<ModifierType, Integer> modifierCharges;
 
     private int maxCharges = 2;
+    // endregion
 
+    // region init
     /**
      * Constructor.
      */
@@ -24,7 +30,9 @@ public final class ModifierSystem {
         modifierMap = new HashMap<>();
         modifierCharges = new HashMap<>();
     }
+    // endregion
 
+    // region public API
     /**
      * Perform an update of the modifier system which:
      *   - applies modifications to the entity
@@ -89,15 +97,37 @@ public final class ModifierSystem {
         }
     }
 
+    /**
+     * Check to see if the modifier type has been used the maximum number of times.
+     *
+     * @param modifierType
+     * @return isMaxNumChargesForModifierType
+     */
     public boolean isMaxNumChargesForModifierType(ModifierType modifierType) {
         if(modifierCharges.containsKey(modifierType)) {
             int currentCharges = modifierCharges.get(modifierType);
             return currentCharges >= maxCharges;
         } else {
-          return false;
+            return false;
         }
     }
 
+    /**
+     * Get the number of charges for a given modifier type.
+     *
+     * @param modifierType
+     * @return numCharges
+     */
+    public int getNumChargesForModifierType(ModifierType modifierType) {
+        if(modifierCharges.containsKey(modifierType)) {
+            return modifierCharges.get(modifierType);
+        } else {
+            return maxCharges;
+        }
+    }
+    // endregion
+
+    // region getters & setters
     /**
      * Retrieve the modifier with the specified key.
      *
@@ -116,12 +146,5 @@ public final class ModifierSystem {
     public Collection<AbstractModifier> getModifiers() {
         return modifierMap.values();
     }
-
-    public int getNumChargesForModifierType(ModifierType modifierType) {
-        if(modifierCharges.containsKey(modifierType)) {
-            return modifierCharges.get(modifierType);
-        } else {
-            return maxCharges;
-        }
-    }
+    // endregion
 }

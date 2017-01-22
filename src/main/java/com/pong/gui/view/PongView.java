@@ -3,7 +3,7 @@ package com.pong.gui.view;
 import com.pong.gui.view.pongview.GameUIPanel;
 import com.pong.model.PongModel;
 import com.pong.model.entity.Ball;
-import com.pong.model.entity.Player;
+import com.pong.model.entity.player.Player;
 import com.pong.model.entity.player.PlayerId;
 import com.pong.model.environment.EnvironmentBall;
 
